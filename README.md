@@ -8,7 +8,9 @@
 * Based in the code of:
 *  capi_x <capi_x@haibane.org>
 *  Harald Schmidl <hjschmidl@acm.org>
-*  Fauzan Mirza's <fauzan@dcs.rhbnc.ac.uk>```
+*  Fauzan Mirza's <fauzan@dcs.rhbnc.ac.uk>
+
+```
 
 ## Source
 
