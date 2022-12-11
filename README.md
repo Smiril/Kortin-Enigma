@@ -12,12 +12,6 @@
 
 ```
 
-## Source
-
-* **[main.m](enigma/enigma/main.m)** 
-* **[add.h](enigma/enigma/add.h)**
-* **[Makefile](enigma/enigma/Makefile)**
-
  5 Rotor Enigma Simulation with Bruteforce Message function
 
  6 versions of one Enigma without Source change
