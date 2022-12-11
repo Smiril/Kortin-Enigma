@@ -42,3 +42,9 @@ sudo mkdir -p /usr/local/share/enigma/
 sudo cp *.txt /usr/local/share/enigma/
 
 ```
+## Wordlists (Dictonary)
+
+```
+https://github.com/kkrypt0nn/wordlists.git
+
+```
