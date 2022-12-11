@@ -41,8 +41,10 @@ git clone https://github.com/Smiril/Kortin-Enigma.git
 ## Instalation
 
 ```
-cd Kortin-Enigma/enigma/enigma
-make
-sudo make install
-make clean
+cd Kortin-Enigma/bin
+tar -xvzf enigma.tar.gz
+sudo cp ./enigma /usr/local/bin/enigma
+sudo mkdir -p /usr/local/share/enigma/
+sudo cp *.txt /usr/local/share/enigma/
+
 ```
