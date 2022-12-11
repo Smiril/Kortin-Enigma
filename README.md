@@ -17,6 +17,7 @@
  6 versions of one Enigma without Source change
 
 The bombe is based on [known-plaintext attack (KPA)](http://en.wikipedia.org/wiki/Known-plaintext_attack) for this we need a Dictonary.
+
 This attack is assisted for stadistical and heuristics to help the KPA.
 
 
