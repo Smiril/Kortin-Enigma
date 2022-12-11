@@ -1,6 +1,6 @@
 # Kortin-Enigma
  Enigma Simulation and Turing Machine (Bombe)
-### Enigma 0.0.1 - T.E.D - The Enemy Dail - "KOENIG MARTIN" ![alt text](images/Apple_m1.jpeg "MADE with Love for MacOS")
+### Enigma 1.8 - T.E.D - The Enemy Dail - "KOENIG MARTIN" ![alt text](images/Apple_m1.jpeg "MADE with Love for MacOS")
 
 
 ```
