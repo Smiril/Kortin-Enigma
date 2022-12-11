@@ -29,7 +29,7 @@
 * --help                 <--- Help Page
 * --version              <--- The Version
 
-![alt text](images/enigma.jpeg "3 Rotor Enigma")
+![alt text](images/enigma.jpeg "4 Rotor Enigma")
 
 
 ## Cloning
