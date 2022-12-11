@@ -14,9 +14,9 @@
 
 ## Source
 
-* **[main.m](main.m)** 
-* **[add.h](add.h)**
-* **[Makefile](Makefile)**
+* **[enigma/enigma/main.m](main.m)** 
+* **[enigma/enigma/add.h](add.h)**
+* **[enigma/enigma/Makefile](Makefile)**
 
  5 Rotor Enigma Simulation with Bruteforce Message function
 
