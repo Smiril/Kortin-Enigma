@@ -1,0 +1,17 @@
+# kortin-enigma and its predecessors has been developed and is maintained by:
+
+Smiril <sonar@gmx.com> 
+
+# The following persons made code contributions to kortin-enigma:
+
+
+Other contributors to kortin-enigma
+
+* A full list and their commits can be found here:
+  https://github.com/Smiril/Kortin-Enigma/graphs/contributors
+
+# Furthermore the following persons helped the project:
+
+* The hashcat Team (@hashcat)
+
+!!! All the package maintainer of kortin-enigma !!!
