@@ -47,7 +47,7 @@ This attack is assisted for stadistical and heuristics to help the KPA.
 * --help                 <--- Help Page
 * --version              <--- The Version
 
-![alt text](images/enigma.jpeg "3 Rotor Enigma")
+![alt text](images/enigma.jpeg "Enigma")
 
 
 ## Cloning
