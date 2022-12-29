@@ -56,7 +56,7 @@ This attack is assisted for stadistical and heuristics to help the KPA.
 git clone https://github.com/Smiril/Kortin-Enigma.git
 ```
 
-## Instalation
+## Building
 
 ```
 cd Kortin-Enigma/enigma
