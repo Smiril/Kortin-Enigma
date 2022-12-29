@@ -59,10 +59,10 @@ git clone https://github.com/Smiril/Kortin-Enigma.git
 ## Instalation
 
 ```
-cd Kortin-Enigma/enigma/enigma
+cd Kortin-Enigma/enigma
+bash autoconf.sh
+./configure
 make
-sudo make install
-make clean
 ```
 ## Wordlists (Dictonary)
 
