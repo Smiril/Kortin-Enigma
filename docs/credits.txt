@@ -1,17 +1,20 @@
-# kortin-enigma and its predecessors has been developed and is maintained by:
+# Kortin-Enigma and its predecessors has been developed and is maintained by:
 
 Smiril <sonar@gmx.com> 
 
-# The following persons made code contributions to kortin-enigma:
+# The following persons made code contributions to Kortin-Enigma:
 
 
-Other contributors to kortin-enigma
+Other contributors to Kortin-Enigma
 
 * A full list and their commits can be found here:
   https://github.com/Smiril/Kortin-Enigma/graphs/contributors
 
 # Furthermore the following persons helped the project:
 
-* The hashcat Team (@hashcat)
+*  The hashcat Team @hashcat
+*  capi_x <capi_x@haibane.org>
+*  Harald Schmidl <hjschmidl@acm.org>
+*  Fauzan Mirza's <fauzan@dcs.rhbnc.ac.uk>
 
-!!! All the package maintainer of kortin-enigma !!!
+!!! All the package maintainer of Kortin-Enigma !!!

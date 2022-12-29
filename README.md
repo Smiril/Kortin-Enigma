@@ -6,6 +6,7 @@
 ```
 * Author: Smiril <sonar@gmx.com>
 * Based in the code of:
+*  The hashcat Team @hashcat.net
 *  capi_x <capi_x@haibane.org>
 *  Harald Schmidl <hjschmidl@acm.org>
 *  Fauzan Mirza's <fauzan@dcs.rhbnc.ac.uk>
@@ -14,9 +15,22 @@
 
 ## Source
 
-* **[main.m](enigma/enigma/main.m)** 
-* **[add.h](enigma/enigma/add.h)**
-* **[Makefile](enigma/enigma/Makefile)**
+* **[main.c](enigma/src/main.c)** 
+* **[ext_metal.m](enigma/src/ext_metal.m)** 
+* **[event.c](enigma/src/event.c)** 
+* **[thread.c](enigma/src/thread.c)** 
+* **[bitmap.c](enigma/src/bitmap.c)** 
+* **[add.h](enigma/src/add.h)** 
+* **[ext_metal.h](enigma/src/ext_metal.h)** 
+* **[event.h](enigma/src/event.h)** 
+* **[thread.h](enigma/src/thread.h)**
+* **[bitmap.h](enigma/src/bitmap.h)**
+* **[types.h](enigma/src/types.h)**
+* **[inc_types.h](enigma/src/inc_types.h)**
+* **[memory.h](enigma/src/memory.h)**
+* **[timer.h](enigma/src/timer.h)**
+* **[common.h](enigma/src/common.h)**
+* **[air.h](enigma/src/air.h)**
 
  5 Rotor Enigma Simulation with Bruteforce Message function
 
