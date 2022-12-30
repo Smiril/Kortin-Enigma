@@ -1,6 +1,6 @@
 # Kortin-Enigma
  Enigma Simulation and Turing Machine (Bombe)
-### Enigma 0.0.1 - T.E.D - The Enemy Dail - "KOENIG MARTIN" ![alt text](images/Apple_m1.jpeg "MADE with Love for MacOS")
+### Enigma 0.0.2 - T.E.D - The Enemy Dail - "KOENIG MARTIN" ![alt text](images/Apple_m1.jpeg "MADE with Love for MacOS")
 
 
 ```
@@ -56,7 +56,7 @@ This attack is assisted for stadistical and heuristics to help the KPA.
 git clone https://github.com/Smiril/Kortin-Enigma.git
 ```
 
-## Instalation
+## Building
 
 ```
 cd Kortin-Enigma/enigma
