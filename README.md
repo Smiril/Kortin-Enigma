@@ -41,7 +41,7 @@ git clone https://github.com/Smiril/Kortin-Enigma.git
 
 ```
 cd Kortin-Enigma/enigma
-bash autoconf.sh
+./autoconf.sh
 ./configure
 make
 ```
