@@ -22,7 +22,7 @@ This attack is assisted for stadistical and heuristics to help the KPA.
 
 ## Options
 
-* --option-[1-6] -T8 -D2         <--- the main functions
+* --option-[1-6]                 <--- the main functions
 * --option-[1-6][a/b] -T8 -D2    <--- Basic Bruteforce
 * --help                         <--- Help Page
 * --version                      <--- The Version
