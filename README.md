@@ -46,7 +46,7 @@ git clone https://github.com/Smiril/Kortin-Enigma.git
 first ...
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)
-brew install autoconf
+brew install autoconf@2.69
 brew install clang
 brew install gcc
 brew install cc
