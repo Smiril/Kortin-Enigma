@@ -1,6 +1,6 @@
 # Kortin-Enigma
  Enigma Simulation and Turing Machine (Bombe)
-### Enigma 0.0.2 - T.E.D - The Enemy Dail - "KOENIG MARTIN" ![alt text](images/Apple_m1.jpeg "MADE with Love for MacOS")
+### Enigma 0.0.3 - T.E.D - The Enemy Dail - "KOENIG MARTIN" ![alt text](images/Apple_m1.jpeg "MADE with Love for MacOS")
 
 
 ```
@@ -22,10 +22,10 @@ This attack is assisted for stadistical and heuristics to help the KPA.
 
 ## Options
 
-* --option-[1-6]         <--- the main functions
-* --option-[1-6][a/b]    <--- Basic Bruteforce
-* --help                 <--- Help Page
-* --version              <--- The Version
+* --option-[1-6] -T8 -D2         <--- the main functions
+* --option-[1-6][a/b] -T8 -D2    <--- Basic Bruteforce
+* --help                         <--- Help Page
+* --version                      <--- The Version
 
 ![alt text](images/enigma.jpeg "Enigma")
 
