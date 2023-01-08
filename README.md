@@ -53,6 +53,7 @@ brew install cc
 brew install clang++
 brew install g++
 brew install c++
+xcode-select --install
 
 ```
 then ...
