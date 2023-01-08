@@ -2,6 +2,11 @@
  Enigma Simulation and Turing Machine (Bombe)
 ### Enigma 0.0.3 - T.E.D - The Enemy Dail - "KOENIG MARTIN" ![alt text](images/Apple_m1.jpeg "MADE with Love for MacOS")
 
+<p align="center">
+  <a href="//github.com/Smiril/Kortin-Enigma"><img src="https://img.shields.io/github/repo-size/Smiril/Kortin-Enigma"></a>
+  <a href="//github.com/Smiril/Kortin-Enigma/commits"><img src="https://img.shields.io/github/last-commit/Smiril/Kortin-Enigma"></a>
+  <a href="//github.com/Smiril/Kortin-Enigma/contributors"><img src="https://img.shields.io/github/contributors/Smiril/Kortin-Enigma"></a>
+</p>
 
 ```
 * Author: Smiril <sonar@gmx.com>
