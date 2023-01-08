@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.69)
-AC_INIT([enigma],[Enigma 0.0.2 T.E.D. - The Enemy Dail - KOENIG MARTIN],[sonar@gmx.com])
+AC_INIT([enigma],[Enigma 0.0.3 T.E.D. - The Enemy Dail - KOENIG MARTIN],[sonar@gmx.com])
 AC_CONFIG_AUX_DIR(.)
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 AC_CONFIG_HEADERS([config.h])
