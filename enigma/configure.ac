@@ -16,7 +16,7 @@ AC_PROG_OBJC([clang gcc cc])
 AC_PROG_OBJCXX([clang++ g++ c++])
 
 # Checks for header files.
-AC_CHECK_HEADERS([stdio.h stdlib.h stdint.h stdarg.h stdbool.h errno.h memory.h unistd.h ctype.h math.h string.h getopt.h sys/types. sys/stat.h sys/time.h iconv.h])
+AC_CHECK_HEADERS([stdio.h stdlib.h stdint.h stdarg.h stdbool.h errno.h memory.h unistd.h ctype.h math.h string.h getopt.h sys/types.h sys/stat.h sys/time.h iconv.h])
 
 AC_CHECK_FUNCS([strcpy strlcpy isalpha isspace toupper strcmp printf getchar  fopen])
 
