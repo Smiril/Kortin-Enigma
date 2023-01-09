@@ -66,7 +66,7 @@ int high()
 
 int low()
 {
-    for (i = 0; i < 5; i++)
+    for (i = 0; i < 6; i++)
     {
         bool isDuplicate = false;
         
@@ -75,7 +75,7 @@ int low()
             number = numberGen(); // Generate the number
             
             // Check for duplicates
-            for (int j = 0; j < 5; j++)
+            for (int j = 0; j < 6; j++)
             {
                 if (number == picked[j])
                 {
