@@ -32,7 +32,7 @@
 int numberGen()
 {
  int number = rand();
- int target = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[number % 1];
+ int target = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[number % 26 + 1];
 
  return target;
 }
