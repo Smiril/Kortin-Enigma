@@ -35,6 +35,68 @@ char ukw[MSGC];
 char nox[MSGG];
 int oldrank = IN_RANK;
 
+int numberGen()
+{
+ int number = rand();
+ int target = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[number % 25];
+
+ return target;
+}
+
+int high()
+{
+    for (i = 0; i < 26; i++)
+    {
+        bool isDuplicate = false;
+        
+        do
+        {
+            number = numberGen(); // Generate the number
+            
+            // Check for duplicates
+            for (int j = 0; j < 26; j++)
+            {
+                if (number == picked[j])
+                {
+                    isDuplicate = true;
+                    break; // Duplicate detected
+                }
+            }
+        }
+        while (isDuplicate); // equivalent to while(isDuplicate == true)
+        
+        picked[j] = number;
+    }
+    return picked;
+}
+
+int low()
+{
+    for (i = 0; i < 6; i++)
+    {
+        bool isDuplicate = false;
+        
+        do
+        {
+            number = numberGen(); // Generate the number
+            
+            // Check for duplicates
+            for (int j = 0; j < 6; j++)
+            {
+                if (number == picked[j])
+                {
+                    isDuplicate = true;
+                    break; // Duplicate detected
+                }
+            }
+        }
+        while (isDuplicate); // equivalent to while(isDuplicate == true)
+        
+        picked[j] = number;
+    }
+    return picked;
+}
+
 /* Rotor wirings */
 char rotor[MSGG][MSGC]={
     /* CHANGE THIS BLOCK 1-5+ref1-6+notch1-6 */
@@ -45,18 +107,18 @@ char rotor[MSGG][MSGC]={
     /* 4: */ "ESOVPZJAYQUIRHXLNFTGKDCMWB",
     /* 5: */ "HEJXQOTZBVFDASCILWPGYNMURK"};
 char ref1[MSGC]="MOWJYPUXNDSRAIBFVLKZGQCHET";
-char ref2[MSGC]="EJMZALYXVBWFCRQUONTSPIKHGD";
-char ref3[MSGC]="YRUHQSLDPXNGOKMIEBFZCWVJAT";
-char ref4[MSGC]="FVPJIAOYEDRZXWGCTKUQSBNMHL";
-char ref5[MSGC]="ENKQAUYWJICOPBLMDXZVFTHRGS";
-char ref6[MSGC]="RDOBJNTKVEHMLFCWZAXGYIPSUQ";
+char ref2[MSGC]="MOWJYPUXNDSRAIBFVLKZGQCHET";
+char ref3[MSGC]=high();
+char ref4[MSGC]=high();
+char ref5[MSGC]=high();
+char ref6[MSGC]=high();
 char refx[MSGC];
 char notch1[MSGG]="YMDRH";
-char notch2[MSGG]="HRDMY";
-char notch3[MSGG]="YMDRH";
-char notch4[MSGG]="HRDMY";
-char notch5[MSGG]="YMDRH";
-char notch6[MSGG]="HRDMY";
+char notch2[MSGG]="QEVJZ";
+char notch3[MSGG]=low();
+char notch4[MSGG]=low();
+char notch5[MSGG]=low();
+char notch6[MSGG]=low();
 char notchx[MSGG];
 /* Encryption parameters follow */
 

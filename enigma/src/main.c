@@ -31,68 +31,6 @@
 
 //---------------------------------------------------------------------
 
-int numberGen()
-{
- int number = rand();
- int target = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[number % 25];
-
- return target;
-}
-
-int high()
-{
-    for (i = 0; i < 26; i++)
-    {
-        bool isDuplicate = false;
-        
-        do
-        {
-            number = numberGen(); // Generate the number
-            
-            // Check for duplicates
-            for (int j = 0; j < 26; j++)
-            {
-                if (number == picked[j])
-                {
-                    isDuplicate = true;
-                    break; // Duplicate detected
-                }
-            }
-        }
-        while (isDuplicate); // equivalent to while(isDuplicate == true)
-        
-        picked[j] = number;
-    }
-    return picked;
-}
-
-int low()
-{
-    for (i = 0; i < 6; i++)
-    {
-        bool isDuplicate = false;
-        
-        do
-        {
-            number = numberGen(); // Generate the number
-            
-            // Check for duplicates
-            for (int j = 0; j < 6; j++)
-            {
-                if (number == picked[j])
-                {
-                    isDuplicate = true;
-                    break; // Duplicate detected
-                }
-            }
-        }
-        while (isDuplicate); // equivalent to while(isDuplicate == true)
-        
-        picked[j] = number;
-    }
-    return picked;
-}
-
 char *coinn(void) {
     strcpy(notchx, "");
     notchx = low();
@@ -945,9 +883,8 @@ void sbfParams(main_ctx_t *main_ctx)
     framex[l] = '\0';
         
   }
-    //dict(p->crib);
-    printf("\x1B[33mWheels\x1B[39m \x1B[32m %d %d %d %d %d \x1B[39m \x1B[33mMessage\x1B[39m\x1B[32m %s \x1B[39m\x1B[33mDict\x1B[39m \x1B[32m %s \x1B[39m\n",
-           main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4], main_ctx->cyph, main_ctx->crib);
+    printf("\x1B[33mWheels\x1B[39m \x1B[32m %d %d %d %d %d \x1B[39m \x1B[33mMessage\x1B[39m\x1B[32m %s \x1B[39m\x1B[33mDict\x1B[39m \x1B[32m %s \x1B[39m\n\x1B[33mReflector\x1B[39m \x1B[32m %s \x1B[39m \x1B[33mNOTch\x1B[39m\x1B[32m %s \x1B[39m\n",
+           main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4], main_ctx->cyph, main_ctx->crib,ukw,nox);
     hashcat_session_execute (hashcat_ctx);
 }
 
@@ -1060,9 +997,8 @@ void bfParams(main_ctx_t *main_ctx)
       framex[l] = '\0';
         
   }
-    //dict(p->crib);
-    printf("\x1B[33mMessage\x1B[39m\x1B[32m %s \x1B[39m\x1B[33mDict\x1B[39m \x1B[32m %s \x1B[39m\n",
-           main_ctx->cyph, main_ctx->crib);
+    printf("\x1B[33mMessage\x1B[39m\x1B[32m %s \x1B[39m\x1B[33mDict\x1B[39m \x1B[32m %s \x1B[39m\n\x1B[33mReflector\x1B[39m \x1B[32m %s \x1B[39m \x1B[33mNOTch\x1B[39m\x1B[32m %s \x1B[39m\n",
+           main_ctx->cyph, main_ctx->crib,ukw,nox);
     hashcat_session_execute (hashcat_ctx);
 }
 
