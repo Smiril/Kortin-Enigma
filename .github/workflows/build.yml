@@ -32,18 +32,18 @@ jobs:
   build-macos:
     strategy:
       fail-fast: false
-      Smiril:
+      Kortin-Enigma:
         shared: [0, 1]
-    name: Build macOS (${{ Smiril.shared == 0 && 'Static' || 'Shared' }})
+    name: Build macOS (${{ Kortin-Enigma.shared == 0 && 'Static' || 'Shared' }})
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
       - name: Build
         env:
-          SHARED: ${{ Smiril.shared }}
-        run: autotools 
+          SHARED: ${{ Kortin-Enigma.shared }}
+        run: autoconf.sh
       - name: Generate artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: hashcat-macos-${{ Smiril.shared == 0 && 'static' || 'shared' }}
+          name: hashcat-macos-${{ Kortin-Enigma.shared == 0 && 'static' || 'shared' }}
           path: ${{ env.include_paths }}
