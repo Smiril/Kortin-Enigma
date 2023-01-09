@@ -29,6 +29,8 @@
 #include "shared.h"
 #include "event.h"
 
+//---------------------------------------------------------------------
+
 int numberGen()
 {
  int number = rand();
@@ -91,10 +93,7 @@ int low()
     return picked;
 }
 
-//---------------------------------------------------------------------
-
 char *coinn(void) {
-    
     strcpy(notchx, "");
     notchx = low();
     return(&notchx[MSGG]);
