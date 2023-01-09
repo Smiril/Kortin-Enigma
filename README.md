@@ -6,6 +6,7 @@
   <a href="//github.com/Smiril/Kortin-Enigma"><img src="https://img.shields.io/github/repo-size/Smiril/Kortin-Enigma"></a>
   <a href="//github.com/Smiril/Kortin-Enigma/commits"><img src="https://img.shields.io/github/last-commit/Smiril/Kortin-Enigma"></a>
   <a href="//github.com/Smiril/Kortin-Enigma/contributors"><img src="https://img.shields.io/github/contributors/Smiril/Kortin-Enigma"></a>
+  [![Kortin-Enigma GitHub Actions Build status](https://github.com/Smiril/Kortin-Enigma/actions/workflows/build.yml/badge.svg)](https://github.com/Smiril/Kortin-Enigma/actions/workflows/build.yml)
 </p>
 
 ```
