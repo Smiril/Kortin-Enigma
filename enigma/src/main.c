@@ -29,109 +29,79 @@
 #include "shared.h"
 #include "event.h"
 
-//---------------------------------------------------------------------
+int numberGen()
+{
+ int number = rand();
+ int target = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[number % 1];
 
-char *coinn(void) {
-    strcpy(notchx, "");
-    for(notchx[0] = 'A'; notchx[0] <= 'Z'; notchx[0]++)
+ return target;
+}
+
+int high()
+{
+    for (i = 0; i < 26; i++)
     {
-        for(notchx[1] = 'A'; notchx[1] <= 'Z'; notchx[1]++)
+        bool isDuplicate = false;
+        
+        do
         {
-            for(notchx[2] = 'A'; notchx[2] <= 'Z'; notchx[2]++)
+            number = numberGen(); // Generate the number
+            
+            // Check for duplicates
+            for (int j = 0; j < 26; j++)
             {
-                for(notchx[3] = 'A'; notchx[3] <= 'Z'; notchx[3]++)
+                if (number == picked[j])
                 {
-                    for(notchx[4] = 'A'; notchx[4] <= 'Z'; notchx[4]++)
-                    {
-                    }
+                    isDuplicate = true;
+                    break; // Duplicate detected
                 }
             }
         }
+        while (isDuplicate); // equivalent to while(isDuplicate == true)
+        
+        picked[j] = number;
     }
+    return picked;
+}
+
+int low()
+{
+    for (i = 0; i < 5; i++)
+    {
+        bool isDuplicate = false;
+        
+        do
+        {
+            number = numberGen(); // Generate the number
+            
+            // Check for duplicates
+            for (int j = 0; j < 5; j++)
+            {
+                if (number == picked[j])
+                {
+                    isDuplicate = true;
+                    break; // Duplicate detected
+                }
+            }
+        }
+        while (isDuplicate); // equivalent to while(isDuplicate == true)
+        
+        picked[j] = number;
+    }
+    return picked;
+}
+}//---------------------------------------------------------------------
+
+char *coinn(void) {
+    
+    strcpy(notchx, "");
+    notchx = low();
     return(&notchx[MSGG]);
 }
 
 char *coinr(void) {
     strcpy(refx, "");
-    for(refx[0] = 'A'; refx[0] <= 'Z'; refx[0]++)
-    {
-      for(refx[1] = 'A'; refx[1] <= 'Z'; refx[1]++)
-      {
-          for(refx[2] = 'A'; refx[2] <= 'Z'; refx[2]++)
-          {
-              for(refx[3] = 'A'; refx[3] <= 'Z'; refx[3]++)
-              {
-                  for(refx[4] = 'A'; refx[4] <= 'Z'; refx[4]++)
-                  {
-                      for(refx[5] = 'A'; refx[5] <= 'Z'; refx[5]++)
-                      {
-                        for(refx[6] = 'A'; refx[6] <= 'Z'; refx[6]++)
-                        {
-                            for(refx[7] = 'A'; refx[7] <= 'Z'; refx[7]++)
-                            {
-                                for(refx[8] = 'A'; refx[8] <= 'Z'; refx[8]++)
-                                {
-                                    for(refx[9] = 'A'; refx[9] <= 'Z'; refx[9]++)
-                                    {
-                                        for(refx[10] = 'A'; refx[10] <= 'Z'; refx[10]++)
-                                        {
-                                          for(refx[11] = 'A'; refx[11] <= 'Z'; refx[11]++)
-                                          {
-                                              for(refx[12] = 'A'; refx[12] <= 'Z'; refx[12]++)
-                                              {
-                                                  for(refx[13] = 'A'; refx[13] <= 'Z'; refx[13]++)
-                                                  {
-                                                      for(refx[14] = 'A'; refx[14] <= 'Z'; refx[14]++)
-                                                      {
-                                                          for(refx[15] = 'A'; refx[15] <= 'Z'; refx[15]++)
-                                                          {
-                                                            for(refx[16] = 'A'; refx[16] <= 'Z'; refx[16]++)
-                                                            {
-                                                                for(refx[17] = 'A'; refx[17] <= 'Z'; refx[17]++)
-                                                                {
-                                                                    for(refx[18] = 'A'; refx[18] <= 'Z'; refx[18]++)
-                                                                    {
-                                                                        for(refx[19] = 'A'; refx[19] <= 'Z'; refx[19]++)
-                                                                        {
-                                                                            for(refx[20] = 'A'; refx[20] <= 'Z'; refx[20]++)
-                                                                            {
-                                                                              for(refx[21] = 'A'; refx[21] <= 'Z'; refx[21]++)
-                                                                              {
-                                                                                  for(refx[22] = 'A'; refx[22] <= 'Z'; refx[22]++)
-                                                                                  {
-                                                                                      for(refx[23] = 'A'; refx[23] <= 'Z'; refx[23]++)
-                                                                                      {
-                                                                                          for(refx[24] = 'A'; refx[24] <= 'Z'; refx[24]++)
-                                                                                          {
-                                                                                              for(refx[25] = 'A'; refx[25] <= 'Z'; refx[25]++)
-                                                                                              {
-                                                                                                  
-                                                                                                }
-                                                                                            }
-                                                                                        }
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                          }
-                                                      }
-                                                  }
-                                              }
-                                          }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                      }
-                  }
-              }
-          }
-      }
-}
+    refx = high();
     return(&refx[MSGC]);
 }
 
