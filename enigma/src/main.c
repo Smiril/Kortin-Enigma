@@ -674,21 +674,6 @@ void initParams(main_ctx_t *main_ctx)
           strlcpy(ukw,ref3,MSGC);
           strlcpy(nox,notch3,MSGG);
       }
-      if(strcmp(nerd, "--option-4") == 0)
-      {
-          strlcpy(ukw,ref4,MSGC);
-          strlcpy(nox,notch4,MSGG);
-      }
-      if(strcmp(nerd, "--option-5") == 0)
-      {
-          strlcpy(ukw,ref5,MSGC);
-          strlcpy(nox,notch5,MSGG);
-      }
-      if(strcmp(nerd, "--option-6") == 0)
-      {
-          strlcpy(ukw,ref6,MSGC);
-          strlcpy(nox,notch6,MSGG);
-      }
       for(i = 0; i < 5; i++)
       {
         printf("Wheel %d: ", i + 1);
@@ -788,26 +773,6 @@ void sbfParams(main_ctx_t *main_ctx)
       {
           strlcpy(ukw,ref3,MSGC);
           strlcpy(nox,notch3,MSGG);
-      }
-      if(strcmp(nerd, "--option-4b") == 0)
-      {
-          strlcpy(ukw,ref4,MSGC);
-          strlcpy(nox,notch4,MSGG);
-      }
-      if(strcmp(nerd, "--option-5b") == 0)
-      {
-          strlcpy(ukw,ref5,MSGC);
-          strlcpy(nox,notch5,MSGG);
-      }
-      if(strcmp(nerd, "--option-6b") == 0)
-      {
-          strlcpy(ukw,ref6,MSGC);
-          strlcpy(nox,notch6,MSGG);
-      }
-      if(strcmp(nerd, "--option-xb") == 0)
-      {
-          strlcpy(ukw,coinr(),MSGC);
-          strlcpy(nox,coinn(),MSGG);
       }
       for(i = 0; i < 5; i++)
       {
@@ -912,26 +877,6 @@ void bfParams(main_ctx_t *main_ctx)
       {
           strlcpy(ukw,ref3,MSGC);
           strlcpy(nox,notch3,MSGG);
-      }
-      if(strcmp(nerd, "--option-4a") == 0)
-      {
-          strlcpy(ukw,ref4,MSGC);
-          strlcpy(nox,notch4,MSGG);
-      }
-      if(strcmp(nerd, "--option-5a") == 0)
-      {
-          strlcpy(ukw,ref5,MSGC);
-          strlcpy(nox,notch5,MSGG);
-      }
-      if(strcmp(nerd, "--option-6a") == 0)
-      {
-          strlcpy(ukw,ref6,MSGC);
-          strlcpy(nox,notch6,MSGG);
-      }
-      if(strcmp(nerd, "--option-xa") == 0)
-      {
-          strlcpy(ukw,coinr(),MSGC);
-          strlcpy(nox,coinn(),MSGG);
       }
       printf("Message: ");
       i = 0;
@@ -1062,62 +1007,6 @@ int main(int argc, char **argv) {
             sbfParams(&main_ctx);
             permuteOnce(&main_ctx,main_ctx.order[0], main_ctx.order[1],main_ctx.order[2], main_ctx.order[3], main_ctx.order[4],main_ctx.cyph);
         }
-        if(strcmp(argv[1], "--option-4a") == 0)
-        {
-            strcpy(nerd,argv[1]);
-            printf("Option 4\n");
-            bfParams(&main_ctx);
-            permuteAll(&main_ctx,main_ctx.cyph);
-        }
-        if(strcmp(argv[1], "--option-4b") == 0)
-        {
-            strcpy(nerd,argv[1]);
-            printf("Option 4\n");
-            sbfParams(&main_ctx);
-            permuteOnce(&main_ctx,main_ctx.order[0], main_ctx.order[1],main_ctx.order[2], main_ctx.order[3], main_ctx.order[4],main_ctx.cyph);
-        }
-        if(strcmp(argv[1], "--option-5a") == 0)
-        {
-            strcpy(nerd,argv[1]);
-            printf("Option 5\n");
-            bfParams(&main_ctx);
-            permuteAll(&main_ctx,main_ctx.cyph);
-        }
-        if(strcmp(argv[1], "--option-5b") == 0)
-        {
-            strcpy(nerd,argv[1]);
-            printf("Option 5\n");
-            sbfParams(&main_ctx);
-            permuteOnce(&main_ctx,main_ctx.order[0], main_ctx.order[1],main_ctx.order[2], main_ctx.order[3], main_ctx.order[4],main_ctx.cyph);
-        }
-        if(strcmp(argv[1], "--option-6a") == 0)
-        {
-            strcpy(nerd,argv[1]);
-            printf("Option 6\n");
-            bfParams(&main_ctx);
-            permuteAll(&main_ctx,main_ctx.cyph);
-        }
-        if(strcmp(argv[1], "--option-6b") == 0)
-        {
-            strcpy(nerd,argv[1]);
-            printf("Option 6\n");
-            sbfParams(&main_ctx);
-            permuteOnce(&main_ctx,main_ctx.order[0], main_ctx.order[1],main_ctx.order[2], main_ctx.order[3], main_ctx.order[4],main_ctx.cyph);
-        }
-        if(strcmp(argv[1], "--option-xa") == 0)
-        {
-            strcpy(nerd,argv[1]);
-            printf("Option x\n");
-            bfParams(&main_ctx);
-            permuteAll(&main_ctx,main_ctx.cyph);
-        }
-        if(strcmp(argv[1], "--option-xb") == 0)
-        {
-            strcpy(nerd,argv[1]);
-            printf("Option x\n");
-            sbfParams(&main_ctx);
-            permuteOnce(&main_ctx,main_ctx.order[0], main_ctx.order[1],main_ctx.order[2], main_ctx.order[3], main_ctx.order[4],main_ctx.cyph);
-        }
         if(strcmp(argv[1], "--option-1") == 0)
         {
             strcpy(nerd,argv[1]);
@@ -1139,34 +1028,13 @@ int main(int argc, char **argv) {
             initParams(&main_ctx);
             cypher(main_ctx);
         }
-        if(strcmp(argv[1], "--option-4") == 0)
-        {
-            strcpy(nerd,argv[1]);
-            printf("Enigma\n");
-            initParams(&main_ctx);
-            cypher(main_ctx);
-        }
-        if(strcmp(argv[1], "--option-5") == 0)
-        {
-            strcpy(nerd,argv[1]);
-            printf("Enigma\n");
-            initParams(&main_ctx);
-            cypher(main_ctx);
-        }
-        if(strcmp(argv[1], "--option-6") == 0)
-        {
-            strcpy(nerd,argv[1]);
-            printf("Enigma\n");
-            initParams(&main_ctx);
-            cypher(main_ctx);
-        }
         if(strcmp(argv[1], "--version") == 0)
         {
             printf("Version\n\n\t\x1B[35m%s\x1B[39m -  \x1B[32mT.E.D.\x1B[39m - \x1B[33mThe Enemy Dail\x1B[39m - Koenig Martin\n",PROGNAME);
         }
         if(strcmp(argv[1], "--help") == 0)
         {
-            printf("Help\n\n\t\x1B[33m--option-1a -T8 -D2\x1B[39m = Enigma Crack Algo\n\t\x1B[33m--option-1b -T8 -D2\x1B[39m = Enigma Crack Once Algo\n\t\x1B[33m--option-2a -T8 -D2\x1B[39m = Enigma Crack Algo\n\t\x1B[33m--option-2b -T8 -D2\x1B[39m = Enigma Crack Once Algo\n\t\x1B[33m--option-3a -T8 -D2\x1B[39m = Enigma Crack Algo\n\t\x1B[33m--option-3b -T8 -D2\x1B[39m = Enigma Crack Once Algo\n\t\x1B[33m--option-4a -T8 -D2\x1B[39m = Enigma Crack Algo\n\t\x1B[33m--option-4b -T8 -D2\x1B[39m = Enigma Crack Once Algo\n\t\x1B[33m--option-5a -T8 -D2\x1B[39m = Enigma Crack Algo\n\t\x1B[33m--option-5b -T8 -D2\x1B[39m = Enigma Crack Once Algo\n\t\x1B[33m--option-6a -T8 -D2\x1B[39m = Enigma Crack Algo\n\t\x1B[33m--option-6b -T8 -D2\x1B[39m = Enigma Crack Once Algo\n\t\x1B[33m--option-1\x1B[39m = Enigma 5 Rotor Calculator\n\t\x1B[33m--option-2\x1B[39m = Enigma 5 Rotor Calculator\n\t\x1B[33m--option-3\x1B[39m = Enigma 5 Rotor Calculator\n\t\x1B[33m--option-4\x1B[39m = Enigma 5 Rotor Calculator\n\t\x1B[33m--option-5\x1B[39m = Enigma 5 Rotor Calculator\n\t\x1B[33m--option-6\x1B[39m = Enigma 5 Rotor Calculator\n\x1B[33m\n\t\x1B[33m--version\x1B[39m = Version\n\n");
+            printf("Help\n\n\t\x1B[33m--option-1a -T8 -D2\x1B[39m = Enigma Crack Algo\n\t\x1B[33m--option-1b -T8 -D2\x1B[39m = Enigma Crack Once Algo\n\t\x1B[33m--option-2a -T8 -D2\x1B[39m = Enigma Crack Algo\n\t\x1B[33m--option-2b -T8 -D2\x1B[39m = Enigma Crack Once Algo\n\t\x1B[33m--option-3a -T8 -D2\x1B[39m = Enigma Crack Algo\n\t\x1B[33m--option-3b -T8 -D2\x1B[39m = Enigma Crack Once Algo\n\t\x1B[33m--option-1\x1B[39m = Enigma 5 Rotor Calculator\n\t\x1B[33m--option-2\x1B[39m = Enigma 5 Rotor Calculator\n\t\x1B[33m--option-3\x1B[39m = Enigma 5 Rotor Calculator\n\t\x1B[33m--version\x1B[39m = Version\n\n");
         }
     
     return 0;
