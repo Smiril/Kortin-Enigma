@@ -2,6 +2,7 @@ name: Build
 
 env:
   include_paths: |
+    enigma/src
     enigma/deps/
     docs/
 on:
