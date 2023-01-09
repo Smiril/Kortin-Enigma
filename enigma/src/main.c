@@ -490,13 +490,6 @@ int rotate(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, c
                                                            main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4],
                                                            main_ctx->pos[0], main_ctx->pos[1], main_ctx->pos[2], main_ctx->pos[3], main_ctx->pos[4],
                                                            main_ctx->rings[0], main_ctx->rings[1], main_ctx->rings[2], main_ctx->rings[3], main_ctx->rings[4], main_ctx->plug, fff, rank);
-                                                    /*
-                                                    sprintf(pringles,"Wheels %d %d %d %d %d  Start %c %c %c %c %c  Rings %c %c %c %c %c Stecker \"%s\" TEXT: %s Rank: %d\n",
-                                                           cp.order[0], cp.order[1], cp.order[2], cp.order[3], cp.order[4],
-                                                           cp.pos[0], cp.pos[1], cp.pos[2], cp.pos[3], cp.pos[4],
-                                                           cp.rings[0], cp.rings[1], cp.rings[2], cp.rings[3], cp.rings[4], cp.plug, fff, rank);
-                                                    logfile_append (pringles);
-                                                    */
                                                     oldrank = rank;
                                                 }
                                                 
