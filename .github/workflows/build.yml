@@ -2,17 +2,8 @@ name: Build
 
 env:
   include_paths: |
-    charsets/
+    enigma/deps/
     docs/
-    extra/
-    layouts/
-    masks/
-    modules/
-    OpenCL/
-    rules/
-    example*
-    hashcat*
-    libhashcat*
 on:
   push:
     branches:
@@ -41,7 +32,7 @@ jobs:
   build-macos:
     strategy:
       fail-fast: false
-      matrix:
+      Smiril:
         shared: [0, 1]
     name: Build macOS (${{ Smiril.shared == 0 && 'Static' || 'Shared' }})
     runs-on: macos-latest
