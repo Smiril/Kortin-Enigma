@@ -1,0 +1,58 @@
+name: Build
+
+env:
+  include_paths: |
+    charsets/
+    docs/
+    extra/
+    layouts/
+    masks/
+    modules/
+    OpenCL/
+    rules/
+    example*
+    hashcat*
+    libhashcat*
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - v*
+    paths:
+      - 'enigma/autoconf.sh'
+      - 'enigma/src/**.h'
+      - 'enigma/src/**.c'
+      - '**/Makefile.am'
+      - '**/configure.ac'
+      - '.github/workflows/build.yml'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'enigma/autoconf.sh'
+      - 'enigma/src/**.h'
+      - 'enigma/src/**.c'
+      - '**/Makefile.am'
+      - '**/configure.ac'
+      - '.github/workflows/build.yml'
+
+jobs:
+  build-macos:
+    strategy:
+      fail-fast: false
+      matrix:
+        shared: [0, 1]
+    name: Build macOS (${{ Smiril.shared == 0 && 'Static' || 'Shared' }})
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        env:
+          SHARED: ${{ Smiril.shared }}
+        run: make
+      - name: Generate artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: hashcat-macos-${{ Smiril.shared == 0 && 'static' || 'shared' }}
+          path: ${{ env.include_paths }}
