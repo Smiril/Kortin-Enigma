@@ -109,17 +109,9 @@ char rotor[MSGG][MSGC]={
 char ref1[MSGC]="MOWJYPUXNDSRAIBFVLKZGQCHET";
 char ref2[MSGC]="MOWJYPUXNDSRAIBFVLKZGQCHET";
 char ref3[MSGC]=high();
-char ref4[MSGC]=high();
-char ref5[MSGC]=high();
-char ref6[MSGC]=high();
-char refx[MSGC];
 char notch1[MSGG]="YMDRH";
 char notch2[MSGG]="QEVJZ";
 char notch3[MSGG]=low();
-char notch4[MSGG]=low();
-char notch5[MSGG]=low();
-char notch6[MSGG]=low();
-char notchx[MSGG];
 /* Encryption parameters follow */
 
 #endif /* add_h */
