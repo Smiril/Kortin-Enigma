@@ -39,9 +39,9 @@ char *numberGen()
  return target;
 }
 
-void configmain() {
+void configmain(char *hugh) {
     // open file
-    FILE *fp = fopen("~/share/enigma.conf", "r");
+    FILE *fp = fopen(hugh, "r");
     size_t len = 27;
     // need malloc memory for line, if not, segmentation fault error will occurred.
     char *line = malloc(sizeof(char) * len);
@@ -60,9 +60,9 @@ void configmain() {
     free(line);
 }
 
-void configpartner() {
+void configpartner(char *hugh) {
     // open file
-    FILE *fp = fopen("~/share/partner.conf", "r");
+    FILE *fp = fopen(hugh, "r");
     size_t len = 27;
     // need malloc memory for line, if not, segmentation fault error will occurred.
     char *line = malloc(sizeof(char) * len);
@@ -1068,72 +1068,51 @@ int main(int argc, char **argv) {
     
         if(strcmp(argv[1], "--option-1a") == 0)
         {
+            printf("Config File: ");
+            char *b;
+            int l = 0;
+            while((b = getchar()) != '\n')
+            {
+            flames[l] = b;
+            l++;
+            }
+            flames[l] = '\0';
             strcpy(nerd,argv[1]);
-            configmain();
+            configmain(flames);
             printf("Option 1\n");
             bfParams(&main_ctx);
             permuteAll(&main_ctx,main_ctx.cyph);
         }
         if(strcmp(argv[1], "--option-1b") == 0)
         {
+            printf("Config File: ");
+            char *b;
+            int l = 0;
+            while((b = getchar()) != '\n')
+            {
+            flames[l] = b;
+            l++;
+            }
+            flames[l] = '\0';
             strcpy(nerd,argv[1]);
-            configmain();
+            configmain(flames);
             printf("Option 1\n");
-            sbfParams(&main_ctx);
-            permuteOnce(&main_ctx,main_ctx.order[0], main_ctx.order[1],main_ctx.order[2], main_ctx.order[3], main_ctx.order[4],main_ctx.cyph);
-        }
-        if(strcmp(argv[1], "--option-2a") == 0)
-        {
-            strcpy(nerd,argv[1]);
-            configpartner();
-            printf("Option 2\n");
-            bfParams(&main_ctx);
-            permuteAll(&main_ctx,main_ctx.cyph);
-        }
-        if(strcmp(argv[1], "--option-2b") == 0)
-        {
-            strcpy(nerd,argv[1]);
-            configpartner();
-            printf("Option 2\n");
-            sbfParams(&main_ctx);
-            permuteOnce(&main_ctx,main_ctx.order[0], main_ctx.order[1],main_ctx.order[2], main_ctx.order[3], main_ctx.order[4],main_ctx.cyph);
-        }
-        if(strcmp(argv[1], "--option-3a") == 0)
-        {
-            strcpy(nerd,argv[1]);
-            configmain();
-            printf("Option 3\n");
-            bfParams(&main_ctx);
-            permuteAll(&main_ctx,main_ctx.cyph);
-        }
-        if(strcmp(argv[1], "--option-3b") == 0)
-        {
-            strcpy(nerd,argv[1]);
-            configmain();
-            printf("Option 3\n");
             sbfParams(&main_ctx);
             permuteOnce(&main_ctx,main_ctx.order[0], main_ctx.order[1],main_ctx.order[2], main_ctx.order[3], main_ctx.order[4],main_ctx.cyph);
         }
         if(strcmp(argv[1], "--option-1") == 0)
         {
+            printf("Config File: ");
+            char *b;
+            int l = 0;
+            while((b = getchar()) != '\n')
+            {
+            flames[l] = b;
+            l++;
+            }
+            flames[l] = '\0';
             strcpy(nerd,argv[1]);
-            configmain();
-            printf("Enigma\n");
-            initParams(&main_ctx);
-            cypher(main_ctx);
-        }
-        if(strcmp(argv[1], "--option-2") == 0)
-        {
-            strcpy(nerd,argv[1]);
-            configpartner();
-            printf("Enigma\n");
-            initParams(&main_ctx);
-            cypher(main_ctx);
-        }
-        if(strcmp(argv[1], "--option-3") == 0)
-        {
-            strcpy(nerd,argv[1]);
-            configmain();
+            configmain(flames);
             printf("Enigma\n");
             initParams(&main_ctx);
             cypher(main_ctx);
@@ -1144,7 +1123,7 @@ int main(int argc, char **argv) {
         }
         if(strcmp(argv[1], "--help") == 0)
         {
-            printf("Help\n\n\t\x1B[33m--option-1a -T8 -D2\x1B[39m = Enigma Crack Algo\n\t\x1B[33m--option-1b -T8 -D2\x1B[39m = Enigma Crack Once Algo\n\t\x1B[33m--option-2a -T8 -D2\x1B[39m = Enigma Crack Algo\n\t\x1B[33m--option-2b -T8 -D2\x1B[39m = Enigma Crack Once Algo\n\t\x1B[33m--option-3a -T8 -D2\x1B[39m = Enigma Crack Algo\n\t\x1B[33m--option-3b -T8 -D2\x1B[39m = Enigma Crack Once Algo\n\t\x1B[33m--option-1\x1B[39m = Enigma 5 Rotor Calculator\n\t\x1B[33m--option-2\x1B[39m = Enigma 5 Rotor Calculator\n\t\x1B[33m--option-3\x1B[39m = Enigma 5 Rotor Calculator\n\t\x1B[33m--version\x1B[39m = Version\n\n");
+            printf("Help\n\n\t\x1B[33m--option-1a -T8 -D2\x1B[39m = Enigma Crack Algo\n\t\x1B[33m--option-1b -T8 -D2\x1B[39m = Enigma Crack Once Algo\n\t\x1B[33m--option-1\x1B[39m = Enigma 5 Rotor Calculator\n\t\x1B[33m--version\x1B[39m = Version\n\n");
         }
     
     return 0;

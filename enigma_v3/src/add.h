@@ -31,6 +31,7 @@ char s[MSGP] = "A";
 char fff[MSGLEN] = "A";
 char nerd[MSGX];
 char framex[MSGY];
+char flames[MSGY];
 char ukw[MSGC];
 char nox[MSGG];
 int oldrank = IN_RANK;
