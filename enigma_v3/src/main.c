@@ -31,16 +31,117 @@
 
 //---------------------------------------------------------------------
 
+char *numberGen()
+{
+ int number = rand();
+ int target = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[number % 25];
+
+ return target;
+}
+
+void configmain() {
+    // open file
+    FILE *fp = fopen("~/share/enigma.conf", "r");
+    size_t len = 27;
+    // need malloc memory for line, if not, segmentation fault error will occurred.
+    char *line = malloc(sizeof(char) * len);
+    // check if file exist (and you can open it) or not
+    if (fp == NULL) {
+        printf("can open file enigma.conf!");
+        return;
+    }
+    while(fgets(line, len, fp) != NULL) {
+        for (int i = 0; i < 6; i++){
+            snprintf(rotor[i][MSGC],MSGC,"%s", line);
+            }
+            snprintf(ref1[MSGC],MSGC,"%s",line);
+            snprintf(notch1[MSGG],MSGG,"%s",line);
+    }
+    free(line);
+}
+
+void configpartner() {
+    // open file
+    FILE *fp = fopen("~/share/partner.conf", "r");
+    size_t len = 27;
+    // need malloc memory for line, if not, segmentation fault error will occurred.
+    char *line = malloc(sizeof(char) * len);
+    // check if file exist (and you can open it) or not
+    if (fp == NULL) {
+        printf("can open file partner.conf!");
+        return;
+    }
+    while(fgets(line, len, fp) != NULL) {
+        for (int i = 0; i < 6; i++){
+            snprintf(rotor[i][MSGC],MSGC,"%s", line);
+            }
+            snprintf(ref2[MSGC],MSGC,"%s",line);
+            snprintf(notch2[MSGG],MSGG,"%s",line);
+    }
+    free(line);
+}
+
+//---------------------------------------------------------------------
+
 char *coinn(void) {
-    strcpy(notchx, "");
-    notchx = low();
-    return(&notchx[MSGG]);
+    bool isDuplicate = false;
+    char picked[MSGG];
+    char *number;
+    int j;
+    
+    for (int i = 0; i < 6; i++)
+    {
+
+        
+        do
+        {
+            number = numberGen(); // Generate the number
+            
+            // Check for duplicates
+            for (j = 0; j < 6; j++)
+            {
+                if (number == picked[j])
+                {
+                    isDuplicate = true;
+                    break; // Duplicate detected
+                }
+            }
+        }
+        while (isDuplicate); // equivalent to while(isDuplicate == true)
+        
+        picked[j] = number;
+    }
+    return picked;
 }
 
 char *coinr(void) {
-    strcpy(refx, "");
-    refx = high();
-    return(&refx[MSGC]);
+    bool isDuplicate = false;
+    char picked[MSGC];
+    char *number;
+    int j;
+    
+    for (int i = 0; i < 26; i++)
+    {
+        
+        do
+        {
+            number = numberGen(); // Generate the number
+            
+            // Check for duplicates
+            for (int j = 0; j < 26; j++)
+            {
+                if (number == picked[j])
+                {
+                    isDuplicate = true;
+                    break; // Duplicate detected
+                }
+            }
+        }
+        while (isDuplicate); // equivalent to while(isDuplicate == true)
+        
+        picked[j] = number;
+    }
+    return picked;
 }
 
 int getRank(char *cyph) {
@@ -771,8 +872,8 @@ void sbfParams(main_ctx_t *main_ctx)
       }
       if(strcmp(nerd, "--option-3b") == 0)
       {
-          strlcpy(ukw,ref3,MSGC);
-          strlcpy(nox,notch3,MSGG);
+          strlcpy(ukw,coinr(),MSGC);
+          strlcpy(nox,coinn(),MSGG);
       }
       for(i = 0; i < 5; i++)
       {
@@ -875,8 +976,8 @@ void bfParams(main_ctx_t *main_ctx)
       }
       if(strcmp(nerd, "--option-3a") == 0)
       {
-          strlcpy(ukw,ref3,MSGC);
-          strlcpy(nox,notch3,MSGG);
+          strlcpy(ukw,coinr(),MSGC);
+          strlcpy(nox,coinn(),MSGG);
       }
       printf("Message: ");
       i = 0;
@@ -968,6 +1069,7 @@ int main(int argc, char **argv) {
         if(strcmp(argv[1], "--option-1a") == 0)
         {
             strcpy(nerd,argv[1]);
+            configmain();
             printf("Option 1\n");
             bfParams(&main_ctx);
             permuteAll(&main_ctx,main_ctx.cyph);
@@ -975,6 +1077,7 @@ int main(int argc, char **argv) {
         if(strcmp(argv[1], "--option-1b") == 0)
         {
             strcpy(nerd,argv[1]);
+            configmain();
             printf("Option 1\n");
             sbfParams(&main_ctx);
             permuteOnce(&main_ctx,main_ctx.order[0], main_ctx.order[1],main_ctx.order[2], main_ctx.order[3], main_ctx.order[4],main_ctx.cyph);
@@ -982,6 +1085,7 @@ int main(int argc, char **argv) {
         if(strcmp(argv[1], "--option-2a") == 0)
         {
             strcpy(nerd,argv[1]);
+            configpartner();
             printf("Option 2\n");
             bfParams(&main_ctx);
             permuteAll(&main_ctx,main_ctx.cyph);
@@ -989,6 +1093,7 @@ int main(int argc, char **argv) {
         if(strcmp(argv[1], "--option-2b") == 0)
         {
             strcpy(nerd,argv[1]);
+            configpartner();
             printf("Option 2\n");
             sbfParams(&main_ctx);
             permuteOnce(&main_ctx,main_ctx.order[0], main_ctx.order[1],main_ctx.order[2], main_ctx.order[3], main_ctx.order[4],main_ctx.cyph);
@@ -996,6 +1101,7 @@ int main(int argc, char **argv) {
         if(strcmp(argv[1], "--option-3a") == 0)
         {
             strcpy(nerd,argv[1]);
+            configmain();
             printf("Option 3\n");
             bfParams(&main_ctx);
             permuteAll(&main_ctx,main_ctx.cyph);
@@ -1003,6 +1109,7 @@ int main(int argc, char **argv) {
         if(strcmp(argv[1], "--option-3b") == 0)
         {
             strcpy(nerd,argv[1]);
+            configmain();
             printf("Option 3\n");
             sbfParams(&main_ctx);
             permuteOnce(&main_ctx,main_ctx.order[0], main_ctx.order[1],main_ctx.order[2], main_ctx.order[3], main_ctx.order[4],main_ctx.cyph);
@@ -1010,6 +1117,7 @@ int main(int argc, char **argv) {
         if(strcmp(argv[1], "--option-1") == 0)
         {
             strcpy(nerd,argv[1]);
+            configmain();
             printf("Enigma\n");
             initParams(&main_ctx);
             cypher(main_ctx);
@@ -1017,6 +1125,7 @@ int main(int argc, char **argv) {
         if(strcmp(argv[1], "--option-2") == 0)
         {
             strcpy(nerd,argv[1]);
+            configpartner();
             printf("Enigma\n");
             initParams(&main_ctx);
             cypher(main_ctx);
@@ -1024,6 +1133,7 @@ int main(int argc, char **argv) {
         if(strcmp(argv[1], "--option-3") == 0)
         {
             strcpy(nerd,argv[1]);
+            configmain();
             printf("Enigma\n");
             initParams(&main_ctx);
             cypher(main_ctx);
