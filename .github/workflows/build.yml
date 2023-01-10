@@ -2,8 +2,8 @@ name: Build
 
 env:
   include_paths: |
-    enigma/src
-    enigma/deps/
+    enigma_v3/src
+    enigma_v3/deps/
     docs/
 on:
   push:
@@ -12,9 +12,9 @@ on:
     tags:
       - v*
     paths:
-      - 'enigma/autoconf.sh'
-      - 'enigma/src/**.h'
-      - 'enigma/src/**.c'
+      - 'enigma_v3/autoconf.sh'
+      - 'enigma_v3/src/**.h'
+      - 'enigma_v3/src/**.c'
       - '**/Makefile.am'
       - '**/configure.ac'
       - '.github/workflows/build.yml'
@@ -22,9 +22,9 @@ on:
     branches:
       - master
     paths:
-      - 'enigma/autoconf.sh'
-      - 'enigma/src/**.h'
-      - 'enigma/src/**.c'
+      - 'enigma_v3/autoconf.sh'
+      - 'enigma_v3/src/**.h'
+      - 'enigma_v3/src/**.c'
       - '**/Makefile.am'
       - '**/configure.ac'
       - '.github/workflows/build.yml'
