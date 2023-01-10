@@ -39,11 +39,7 @@ int oldrank = IN_RANK;
 /* Rotor wirings */
 char rotor[MSGG][MSGC];
 char ref1[MSGC];
-char ref2[MSGC];
-char ref3[MSGC];
 char notch1[MSGG];
-char notch2[MSGG];
-char notch3[MSGG];
 /* Encryption parameters follow */
 
 #endif /* add_h */

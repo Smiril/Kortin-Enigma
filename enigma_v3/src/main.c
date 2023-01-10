@@ -744,16 +744,6 @@ void initParams(main_ctx_t *main_ctx)
           strlcpy(ukw,ref1,MSGC);
           strlcpy(nox,notch1,MSGG);
       }
-      if(strcmp(nerd, "--option-2") == 0)
-      {
-          strlcpy(ukw,ref2,MSGC);
-          strlcpy(nox,notch2,MSGG);
-      }
-      if(strcmp(nerd, "--option-3") == 0)
-      {
-          strlcpy(ukw,ref3,MSGC);
-          strlcpy(nox,notch3,MSGG);
-      }
       for(i = 0; i < 5; i++)
       {
         printf("Wheel %d: ", i + 1);
@@ -843,16 +833,6 @@ void sbfParams(main_ctx_t *main_ctx)
       {
           strlcpy(ukw,ref1,MSGC);
           strlcpy(nox,notch1,MSGG);
-      }
-      if(strcmp(nerd, "--option-2b") == 0)
-      {
-          strlcpy(ukw,ref2,MSGC);
-          strlcpy(nox,notch2,MSGG);
-      }
-      if(strcmp(nerd, "--option-3b") == 0)
-      {
-          strlcpy(ukw,coinr(),MSGC);
-          strlcpy(nox,coinn(),MSGG);
       }
       for(i = 0; i < 5; i++)
       {
@@ -947,16 +927,6 @@ void bfParams(main_ctx_t *main_ctx)
       {
           strlcpy(ukw,ref1,MSGC);
           strlcpy(nox,notch1,MSGG);
-      }
-      if(strcmp(nerd, "--option-2a") == 0)
-      {
-          strlcpy(ukw,ref2,MSGC);
-          strlcpy(nox,notch2,MSGG);
-      }
-      if(strcmp(nerd, "--option-3a") == 0)
-      {
-          strlcpy(ukw,coinr(),MSGC);
-          strlcpy(nox,coinn(),MSGG);
       }
       printf("Message: ");
       i = 0;
