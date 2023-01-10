@@ -47,7 +47,7 @@ void configmain(char *hugh) {
     char *line = malloc(sizeof(char) * len);
     // check if file exist (and you can open it) or not
     if (fp == NULL) {
-        printf("can open file enigma.conf!");
+        printf("can open file %s!\n",hugh);
         return;
     }
     while(fgets(line, len, fp) != NULL) {
@@ -56,27 +56,6 @@ void configmain(char *hugh) {
             }
             snprintf(ref1[MSGC],MSGC,"%s",line);
             snprintf(notch1[MSGG],MSGG,"%s",line);
-    }
-    free(line);
-}
-
-void configpartner(char *hugh) {
-    // open file
-    FILE *fp = fopen(hugh, "r");
-    size_t len = 27;
-    // need malloc memory for line, if not, segmentation fault error will occurred.
-    char *line = malloc(sizeof(char) * len);
-    // check if file exist (and you can open it) or not
-    if (fp == NULL) {
-        printf("can open file partner.conf!");
-        return;
-    }
-    while(fgets(line, len, fp) != NULL) {
-        for (int i = 0; i < 6; i++){
-            snprintf(rotor[i][MSGC],MSGC,"%s", line);
-            }
-            snprintf(ref2[MSGC],MSGC,"%s",line);
-            snprintf(notch2[MSGG],MSGG,"%s",line);
     }
     free(line);
 }
