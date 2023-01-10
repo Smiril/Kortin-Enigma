@@ -59,7 +59,7 @@ xcode-select --install
 ```
 then ...
 ```
-cd Kortin-Enigma/enigma
+cd Kortin-Enigma/enigma_v3
 ./autoconf.sh
 ./configure
 make
