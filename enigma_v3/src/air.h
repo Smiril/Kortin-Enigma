@@ -7,7 +7,7 @@
 #ifndef AIR_GLOBE
 #define AIR_GLOBE
 
-#define PROGNAME "Gordon"
+#define PROGNAME "Enigma"
 #include "../config.h"
 #include <iconv.h>
 

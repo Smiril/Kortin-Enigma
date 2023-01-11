@@ -6,7 +6,6 @@
 #ifndef _COMMON_H
 #define _COMMON_H
 
-#define PROGNAME "hashcat"
 #include "addx.h"
 #if defined (__unix__) || defined (__APPLE__)
 #define _POSIX
