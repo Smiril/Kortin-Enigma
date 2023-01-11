@@ -85,7 +85,9 @@ static const char *coinn(void) {
         }
         while (isDuplicate); // equivalent to while(isDuplicate == true)
         
-        strcpy(picked[j],number);
+        if (!isDuplicate) {
+            strcpy(picked[j],number);
+        }
     }
     return picked;
 }
@@ -119,7 +121,9 @@ static const char *coinr(void) {
         }
         while (isDuplicate); // equivalent to while(isDuplicate == true)
         
-        strcpy(picked[j],number);
+        if (!isDuplicate) {
+            strcpy(picked[j],number);
+        }
     }
     return picked;
 }
