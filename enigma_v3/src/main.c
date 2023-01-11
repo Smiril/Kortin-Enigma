@@ -74,7 +74,7 @@ char *coinn(void) {
             int target = numberx % max_index;
             
             strcpy(number,charset[target]); // Generate the number
-            memmove(&charset[target], &charset[target + 1], strlen(charset) - target);
+            memmove(&charset[target], &charset[target + 1], max_index - target);
             max_index--;
             // Check for duplicates
             for (j = 0; j < 5; j++)
@@ -109,7 +109,7 @@ char *coinr(void) {
             int target = numberx % max_index;
             
             strcpy(number,charset[target]); // Generate the number
-            memmove(&charset[target], &charset[target + 1], strlen(charset) - target);
+            memmove(&charset[target], &charset[target + 1], max_index - target);
             max_index--;
             // Check for duplicates
             for (int j = 0; j <= 26; j++)
