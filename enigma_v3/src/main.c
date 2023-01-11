@@ -64,7 +64,7 @@ char *coinn(void) {
     const char number[MSGG];
     int j = 0;
     
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 5; i++)
     {
 
         
@@ -77,7 +77,7 @@ char *coinn(void) {
             memmove(&charset[target], &charset[target + 1], strlen(charset) - target);
             max_index--;
             // Check for duplicates
-            for (j = 0; j < 6; j++)
+            for (j = 0; j < 5; j++)
             {
                 if (number == picked[j])
                 {
@@ -100,7 +100,7 @@ char *coinr(void) {
     const char number[1];
     int j = 0;
     
-    for (int i = 0; i < 26; i++)
+    for (int i = 0; i <= 26; i++)
     {
         
         do
@@ -112,7 +112,7 @@ char *coinr(void) {
             memmove(&charset[target], &charset[target + 1], strlen(charset) - target);
             max_index--;
             // Check for duplicates
-            for (int j = 0; j < 26; j++)
+            for (int j = 0; j <= 26; j++)
             {
                 if (number == picked[j])
                 {
