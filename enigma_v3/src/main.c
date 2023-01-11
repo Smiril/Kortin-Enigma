@@ -64,10 +64,11 @@ static const char *coinn(void) {
     
     for (i = 0; i < 27; i++)
     {
+        int target = rand() % max_index;
+        strcpy(number,&charset[target]); // Generate
+
         do
         {
-            int target = rand() % max_index;
-            strcpy(number,&charset[target]); // Generate the number
             // Check for duplicates
             for (j = 0; j < 5; j++)
             {
@@ -97,10 +98,11 @@ static const char *coinr(void) {
     
     for (i = 0; i < 27; i++)
     {
+        int target = rand() % max_index;
+        strcpy(number,&charset[target]); // Generate
+
         do
         {
-            int target = rand() % max_index;
-            strcpy(number,&charset[target]); // Generate the number
             // Check for duplicates
             for (j = 0; j < 27; j++)
             {
