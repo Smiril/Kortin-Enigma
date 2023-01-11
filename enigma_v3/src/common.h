@@ -6,6 +6,7 @@
 #ifndef _COMMON_H
 #define _COMMON_H
 
+#include "air.h"
 #include "addx.h"
 #if defined (__unix__) || defined (__APPLE__)
 #define _POSIX
