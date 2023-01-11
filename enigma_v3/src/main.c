@@ -59,17 +59,15 @@ void configmain(char *hugh) {
 static const char *coinn(void) {
     bool isDuplicate = false;
     const char picked[MSGG];
-    const char number[1];
-    int j = 0;
+    const char *number = NULL;
+    int j = 0,i = 0;
     
-    for (int i = 0; i < 27; i++)
+    for (i = 0; i < 27; i++)
     {
-
-        
         do
         {
             int target = rand() % max_index;
-            strcpy(number,charset[target]); // Generate the number
+            strcpy(number,&charset[target]); // Generate the number
             memmove(&charset[target], &charset[target + 1], max_index - target);
             max_index--;
             // Check for duplicates
@@ -92,20 +90,19 @@ static const char *coinn(void) {
 static const char *coinr(void) {
     bool isDuplicate = false;
     const char picked[MSGC];
-    const char number[1];
-    int j = 0;
+    const char *number = NULL;
+    int j = 0,i = 0;
     
-    for (int i = 0; i < 27; i++)
+    for (i = 0; i < 27; i++)
     {
-        
         do
         {
             int target = rand() % max_index;
-            strcpy(number,charset[target]); // Generate the number
+            strcpy(number,&charset[target]); // Generate the number
             memmove(&charset[target], &charset[target + 1], max_index - target);
             max_index--;
             // Check for duplicates
-            for (int j = 0; j < 27; j++)
+            for (j = 0; j < 27; j++)
             {
                 if (number == picked[j])
                 {
@@ -120,6 +117,7 @@ static const char *coinr(void) {
     }
     return picked;
 }
+
 
 int getRank(char *cyph) {
 
