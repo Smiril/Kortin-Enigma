@@ -5,13 +5,12 @@
 _configfile:                            ; @configfile
 	.cfi_startproc
 ; %bb.0:
-	sub	sp, sp, #128
-	stp	x26, x25, [sp, #48]             ; 16-byte Folded Spill
-	stp	x24, x23, [sp, #64]             ; 16-byte Folded Spill
-	stp	x22, x21, [sp, #80]             ; 16-byte Folded Spill
-	stp	x20, x19, [sp, #96]             ; 16-byte Folded Spill
-	stp	x29, x30, [sp, #112]            ; 16-byte Folded Spill
-	add	x29, sp, #112
+	sub	sp, sp, #112
+	stp	x24, x23, [sp, #48]             ; 16-byte Folded Spill
+	stp	x22, x21, [sp, #64]             ; 16-byte Folded Spill
+	stp	x20, x19, [sp, #80]             ; 16-byte Folded Spill
+	stp	x29, x30, [sp, #96]             ; 16-byte Folded Spill
+	add	x29, sp, #96
 	.cfi_def_cfa w29, 16
 	.cfi_offset w30, -8
 	.cfi_offset w29, -16
@@ -21,8 +20,6 @@ _configfile:                            ; @configfile
 	.cfi_offset w22, -48
 	.cfi_offset w23, -56
 	.cfi_offset w24, -64
-	.cfi_offset w25, -72
-	.cfi_offset w26, -80
 	mov	w21, #0
 Lloh0:
 	adrp	x8, ___stack_chk_guard@GOTPAGE
@@ -53,15 +50,13 @@ LBB0_3:                                 ;   Parent Loop BB0_1 Depth=1
                                         ;         Child Loop BB0_4 Depth 4
 	mov	x24, x8
 	bl	_rand
-	ldr	w25, [x19, _max_index@PAGEOFF]
-	sdiv	w8, w0, w25
-	msub	w8, w8, w25, w0
+	ldr	w8, [x19, _max_index@PAGEOFF]
+	sdiv	w9, w0, w8
+	msub	w8, w9, w8, w0
 	add	x1, x20, w8, sxtw
 	mov	x0, #0
 	bl	_strcpy
 	mov	x8, #0
-	sub	w9, w25, #1
-	str	w9, [x19, _max_index@PAGEOFF]
 LBB0_4:                                 ;   Parent Loop BB0_1 Depth=1
                                         ;     Parent Loop BB0_2 Depth=2
                                         ;       Parent Loop BB0_3 Depth=3
@@ -69,6 +64,9 @@ LBB0_4:                                 ;   Parent Loop BB0_1 Depth=1
 	ldrb	w9, [x22, x8]
 	cbz	w9, LBB0_7
 ; %bb.5:                                ;   in Loop: Header=BB0_4 Depth=4
+	ldr	w9, [x19, _max_index@PAGEOFF]
+	sub	w9, w9, #1
+	str	w9, [x19, _max_index@PAGEOFF]
 	add	x8, x8, #1
 	cmp	x8, #27
 	b.ne	LBB0_4
@@ -101,21 +99,22 @@ LBB0_12:                                ;   Parent Loop BB0_11 Depth=1
                                         ;       Child Loop BB0_13 Depth 3
 	mov	x23, x8
 	bl	_rand
-	ldr	w24, [x19, _max_index@PAGEOFF]
-	sdiv	w8, w0, w24
-	msub	w8, w8, w24, w0
+	ldr	w8, [x19, _max_index@PAGEOFF]
+	sdiv	w9, w0, w8
+	msub	w8, w9, w8, w0
 	add	x1, x20, w8, sxtw
 	mov	x0, #0
 	bl	_strcpy
 	mov	x8, #0
-	sub	w9, w24, #1
-	str	w9, [x19, _max_index@PAGEOFF]
 LBB0_13:                                ;   Parent Loop BB0_11 Depth=1
                                         ;     Parent Loop BB0_12 Depth=2
                                         ; =>    This Inner Loop Header: Depth=3
 	ldrb	w9, [x22, x8]
 	cbz	w9, LBB0_16
 ; %bb.14:                               ;   in Loop: Header=BB0_13 Depth=3
+	ldr	w9, [x19, _max_index@PAGEOFF]
+	sub	w9, w9, #1
+	str	w9, [x19, _max_index@PAGEOFF]
 	add	x8, x8, #1
 	cmp	x8, #5
 	b.ne	LBB0_13
@@ -143,12 +142,11 @@ Lloh7:
 	cmp	x9, x8
 	b.ne	LBB0_20
 ; %bb.19:
-	ldp	x29, x30, [sp, #112]            ; 16-byte Folded Reload
-	ldp	x20, x19, [sp, #96]             ; 16-byte Folded Reload
-	ldp	x22, x21, [sp, #80]             ; 16-byte Folded Reload
-	ldp	x24, x23, [sp, #64]             ; 16-byte Folded Reload
-	ldp	x26, x25, [sp, #48]             ; 16-byte Folded Reload
-	add	sp, sp, #128
+	ldp	x29, x30, [sp, #96]             ; 16-byte Folded Reload
+	ldp	x20, x19, [sp, #80]             ; 16-byte Folded Reload
+	ldp	x22, x21, [sp, #64]             ; 16-byte Folded Reload
+	ldp	x24, x23, [sp, #48]             ; 16-byte Folded Reload
+	add	sp, sp, #112
 	ret
 LBB0_20:
 	bl	___stack_chk_fail
