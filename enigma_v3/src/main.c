@@ -68,8 +68,6 @@ static const char *coinn(void) {
         {
             int target = rand() % max_index;
             strcpy(number,&charset[target]); // Generate the number
-            memmove(&charset[target], &charset[target + 1], max_index - target);
-            max_index--;
             // Check for duplicates
             for (j = 0; j < 5; j++)
             {
@@ -77,6 +75,10 @@ static const char *coinn(void) {
                 {
                     isDuplicate = true;
                     break; // Duplicate detected
+                }
+                else {
+                    memmove(&charset[target], &charset[target + 1], max_index - target);
+                    max_index--;
                 }
             }
         }
@@ -99,8 +101,6 @@ static const char *coinr(void) {
         {
             int target = rand() % max_index;
             strcpy(number,&charset[target]); // Generate the number
-            memmove(&charset[target], &charset[target + 1], max_index - target);
-            max_index--;
             // Check for duplicates
             for (j = 0; j < 27; j++)
             {
@@ -108,6 +108,10 @@ static const char *coinr(void) {
                 {
                     isDuplicate = true;
                     break; // Duplicate detected
+                }
+                else {
+                    memmove(&charset[target], &charset[target + 1], max_index - target);
+                    max_index--;
                 }
             }
         }
