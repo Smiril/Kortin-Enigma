@@ -59,7 +59,7 @@ void configmain(char *hugh) {
 char *coinn(void) {
     bool isDuplicate = false;
     const char picked[MSGG];
-    const char number[MSGG];
+    const char number[1];
     int j = 0;
     
     for (int i = 0; i < 5; i++)
