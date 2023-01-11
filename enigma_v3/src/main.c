@@ -30,14 +30,9 @@
 #include "event.h"
 
 //---------------------------------------------------------------------
-
-char *numberGen()
-{
- int number = rand();
- int target = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[number % 25];
-
- return target;
-}
+const char charset[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const size_t max_index = (sizeof(charset) - 1);
+//---------------------------------------------------------------------
 
 void configmain(char *hugh) {
     // open file
@@ -64,9 +59,10 @@ void configmain(char *hugh) {
 
 char *coinn(void) {
     bool isDuplicate = false;
-    char picked[MSGG];
-    char *number;
-    int j;
+    
+    const char picked[MSGG];
+    const char number[MSGG];
+    int j = 0;
     
     for (int i = 0; i < 6; i++)
     {
@@ -74,8 +70,11 @@ char *coinn(void) {
         
         do
         {
-            number = numberGen(); // Generate the number
+            int numberx = rand();
+            int target = numberx % max_index;
             
+            strcpy(number,charset[target]); // Generate the number
+            memmove(&charset[target], &charset[target + 1], strlen(charset) - target);
             // Check for duplicates
             for (j = 0; j < 6; j++)
             {
@@ -88,24 +87,28 @@ char *coinn(void) {
         }
         while (isDuplicate); // equivalent to while(isDuplicate == true)
         
-        picked[j] = number;
+        strcpy(picked[j],number);
     }
     return picked;
 }
 
 char *coinr(void) {
     bool isDuplicate = false;
-    char picked[MSGC];
-    char *number;
-    int j;
+    
+    const char picked[MSGC];
+    const char number[1];
+    int j = 0;
     
     for (int i = 0; i < 26; i++)
     {
         
         do
         {
-            number = numberGen(); // Generate the number
+            int numberx = rand();
+            int target = numberx % max_index;
             
+            strcpy(number,charset[target]); // Generate the number
+            memmove(&charset[target], &charset[target + 1], strlen(charset) - target);
             // Check for duplicates
             for (int j = 0; j < 26; j++)
             {
@@ -118,7 +121,7 @@ char *coinr(void) {
         }
         while (isDuplicate); // equivalent to while(isDuplicate == true)
         
-        picked[j] = number;
+        strcpy(picked[j],number);
     }
     return picked;
 }
