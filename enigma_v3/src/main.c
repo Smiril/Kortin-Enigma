@@ -31,7 +31,7 @@
 
 //---------------------------------------------------------------------
 const char charset[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const size_t max_index = (sizeof(charset) - 1);
+int max_index = (sizeof(charset) - 1);
 //---------------------------------------------------------------------
 
 void configmain(char *hugh) {
@@ -75,6 +75,7 @@ char *coinn(void) {
             
             strcpy(number,charset[target]); // Generate the number
             memmove(&charset[target], &charset[target + 1], strlen(charset) - target);
+            max_index--;
             // Check for duplicates
             for (j = 0; j < 6; j++)
             {
@@ -109,6 +110,7 @@ char *coinr(void) {
             
             strcpy(number,charset[target]); // Generate the number
             memmove(&charset[target], &charset[target + 1], strlen(charset) - target);
+            max_index--;
             // Check for duplicates
             for (int j = 0; j < 26; j++)
             {
