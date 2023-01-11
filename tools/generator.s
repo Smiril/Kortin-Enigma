@@ -68,7 +68,7 @@ LBB0_4:                                 ;   Parent Loop BB0_1 Depth=1
 	sub	w9, w9, #1
 	str	w9, [x19, _max_index@PAGEOFF]
 	add	x8, x8, #1
-	cmp	x8, #27
+	cmp	x8, #26
 	b.ne	LBB0_4
 ; %bb.6:                                ;   in Loop: Header=BB0_3 Depth=3
 	mov	w8, #1
@@ -79,7 +79,7 @@ LBB0_7:                                 ;   in Loop: Header=BB0_3 Depth=3
 	b	LBB0_3
 LBB0_8:                                 ;   in Loop: Header=BB0_2 Depth=2
 	add	w23, w23, #1
-	cmp	w23, #27
+	cmp	w23, #26
 	b.ne	LBB0_2
 ; %bb.9:                                ;   in Loop: Header=BB0_1 Depth=1
 	add	x0, sp, #14
@@ -127,7 +127,7 @@ LBB0_16:                                ;   in Loop: Header=BB0_12 Depth=2
 	b	LBB0_12
 LBB0_17:                                ;   in Loop: Header=BB0_11 Depth=1
 	add	w21, w21, #1
-	cmp	w21, #27
+	cmp	w21, #26
 	b.ne	LBB0_11
 ; %bb.18:
 	add	x0, sp, #14

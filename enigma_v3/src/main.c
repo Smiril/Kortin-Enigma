@@ -47,10 +47,10 @@ void configmain(char *hugh) {
     }
     while(fgets(line, len, fp) != NULL) {
         for (int i = 0; i < 6; i++){
-            snprintf(rotor[i][MSGC],MSGC,"%s", line);
+            snprintf(&rotor[i][MSGC],MSGC,"%s", line);
             }
-            snprintf(ref1[MSGC],MSGC,"%s",line);
-            snprintf(notch1[MSGG],MSGG,"%s",line);
+            snprintf(&ref1[MSGC],MSGC,"%s",line);
+            snprintf(&notch1[MSGG],MSGG,"%s",line);
     }
     free(line);
 }
@@ -62,7 +62,7 @@ static const char *coinn(void) {
     const char *number = NULL;
     int j = 0,i = 0;
     
-    for (i = 0; i < 27; i++)
+    for (i = 0; i < 26; i++)
     {
 
         do
@@ -98,7 +98,7 @@ static const char *coinr(void) {
     const char *number = NULL;
     int j = 0,i = 0;
     
-    for (i = 0; i < 27; i++)
+    for (i = 0; i < 26; i++)
     {
 
         do
@@ -106,7 +106,7 @@ static const char *coinr(void) {
             int target = rand() % max_index;
             strcpy(number,&charset[target]); // Generate
             // Check for duplicates
-            for (j = 0; j < 27; j++)
+            for (j = 0; j < 26; j++)
             {
                 if (number == picked[j])
                 {
