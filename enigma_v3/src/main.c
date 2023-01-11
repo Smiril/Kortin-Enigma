@@ -56,10 +56,8 @@ void configmain(char *hugh) {
 }
 
 //---------------------------------------------------------------------
-
 char *coinn(void) {
     bool isDuplicate = false;
-    
     const char picked[MSGG];
     const char number[MSGG];
     int j = 0;
@@ -70,9 +68,7 @@ char *coinn(void) {
         
         do
         {
-            int numberx = rand();
-            int target = numberx % max_index;
-            
+            int target = rand() % max_index;
             strcpy(number,charset[target]); // Generate the number
             memmove(&charset[target], &charset[target + 1], max_index - target);
             max_index--;
@@ -95,24 +91,21 @@ char *coinn(void) {
 
 char *coinr(void) {
     bool isDuplicate = false;
-    
     const char picked[MSGC];
     const char number[1];
     int j = 0;
     
-    for (int i = 0; i <= 26; i++)
+    for (int i = 0; i < 27; i++)
     {
         
         do
         {
-            int numberx = rand();
-            int target = numberx % max_index;
-            
+            int target = rand() % max_index;
             strcpy(number,charset[target]); // Generate the number
             memmove(&charset[target], &charset[target + 1], max_index - target);
             max_index--;
             // Check for duplicates
-            for (int j = 0; j <= 26; j++)
+            for (int j = 0; j < 27; j++)
             {
                 if (number == picked[j])
                 {
