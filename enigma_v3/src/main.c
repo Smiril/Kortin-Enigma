@@ -62,7 +62,7 @@ char *coinn(void) {
     const char number[1];
     int j = 0;
     
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 27; i++)
     {
 
         
