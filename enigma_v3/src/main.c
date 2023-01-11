@@ -56,7 +56,7 @@ void configmain(char *hugh) {
 }
 
 //---------------------------------------------------------------------
-char *coinn(void) {
+static const char *coinn(void) {
     bool isDuplicate = false;
     const char picked[MSGG];
     const char number[1];
@@ -89,7 +89,7 @@ char *coinn(void) {
     return picked;
 }
 
-char *coinr(void) {
+static const char *coinr(void) {
     bool isDuplicate = false;
     const char picked[MSGC];
     const char number[1];
