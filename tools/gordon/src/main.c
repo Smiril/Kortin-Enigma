@@ -10,9 +10,7 @@
 #define CA_PRIVATE_IMPLEMENTATION
 
 #include "add.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <getopt.h>
+
 //---------------------------------------------------------------------
 const char charset[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 int max_index = (sizeof(charset) - 1);
