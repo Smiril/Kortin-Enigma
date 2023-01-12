@@ -11,7 +11,7 @@
 
 #include "add.h"
 
-static const char *coinn(void) {
+static const char *coin(int fex) {
     bool isDuplicate = false;
     //---------------------------------------------------------------------
     const char charset[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -29,49 +29,7 @@ static const char *coinn(void) {
             int target = rand() % max_index; // Generate
             strncpy((char *)number,&charset[target],1); // Pick
             // Check for duplicates
-            for (j = 0; j < 5; j++)
-            {
-                if (number == &picked[j])
-                {
-                    isDuplicate = true;
-                    break; // Duplicate detected
-                }
-                else {
-                    memmove((void *)&charset[target], &charset[target + 1], max_index - target);
-                    max_index--;
-                    isDuplicate = false;
-                    break; // No Duplicate detected
-                }
-            } // end for
-        } // end do
-        while (isDuplicate); // equivalent to while(isDuplicate == true)
-        
-        if (!isDuplicate) { // equivalent to if(isDuplicate == false)
-            strncpy((char *)&picked[j],number,1); // picked
-        }
-    } // end for
-    return picked;
-}
-
-static const char *coinr(void) {
-    bool isDuplicate = false;
-    //---------------------------------------------------------------------
-    const char charset[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    int max_index = (sizeof(charset) - 1);
-    //---------------------------------------------------------------------
-    const char *picked = NULL;
-    const char *number = NULL;
-    int j = 0,i = 0;
-    
-    for (i = 0; i < 26; i++)
-    {
-        
-        do
-        {
-            int target = rand() % max_index; // Generate
-            strncpy((char *)number,&charset[target],1); // Pick
-            // Check for duplicates
-            for (j = 0; j < 26; j++)
+            for (j = 0; j < fex; j++)
             {
                 if (number == &picked[j])
                 {
@@ -97,9 +55,9 @@ static const char *coinr(void) {
 
 void configfile(void) {
     for (int i = 0; i < 6; i++){
-        printf("%s\n", coinr());
+        printf("%s\n", coin(26));
     }
-    printf("%s\n",coinn());
+    printf("%s\n",coin(5));
 }
 
 int main(void) {
