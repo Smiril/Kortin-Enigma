@@ -13,7 +13,7 @@
 git clone https://github.com/Smiril/Kortin-Enigma.git
 ```
 
-## Building
+## Building & Install
 
 ```
 cd Kortin-Enigma/tools/gordon/
