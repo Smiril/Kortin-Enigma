@@ -7,8 +7,9 @@
 
 #ifndef add_h
 #define add_h
+
 #include "air.h"
-#include "addx.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -24,5 +25,7 @@
 #include <ctype.h>
 #include <memory.h>
 #include <iconv.h>
+
+#include "addx.h"
 
 #endif /* add_h */
