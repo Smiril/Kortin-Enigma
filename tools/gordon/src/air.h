@@ -8,7 +8,7 @@
 #define AIR_GLOBE
 
 #define PROGNAME "Gordon"
-//#include "../config.h"
+#include "../config.h"
 #include <iconv.h>
 
 #endif /* air_h */
