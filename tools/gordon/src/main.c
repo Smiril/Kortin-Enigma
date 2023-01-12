@@ -11,13 +11,12 @@
 
 #include "add.h"
 
-//---------------------------------------------------------------------
-const char charset[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-int max_index = (sizeof(charset) - 1);
-//---------------------------------------------------------------------
-
 static const char *coinn(void) {
     bool isDuplicate = false;
+    //---------------------------------------------------------------------
+    const char charset[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    int max_index = (sizeof(charset) - 1);
+    //---------------------------------------------------------------------
     const char *picked = NULL;
     const char *number = NULL;
     int j = 0,i = 0;
@@ -56,6 +55,10 @@ static const char *coinn(void) {
 
 static const char *coinr(void) {
     bool isDuplicate = false;
+    //---------------------------------------------------------------------
+    const char charset[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    int max_index = (sizeof(charset) - 1);
+    //---------------------------------------------------------------------
     const char *picked = NULL;
     const char *number = NULL;
     int j = 0,i = 0;
