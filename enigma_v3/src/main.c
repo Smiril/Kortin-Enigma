@@ -82,16 +82,16 @@ static const char *coinn(void) {
                     memmove(&charset[target], &charset[target + 1], max_index - target);
                     max_index--;
                     isDuplicate = false;
-                    break; // No Duplicate detected
+                    // No Duplicate detected
                 }
-            }
-        }
+            } // end for
+        } // end do
         while (isDuplicate); // equivalent to while(isDuplicate == true)
         
-        if (!isDuplicate) { // equivalent to while(isDuplicate == false)
+        if (!isDuplicate) { // equivalent to if(isDuplicate == false)
             strcpy(picked[j],number); // picked
         }
-    }
+    } // end for
     return picked;
 }
 
@@ -120,16 +120,16 @@ static const char *coinr(void) {
                     memmove(&charset[target], &charset[target + 1], max_index - target);
                     max_index--;
                     isDuplicate = false;
-                    break; // No Duplicate detected
+                    // No Duplicate detected
                 }
-            }
-        }
+            } // end for
+        } // end do
         while (isDuplicate); // equivalent to while(isDuplicate == true)
         
-        if (!isDuplicate) { // equivalent to while(isDuplicate == false)
+        if (!isDuplicate) { // equivalent to if(isDuplicate == false)
             strcpy(picked[j],number); // picked
         }
-    }
+    } // end for
     return picked;
 }
 
