@@ -21,7 +21,7 @@ static const char *coin(int fex) {
     const char *number = NULL;
     int j = 0,i = 0;
     
-    for (i = 0; i < 26; i++)
+    for (i = 0; i < fex; i++)
     {
         
         do
