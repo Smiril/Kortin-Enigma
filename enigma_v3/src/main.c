@@ -82,7 +82,7 @@ static const char *coinn(void) {
                     memmove(&charset[target], &charset[target + 1], max_index - target);
                     max_index--;
                     isDuplicate = false;
-                    // No Duplicate detected
+                    break; // No Duplicate detected
                 }
             } // end for
         } // end do
@@ -120,7 +120,7 @@ static const char *coinr(void) {
                     memmove(&charset[target], &charset[target + 1], max_index - target);
                     max_index--;
                     isDuplicate = false;
-                    // No Duplicate detected
+                    break; // No Duplicate detected
                 }
             } // end for
         } // end do
