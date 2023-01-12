@@ -59,7 +59,7 @@ void configmain(char *hugh) {
 
 static const char *coinn(void) {
     bool isDuplicate = false;
-    const char picked[MSGG];
+    const char *picked = NULL;
     const char *number = NULL;
     int j = 0,i = 0;
     
@@ -69,17 +69,17 @@ static const char *coinn(void) {
         do
         {
             int target = rand() % max_index; // Generate
-            strcpy(number,&charset[target]); // Pick
+            strncpy((char *)number,&charset[target],1); // Pick
             // Check for duplicates
             for (j = 0; j < 5; j++)
             {
-                if (number == picked[j])
+                if (number[j] == picked[j])
                 {
                     isDuplicate = true;
                     break; // Duplicate detected
                 }
                 else {
-                    memmove(&charset[target], &charset[target + 1], max_index - target);
+                    memmove((void *)&charset[target], &charset[target + 1], max_index - target);
                     max_index--;
                     isDuplicate = false;
                     break; // No Duplicate detected
@@ -89,7 +89,7 @@ static const char *coinn(void) {
         while (isDuplicate); // equivalent to while(isDuplicate == true)
         
         if (!isDuplicate) { // equivalent to if(isDuplicate == false)
-            strcpy(picked[j],number); // picked
+            strncpy((char *)&picked[j],&number[j],1); // picked
         }
     } // end for
     return picked;
@@ -97,7 +97,7 @@ static const char *coinn(void) {
 
 static const char *coinr(void) {
     bool isDuplicate = false;
-    const char picked[MSGC];
+    const char *picked = NULL;
     const char *number = NULL;
     int j = 0,i = 0;
     
@@ -107,17 +107,17 @@ static const char *coinr(void) {
         do
         {
             int target = rand() % max_index; // Generate
-            strcpy(number,&charset[target]); // Pick
+            strncpy((char *)number,&charset[target],1); // Pick
             // Check for duplicates
             for (j = 0; j < 26; j++)
             {
-                if (number == picked[j])
+                if (number[j] == picked[j])
                 {
                     isDuplicate = true;
                     break; // Duplicate detected
                 }
                 else {
-                    memmove(&charset[target], &charset[target + 1], max_index - target);
+                    memmove((void *)&charset[target], &charset[target + 1], max_index - target);
                     max_index--;
                     isDuplicate = false;
                     break; // No Duplicate detected
@@ -127,7 +127,7 @@ static const char *coinr(void) {
         while (isDuplicate); // equivalent to while(isDuplicate == true)
         
         if (!isDuplicate) { // equivalent to if(isDuplicate == false)
-            strcpy(picked[j],number); // picked
+            strncpy((char *)&picked[j],&number[j],1); // picked
         }
     } // end for
     return picked;
