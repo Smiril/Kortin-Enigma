@@ -53,18 +53,14 @@ static const char *coin(int fex) {
     return picked;
 }
 
-void configfile(void) {
-    for (int i = 0; i < 6; i++){
-        printf("%s\n", coin(26));
-    }
-    printf("%s\n",coin(5));
-}
-
 int main(void) {
     time_t start, stop;
 
     start = time(NULL);
-    configfile();
+    for (int i = 0; i < 6; i++){
+        printf("%s\n", coin(26));
+    }
+    printf("%s\n",coin(5));
     stop = time(NULL);
     printf("Time elapsed : %ld seconds\n",(stop - start));
     
