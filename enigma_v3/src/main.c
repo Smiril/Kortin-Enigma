@@ -56,6 +56,7 @@ void configmain(char *hugh) {
 }
 
 //---------------------------------------------------------------------
+
 static const char *coinn(void) {
     bool isDuplicate = false;
     const char picked[MSGG];
@@ -64,11 +65,11 @@ static const char *coinn(void) {
     
     for (i = 0; i < 26; i++)
     {
-
+        
         do
         {
-            int target = rand() % max_index;
-            strcpy(number,&charset[target]); // Generate
+            int target = rand() % max_index; // Generate
+            strcpy(number,&charset[target]); // Pick
             // Check for duplicates
             for (j = 0; j < 5; j++)
             {
@@ -80,13 +81,15 @@ static const char *coinn(void) {
                 else {
                     memmove(&charset[target], &charset[target + 1], max_index - target);
                     max_index--;
+                    isDuplicate = false;
+                    break; // No Duplicate detected
                 }
             }
         }
         while (isDuplicate); // equivalent to while(isDuplicate == true)
         
-        if (!isDuplicate) {
-            strcpy(picked[j],number);
+        if (!isDuplicate) { // equivalent to while(isDuplicate == false)
+            strcpy(picked[j],number); // picked
         }
     }
     return picked;
@@ -100,11 +103,11 @@ static const char *coinr(void) {
     
     for (i = 0; i < 26; i++)
     {
-
+        
         do
         {
-            int target = rand() % max_index;
-            strcpy(number,&charset[target]); // Generate
+            int target = rand() % max_index; // Generate
+            strcpy(number,&charset[target]); // Pick
             // Check for duplicates
             for (j = 0; j < 26; j++)
             {
@@ -116,18 +119,19 @@ static const char *coinr(void) {
                 else {
                     memmove(&charset[target], &charset[target + 1], max_index - target);
                     max_index--;
+                    isDuplicate = false;
+                    break; // No Duplicate detected
                 }
             }
         }
         while (isDuplicate); // equivalent to while(isDuplicate == true)
         
-        if (!isDuplicate) {
-            strcpy(picked[j],number);
+        if (!isDuplicate) { // equivalent to while(isDuplicate == false)
+            strcpy(picked[j],number); // picked
         }
     }
     return picked;
 }
-
 
 int getRank(char *cyph) {
 
