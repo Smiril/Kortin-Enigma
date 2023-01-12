@@ -73,7 +73,7 @@ static const char *coinn(void) {
             // Check for duplicates
             for (j = 0; j < 5; j++)
             {
-                if (number[j] == picked[j])
+                if (number == &picked[j])
                 {
                     isDuplicate = true;
                     break; // Duplicate detected
@@ -89,7 +89,7 @@ static const char *coinn(void) {
         while (isDuplicate); // equivalent to while(isDuplicate == true)
         
         if (!isDuplicate) { // equivalent to if(isDuplicate == false)
-            strncpy((char *)&picked[j],&number[j],1); // picked
+            strncpy((char *)&picked[j],number,1); // picked
         }
     } // end for
     return picked;
@@ -111,7 +111,7 @@ static const char *coinr(void) {
             // Check for duplicates
             for (j = 0; j < 26; j++)
             {
-                if (number[j] == picked[j])
+                if (number == &picked[j])
                 {
                     isDuplicate = true;
                     break; // Duplicate detected
@@ -127,7 +127,7 @@ static const char *coinr(void) {
         while (isDuplicate); // equivalent to while(isDuplicate == true)
         
         if (!isDuplicate) { // equivalent to if(isDuplicate == false)
-            strncpy((char *)&picked[j],&number[j],1); // picked
+            strncpy((char *)&picked[j],number,1); // picked
         }
     } // end for
     return picked;
