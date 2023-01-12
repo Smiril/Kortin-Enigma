@@ -11,12 +11,4 @@
 #define MSGC 26
 #define MSGG 5
 
-// timer
-
-#if defined(__APPLE__) && defined(MISSING_CLOCK_GETTIME)
-typedef struct timeval    hc_timer_t;
-#else
-typedef struct timespec   hc_timer_t;
-#endif
-
 #endif /* addx_h */
