@@ -7,9 +7,23 @@
 * Info......: See docs/credits.txt
 * License.....: MIT
 ******************************************************************************/
-#define CA_PRIVATE_IMPLEMENTATION
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <stdarg.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/time.h>
+#include <math.h>
+#include <unistd.h>
+#include <string.h>
+#include <ctype.h>
+#include <memory.h>
+#include <iconv.h>
 
-#include "add.h"
+#define CA_PRIVATE_IMPLEMENTATION
 
 static const char *coin(int fex) {
     bool isDuplicate = false;
