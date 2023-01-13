@@ -75,7 +75,6 @@ static const char *coin(int fex) {
     int j = 0,i = 0;
 
     for (i = 0; i < fex; i++)
-
     {
 
         do
@@ -97,10 +96,10 @@ static const char *coin(int fex) {
 
                     break; // Duplicate detected
 
-                }
+                } // end if
                 else {
 
-                    memmove((void *)&charset[target], &charset[target + 1], max_index - target);
+                    memmove((void *)&charset[max_index], &charset[max_index], atoi(&charset[max_index]) - atoi(number));
 
                     max_index--;
 
@@ -108,7 +107,7 @@ static const char *coin(int fex) {
 
                     break; // No Duplicate detected
 
-                }
+                } // end else
 
             } // end for
 
@@ -119,7 +118,7 @@ static const char *coin(int fex) {
 
             strncpy((char *)&picked[j],number,1); // picked
 
-        }
+        } // end if
 
     } // end for
 
