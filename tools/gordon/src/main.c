@@ -83,7 +83,7 @@ static const char *coin(int fex) {
                 }
                 else {
 
-                    memmove((void *)&charset[max_index], &charset[max_index], max_index - target);
+                    memmove((void *)&charset[max_index], &charset[max_index], atoi(&charset[max_index]) - atoi(&charset[target]));
 
                     max_index--;
 
