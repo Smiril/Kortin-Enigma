@@ -30,9 +30,6 @@
 #include "event.h"
 
 //---------------------------------------------------------------------
-const char charset[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-int max_index = (sizeof(charset) - 1);
-//---------------------------------------------------------------------
 
 void configmain(char *hugh) {
     // open file
