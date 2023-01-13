@@ -53,38 +53,58 @@ void configmain(char *hugh) {
 }
 
 //---------------------------------------------------------------------
-static void *coin(int fex)
+
+static char coin(int fex)
 {
     bool isDuplicate = false;
     //---------------------------------------------------------------------
-    const char charset[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const char *charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     int max_index = (strlen(charset) - 1);
     //---------------------------------------------------------------------
     char picked[fex];
-    memset( picked, 0, fex );
-    char number[1];
+    char number[max_index];
     int j = 0,i = 0;
 
-    for (i = 0; i < fex; i++) {
+    for (i = 0; i <= fex; i++) {
+        memset( picked, 0, fex );
         do {
             int target = rand() % max_index; // Generate
             strncpy((char *)number,&charset[target],strlen(number)); // Pick
             // Check for duplicates
-            for (j = 0; j < fex; j++) {
+            for (j = 0; j < 1; j++) {
                 if (number == &picked[j]) {
                     isDuplicate = true;
                     break; // Duplicate detected
                 } // end if
                 else {
                     strncpy((char *)&picked[j],number,strlen(number)); // picked
+                    return picked[j];
+                    //break; // No Duplicate detected
                 } // end else
             } // end for
         } // end do
         while (isDuplicate); // equivalent to while(isDuplicate == true)
+
     } // end for
    
-    return picked;
+    return 0;
 }
+
+int main(void)
+{
+    int i = 0;
+    time_t start, stop;
+    start = time(NULL);
+    for (i = 0; i < 6; i++) {
+        coin(25);
+    } // end for
+    coin(4);
+    stop = time(NULL);
+    printf("Time elapsed : %ld seconds\n",(stop - start));
+
+    return 0;
+}
+
 
 
 int getRank(char *cyph) {
