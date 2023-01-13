@@ -56,75 +56,39 @@ void configmain(char *hugh) {
 }
 
 //---------------------------------------------------------------------
-static const char *coin(int fex) {
-
+static void *coin(int fex)
+{
     bool isDuplicate = false;
-
     //---------------------------------------------------------------------
-
     const char charset[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-    int max_index = (sizeof(charset) - 1);
-
+    int max_index = (strlen(charset) - 1);
     //---------------------------------------------------------------------
-
-    const char *picked = NULL;
-
-    const char *number = NULL;
-
+    char picked[fex];
+    memset( picked, 0, fex );
+    char number[1];
     int j = 0,i = 0;
 
-    for (i = 0; i < fex; i++)
-    {
-
-        do
-        {
-
+    for (i = 0; i < fex; i++) {
+        do {
             int target = rand() % max_index; // Generate
-
-            strncpy((char *)number,&charset[target],1); // Pick
-
+            strncpy((char *)number,&charset[target],strlen(number)); // Pick
             // Check for duplicates
-
-            for (j = 0; j < fex; j++)
-            {
-
-                if (number == &picked[j])
-                {
-
+            for (j = 0; j < fex; j++) {
+                if (number == &picked[j]) {
                     isDuplicate = true;
-
                     break; // Duplicate detected
-
                 } // end if
                 else {
-
-                    memmove((void *)&charset[max_index], &charset[max_index], atoi(&charset[max_index]) - atoi(number));
-
-                    max_index--;
-
-                    isDuplicate = false;
-
-                    break; // No Duplicate detected
-
+                    strncpy((char *)&picked[j],number,strlen(number)); // picked
                 } // end else
-
             } // end for
-
         } // end do
         while (isDuplicate); // equivalent to while(isDuplicate == true)
-
-        if (!isDuplicate) { // equivalent to if(isDuplicate == false)
-
-            strncpy((char *)&picked[j],number,1); // picked
-
-        } // end if
-
     } // end for
-
+   
     return picked;
-
 }
+
 
 int getRank(char *cyph) {
 
