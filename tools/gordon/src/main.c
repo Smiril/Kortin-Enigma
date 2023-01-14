@@ -25,7 +25,7 @@ static char coin(int fex)
 {
     bool isDuplicate = false;
     //---------------------------------------------------------------------
-    char charset[26] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    char charset[27] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     //int max_index = (strlen(charset));
     int max_index = (sizeof(charset) - 1);
     //---------------------------------------------------------------------
