@@ -21,58 +21,79 @@
 
 #define CA_PRIVATE_IMPLEMENTATION
 
-static char coin(int fex)
+static char coin(int fex,int war)
 {
     bool isDuplicate = false;
     //---------------------------------------------------------------------
     char charset[27] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    //int max_index = (strlen(charset));
-    int max_index = (sizeof(charset) - 1);
+    int max_index = (strlen(charset) - 1);
+    //int max_index = (sizeof(charset) - 1);
     //---------------------------------------------------------------------
-    ///int fox = malloc(fex);
     char picked[fex];
-    //char number[1];
     char newabc[1];
     int j = 0,i = 0;
-    
+
     for (i = 0; i <= fex; i++) {
         memset( picked, 0, fex );
         do {
-            newabc[0] = charset[rand() % max_index];
+            newabc[0] = charset[random() % max_index];
             // Check for duplicates
             for (j = 0; j <= fex; j++) {
                 if (&newabc[0] == &picked[j]) {
                     isDuplicate = true;
                     break; // Duplicate detected
                 } // end if
-                else {
-                    strncpy((char *)&picked[j],&newabc[0],strlen(&newabc[0])); // picked
-                    printf("%c",picked[j]);
-                    memmove((void *)&charset[max_index],&charset[max_index],max_index - 1);
+                else if(&newabc[0] != &picked[j]){
+                    if (war == 0) {
+                        strncpy((char *)&picked[j],&newabc[0],strlen(&newabc[0])); // picked
+                        printf("%c",picked[j]);
+                        memmove((void *)&charset[max_index],(void *)&charset[(max_index - atoi(newabc))],max_index - atoi(newabc));
+                    }
+                    isDuplicate = false;
                     break;
-                    //isDuplicate = false;
+                } // end else if
+                else {
+                    printf("Error\n");
+                    return -1;
                 } // end else
             } // end for
         } // end do
-        while (isDuplicate); // equivalent to while(isDuplicate == true)
+        while (isDuplicate && j == fex); // equivalent to while(isDuplicate == false)
         
-        //strncpy((char *)&picked[j],&newabc[1],strlen(&newabc[1])); // picked
-        //printf("%c",picked[j]);
+        if (war == 1) {
+            strncpy((char *)&picked[j],&newabc[0],strlen(&newabc[0])); // picked
+            printf("%c",picked[j]);
+            memmove((void *)&charset[max_index],&charset[(max_index - atoi(newabc))],max_index - atoi(newabc));
+        }
     } // end for
     printf("\n");
-    
+
     return 0;
 }
 
-int main(void)
+int main(int argc,char **argv)
 {
+    
+    if(argc < 3 || argc > 3){ /*main case*/
+          printf("\x1b[32m");
+          printf("\nOption usage: %s <num> <num>\n",argv[0]);
+          printf("\x1b[0m");
+          return -1;
+      }
+    
     int i = 0;
     time_t start, stop;
     start = time(NULL);
-    for (i = 0; i < 6; i++) {
-        coin(25);
+    for (i = 0; i < atoi(argv[1]); i++) {
+        printf("\x1b[35m");
+        coin(atoi(argv[2]),1);
+        printf("\x1b[0m");
     } // end for
-    coin(4);
+    for (i = 0; i < atoi(argv[1]); i++) {
+        printf("\x1b[32m");
+        coin(atoi(argv[2]),0);
+        printf("\x1b[0m");
+    } // end for
     stop = time(NULL);
     printf("Time elapsed : %ld seconds\n",(stop - start));
 

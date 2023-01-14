@@ -1,5 +1,5 @@
 # Gordon
- Enigma rotors + Reflector and NOTch Generator
+ Enigma NOTch Generator
 ### Gordon 0.0.1 - T.E.D - The Enemy Dail - "KOENIG MARTIN"
 
 ```
