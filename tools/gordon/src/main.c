@@ -74,9 +74,9 @@ static char coin(int fex,int war)
 int main(int argc,char **argv)
 {
     
-    if(argc < 3 || argc > 3){ /*main case*/
+    if(argc < 2 || argc > 2){ /*main case*/
           printf("\x1b[32m");
-          printf("\nOption usage: %s <num> <num>\n",argv[0]);
+          printf("\nOption usage: %s <num>\n",argv[0]);
           printf("\x1b[0m");
           return -1;
       }
@@ -86,12 +86,12 @@ int main(int argc,char **argv)
     start = time(NULL);
     for (i = 0; i < atoi(argv[1]); i++) {
         printf("\x1b[35m");
-        coin(atoi(argv[2]),1);
+        coin(4,1);
         printf("\x1b[0m");
     } // end for
     for (i = 0; i < atoi(argv[1]); i++) {
         printf("\x1b[32m");
-        coin(atoi(argv[2]),0);
+        coin(4,0);
         printf("\x1b[0m");
     } // end for
     stop = time(NULL);
