@@ -57,72 +57,54 @@ void configmain(char *hugh) {
 }
 
 //---------------------------------------------------------------------
-static char *coin(int fex)
+static char coin(int fex,int war)
 {
-
     bool isDuplicate = false;
- 
     //---------------------------------------------------------------------
-
-    const char charset[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
+    char charset[27] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     int max_index = (strlen(charset) - 1);
-
+    //int max_index = (sizeof(charset) - 1);
     //---------------------------------------------------------------------
-    char picked[fex - 1];
-    
-    memset( picked, 0, fex - 1 );
-    
-    char number[1];
-
+    char picked[fex];
+    char newabc[1];
     int j = 0,i = 0;
 
-    for (i = 0; i < fex; i++) {
-
+    for (i = 0; i <= fex; i++) {
+        memset( picked, 0, fex );
         do {
-
-            int target = rand() % max_index; // Generate
-
-            strncpy((char *)number,&charset[target],strlen(number)); // Pick
-
+            newabc[0] = charset[random() % max_index];
             // Check for duplicates
-
-            for (j = 0; j < fex; j++) {
-
-                if (number == &picked[j]) {
-
+            for (j = 0; j <= fex; j++) {
+                if (&newabc[0] == &picked[j]) {
                     isDuplicate = true;
-
-                    // break; // Duplicate detected
-
+                    break; // Duplicate detected
                 } // end if
-                //else {
-
-                    //memmove((void *)&charset[max_index], &charset[max_index], max_index - strlen(number));
-
-                    //max_index--;
-
-                    //isDuplicate = false;
-
-                    // break; // No Duplicate detected
-
-                //} // end else
-
+                else if(&newabc[0] != &picked[j]){
+                    if (war == 0) {
+                        strncpy((char *)&picked[j],&newabc[0],strlen(&newabc[0])); // picked
+                        //printf("%c",picked[j]);
+                        memmove((void *)&charset[max_index],(void *)&charset[(max_index - atoi(newabc))],max_index - atoi(newabc));
+                    }
+                    isDuplicate = false;
+                    break;
+                } // end else if
+                else {
+                    printf("Error\n");
+                    return -1;
+                } // end else
             } // end for
-
         } // end do
-        while (isDuplicate); // equivalent to while(isDuplicate == true)
-
-        //if (!isDuplicate) { // equivalent to if(isDuplicate == false)
-
-            strncpy((char *)&picked[j],number,strlen(number)); // picked
-
-        //} // end if
-
+        while (isDuplicate && j == fex); // equivalent to while(isDuplicate == false)
+        
+        if (war == 1) {
+            strncpy((char *)&picked[j],&newabc[0],strlen(&newabc[0])); // picked
+            //printf("%c",picked[j]);
+            memmove((void *)&charset[max_index],&charset[(max_index - atoi(newabc))],max_index - atoi(newabc));
+        }
     } // end for
-    //printf("%s\n",picked);
-   
-   return picked;
+    //printf("\n");
+
+    return picked;
 }
 
 int getRank(char *cyph) {
@@ -728,17 +710,17 @@ void permuteOnce(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *c
 char *readCh(void)
 {
     char c, ret = '\0';
-  while((c = getchar()) != '\n')
-  ret = c;
-  return ret;
+    scanf("%1318s", &c);
+    ret = c;
+    return &ret;
 }
 /*init the starting position*/
 void initParams(main_ctx_t *main_ctx)
 {
-  int i,k,j;
-  char c,d,g;
+  int i;
+  char c,a;
   printf("d)efault or u)ser: ");
-  c = readCh();
+  c = *readCh();
   if(c != 'u')
   {
       if(strcmp(nerd, "--option-1") == 0)
@@ -749,46 +731,31 @@ void initParams(main_ctx_t *main_ctx)
       for(i = 0; i < 5; i++)
       {
         printf("Wheel %d: ", i + 1);
-        main_ctx->order[i] = readCh() - 48;
+        main_ctx->order[i] = *(readCh() - 48);
       }
       for(i = 0; i < 5; i++)
       {
         printf("Start %d: ", i + 1);
-        main_ctx->pos[i] = readCh();
+        main_ctx->pos[i] = *readCh();
       }
       for(i = 0; i < 5; i++)
       {
         printf("Ring  %d: ", i + 1);
-        main_ctx->rings[i] = readCh();
+        main_ctx->rings[i] = *readCh();
       }
       printf("Stecker: ");
-      i = 0;
-      while((d = readCh()) != '\n')
-      {
-        main_ctx->plug[i] = d;
-        i++;
+      while((a = readCh()) != '\n') {
+          main_ctx->plug[i] = a;
+          i++;
       }
       main_ctx->plug[i] = '\0';
   }
   else
   {
       printf("Reflector: ");
-      k = 0;
-      while((d = readCh()) != '\n')
-      {
-      ukw[k] = d;
-      k++;
-      }
-      ukw[k] = '\0';
-      
+      ukw = readCh();
       printf("NOTCH: ");
-      j = 0;
-      while((g = readCh()) != '\n')
-      {
-      nox[j] = g;
-      j++;
-      }
-      nox[j] = '\0';
+      nox = readCh();
       
       for(i = 0; i < 5; i++)
       {
@@ -806,14 +773,11 @@ void initParams(main_ctx_t *main_ctx)
         main_ctx->rings[i] = readCh();
       }
       printf("Stecker: ");
-      i = 0;
-      while((c = readCh()) != '\n')
-      {
-        main_ctx->plug[i] = c;
-        i++;
+      while((a = readCh()) != '\n') {
+          main_ctx->plug[i] = a;
+          i++;
       }
       main_ctx->plug[i] = '\0';
-        
   }
   printf("\x1B[33mWheels\x1B[39m \x1B[32m %d %d %d %d %d \x1B[39m \x1B[33mStart\x1B[39m \x1B[32m %c %c %c %c %c \x1B[39m \x1B[33mRings\x1B[39m \x1B[32m %c %c %c %c %c \x1B[39m Stecker \"\x1B[32m%s\x1B[39m\"\n\x1B[33mReflector\x1B[39m \x1B[32m %s \x1B[39m \x1B[33mNOTch\x1B[39m\x1B[32m %s \x1B[39m\n",
          main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4],
@@ -824,17 +788,16 @@ void initParams(main_ctx_t *main_ctx)
 void sbfParams(main_ctx_t *main_ctx)
 {
     hashcat_ctx_t *hashcat_ctx = NULL;
-    
-  int i,j,k,l;
-  char *f,*a,*b,*d,*g;
+    int i;
+    char *f,*a;
   printf("d)efault or u)ser: ");
   f = readCh();
   if(f != 'u')
   {
       if(strcmp(nerd, "--option-1b") == 0)
       {
-          strlcpy(ukw,ref1,MSGC);
-          strlcpy(nox,notch1,MSGG);
+          strncpy(ukw,ref1,MSGC);
+          strncpy(nox,notch1,MSGG);
       }
       for(i = 0; i < 5; i++)
       {
@@ -843,48 +806,42 @@ void sbfParams(main_ctx_t *main_ctx)
       }
       
       printf("Message: ");
-      i = 0;
-      while((a = readCh()) != '\n')
-      {
-      main_ctx->cyph[i] = *a;
-      i++;
+      while((a = readCh()) != '\n') {
+          main_ctx->cyph[i] = *a;
+          i++;
       }
       main_ctx->cyph[i] = '\0';
       
       printf("Dict: ");
-      l = 0;
-      while((b = readCh()) != '\n')
-      {
-      framex[l] = *b;
-      l++;
+      while((a = readCh()) != '\n') {
+          framex[i] = *a;
+          i++;
       }
-      framex[l] = '\0';
+      framex[i] = '\0';
   }
   else
   {
     printf("Reflector: ");
-    j = 0;
-    while((d = readCh()) != '\n')
-    {
-    ukw[j] = *d;
-    j++;
-    }
-    ukw[j] = '\0';
+      while((a = readCh()) != '\n') {
+          ukw[i] = *a;
+          i++;
+      }
+      ukw[i] = '\0';
+      
     if(strcmp(ukw,"xxxxx") == 0)
     {
-          strlcpy(ukw,coin(26),MSGC);
+          strncpy(ukw,coin(25,0),MSGC);
     }
     printf("NOTCH: ");
-    k = 0;
-    while((g = readCh()) != '\n')
-    {
-    nox[k] = *g;
-    k++;
-    }
-    nox[k] = '\0';
+      while((a = readCh()) != '\n') {
+          nox[i] = *a;
+          i++;
+      }
+      nox[i] = '\0';
+      
     if(strcmp(nox,"xxxxx") == 0)
     {
-          strlcpy(nox,coin(5),MSGG);
+          strncpy(nox,coin(4,0),MSGG);
     }
     for(i = 0; i < 5; i++)
     {
@@ -901,14 +858,11 @@ void sbfParams(main_ctx_t *main_ctx)
     main_ctx->cyph[i] = '\0';
     
     printf("Dict: ");
-    l = 0;
-    while((b = readCh()) != '\n')
-    {
-    framex[l] = *b;
-    l++;
-    }
-    framex[l] = '\0';
-        
+      while((a = readCh()) != '\n') {
+          framex[i] = *a;
+          i++;
+      }
+      framex[i] = '\0';
   }
     printf("\x1B[33mWheels\x1B[39m \x1B[32m %d %d %d %d %d \x1B[39m \x1B[33mMessage\x1B[39m\x1B[32m %s \x1B[39m\x1B[33mDict\x1B[39m \x1B[32m %s \x1B[39m\n\x1B[33mReflector\x1B[39m \x1B[32m %s \x1B[39m \x1B[33mNOTch\x1B[39m\x1B[32m %s \x1B[39m\n",
            main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4], main_ctx->cyph, framex,ukw,nox);
@@ -918,9 +872,8 @@ void sbfParams(main_ctx_t *main_ctx)
 void bfParams(main_ctx_t *main_ctx)
 {
     hashcat_ctx_t *hashcat_ctx = NULL;
-    
-  int i,j,k,l;
-  char *c,*a,*b,*d,*g;
+    int i;
+  char *c,*a;
   printf("d)efault or u)ser: ");
   c = readCh();
   if(c != 'u')
@@ -931,67 +884,51 @@ void bfParams(main_ctx_t *main_ctx)
           strlcpy(nox,notch1,MSGG);
       }
       printf("Message: ");
-      i = 0;
-      while((a = readCh()) != '\n')
-      {
-      main_ctx->cyph[i] = *a;
-      i++;
+      while((a = readCh()) != '\n') {
+          main_ctx->cyph[i] = *a;
+          i++;
       }
       main_ctx->cyph[i] = '\0';
       
       printf("Dict: ");
-      l = 0;
-      while((b = readCh()) != '\n')
-      {
-      framex[l] = *b;
-      l++;
+      while((a = readCh()) != '\n') {
+          framex[i] = *a;
+          i++;
       }
-      framex[l] = '\0';
+      framex[i] = '\0';
           
   }
   else
   {
       printf("Reflector: ");
-      j = 0;
-      while((d = readCh()) != '\n')
-      {
-      ukw[j] = *d;
-      j++;
-      }
-      ukw[j] = '\0';
+      ukw = readCh();
       if(strcmp(ukw,"xxxxx") == 0)
       {
-            strlcpy(ukw,coin(26),MSGC);
+            strncpy(ukw,coin(25,0),MSGC);
       }
       printf("NOTCH: ");
-      k = 0;
-      while((g = readCh()) != '\n')
-      {
-      nox[k] = *g;
-      k++;
+      while((a = readCh()) != '\n') {
+          nox[i] = *a;
+          i++;
       }
-      nox[k] = '\0';
+      nox[i] = '\0';
+      
       if(strcmp(nox,"xxxxx") == 0)
       {
-            strlcpy(nox,coin(5),MSGG);
+            strncpy(nox,coin(4,0),MSGG);
       }
       printf("Message: ");
-      i = 0;
-      while((a = readCh()) != '\n')
-      {
-      main_ctx->cyph[i] = *a;
-      i++;
+      while((a = readCh()) != '\n') {
+          main_ctx->cyph[i] = *a;
+          i++;
       }
       main_ctx->cyph[i] = '\0';
-      
       printf("Dict: ");
-      l = 0;
-      while((b = readCh()) != '\n')
-      {
-      framex[l] = *b;
-      l++;
+      while((a = readCh()) != '\n') {
+          framex[i] = *a;
+          i++;
       }
-      framex[l] = '\0';
+      framex[i] = '\0';
         
   }
     printf("\x1B[33mMessage\x1B[39m\x1B[32m %s \x1B[39m\x1B[33mDict\x1B[39m \x1B[32m %s \x1B[39m\n\x1B[33mReflector\x1B[39m \x1B[32m %s \x1B[39m \x1B[33mNOTch\x1B[39m\x1B[32m %s \x1B[39m\n",
@@ -1010,7 +947,8 @@ int main(int argc, char **argv) {
           printf("\x1b[0m");
           return -1;
       }
-    
+    int i;
+    char *a;
         hashcat_session_init (hashcat_ctx, "~/bin", "~/share", argc, argv,atoi("01-01-2023 00:00:01"));
         // now execute hashcat
         backend_info_compact (hashcat_ctx);
@@ -1020,14 +958,11 @@ int main(int argc, char **argv) {
         if(strcmp(argv[1], "--option-1a") == 0)
         {
             printf("Config File: ");
-            char *b;
-            int l = 0;
-            while((b = readCh()) != '\n')
-            {
-            flames[l] = *b;
-            l++;
+            while((a = readCh()) != '\n') {
+                flames[i] = *a;
+                i++;
             }
-            flames[l] = '\0';
+            flames[i] = '\0';
             strcpy(nerd,argv[1]);
             configmain(flames);
             printf("Option 1\n");
@@ -1037,14 +972,11 @@ int main(int argc, char **argv) {
         if(strcmp(argv[1], "--option-1b") == 0)
         {
             printf("Config File: ");
-            char *b;
-            int l = 0;
-            while((b = readCh()) != '\n')
-            {
-            flames[l] = *b;
-            l++;
+            while((a = readCh()) != '\n') {
+                flames[i] = *a;
+                i++;
             }
-            flames[l] = '\0';
+            flames[i] = '\0';
             strcpy(nerd,argv[1]);
             configmain(flames);
             printf("Option 1\n");
@@ -1054,14 +986,11 @@ int main(int argc, char **argv) {
         if(strcmp(argv[1], "--option-1") == 0)
         {
             printf("Config File: ");
-            char *b;
-            int l = 0;
-            while((b = readCh()) != '\n')
-            {
-            flames[l] = *b;
-            l++;
+            while((a = readCh()) != '\n') {
+                flames[i] = *a;
+                i++;
             }
-            flames[l] = '\0';
+            flames[i] = '\0';
             strcpy(nerd,argv[1]);
             configmain(flames);
             printf("Enigma\n");

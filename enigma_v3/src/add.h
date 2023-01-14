@@ -26,14 +26,14 @@
 #include <memory.h>
 #include <iconv.h>
 
-char x[MSGLEN] = "A";
-char s[MSGP] = "A";
-char fff[MSGLEN] = "A";
+char *x = "A";
+char *s = "A";
+char *fff = "A";
 char nerd[MSGX];
-char framex[MSGY];
-char flames[MSGY];
-char ukw[MSGC];
-char nox[MSGG];
+char *framex;
+char *flames;
+char *ukw;
+char *nox;
 int oldrank = IN_RANK;
 
 /* Rotor wirings */
