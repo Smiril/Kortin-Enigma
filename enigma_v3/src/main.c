@@ -710,7 +710,7 @@ void permuteOnce(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *c
 char *readCh(void)
 {
     char c, ret = '\0';
-    scanf("%1318c", &c);
+    scanf("%999999c", &c);
     ret = c;
     return &ret;
 }
