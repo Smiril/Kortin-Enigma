@@ -21,42 +21,46 @@
 
 #define CA_PRIVATE_IMPLEMENTATION
 
-
 static char coin(int fex)
 {
     bool isDuplicate = false;
     //---------------------------------------------------------------------
-    const char *charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    int max_index = (strlen(charset) - 1);
+    char charset[27] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    //int max_index = (strlen(charset));
+    int max_index = (sizeof(charset) - 1);
     //---------------------------------------------------------------------
+    ///int fox = malloc(fex);
     char picked[fex];
-    char number[max_index];
-    int j = 0,i = 0;
+    //char number[1];
+    char newabc[1];
+    int j = 0,i = 0,k = 0;
 
     for (i = 0; i <= fex; i++) {
         memset( picked, 0, fex );
         do {
-            int target = rand() % max_index; // Generate
-            strncpy((char *)number,&charset[target],strlen(number)); // Pick
+            for (k = 0 ; k <= 1; k++) {
+                newabc[k] = charset[rand() % max_index];
+            } // end for
             // Check for duplicates
-            for (j = 0; j < 1; j++) {
-                if (number == &picked[j]) {
-                    isDuplicate = true;
-                    break; // Duplicate detected
+            for (j = 0; j <= fex; j++) {
+                if (&newabc[k] == &picked[j]) {
+                        isDuplicate = true;
+                        break; // Duplicate detected
                 } // end if
                 else {
-                    strncpy((char *)&picked[j],number,strlen(number)); // picked
-                    printf("%c",picked[j]);
-                    //return picked[j];
-                    //break; // No Duplicate detected
+                    memmove((void *)&charset[max_index],&charset[max_index],max_index - strlen(&newabc[k]));
+                    isDuplicate = false;
                 } // end else
             } // end for
         } // end do
         while (isDuplicate); // equivalent to while(isDuplicate == true)
-
+        
+        strncpy((char *)&picked[j],&newabc[k],strlen(&newabc[k])); // picked
+        printf("%c",picked[j]);
+        
     } // end for
     printf("\n");
-   
+    
     return 0;
 }
 
@@ -74,4 +78,3 @@ int main(void)
 
     return 0;
 }
-
