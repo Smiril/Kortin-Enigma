@@ -29,11 +29,6 @@
 #include "shared.h"
 #include "event.h"
 
-//---------------------------------------------------------------------
-const char charset[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-int max_index = (sizeof(charset) - 1);
-//---------------------------------------------------------------------
-
 void configmain(char *hugh) {
     // open file
     FILE *fp = fopen(hugh, "r");
@@ -946,9 +941,11 @@ int main(int argc, char **argv) {
           printf("\nOption usage: %s --help\n",argv[0]);
           printf("\x1b[0m");
           return -1;
-      }
-    int i;
-    char *a;
+        }
+   
+        int i;
+        char *a;
+        
         hashcat_session_init (hashcat_ctx, "~/bin", "~/share", argc, argv,atoi("01-01-2023 00:00:01"));
         // now execute hashcat
         backend_info_compact (hashcat_ctx);
