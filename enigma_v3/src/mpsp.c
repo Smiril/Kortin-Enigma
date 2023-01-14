@@ -257,7 +257,7 @@ static int mp_add_cs_buf (hashcat_ctx_t *hashcat_ctx, const u32 *in_buf, size_t 
 
   return 0;
 }
-
+/*
 static int mp_expand (hashcat_ctx_t *hashcat_ctx, const char *in_buf, size_t in_len, cs_t *mp_sys, cs_t *mp_usr, u32 mp_usr_offset, int interpret)
 {
   const hashconfig_t *hashconfig = hashcat_ctx->hashconfig;
@@ -365,7 +365,7 @@ static int mp_expand (hashcat_ctx_t *hashcat_ctx, const char *in_buf, size_t in_
 
   return 0;
 }
-
+*/
 static int mp_gen_css (hashcat_ctx_t *hashcat_ctx, char *mask_buf, size_t mask_len, cs_t *mp_sys, cs_t *mp_usr, cs_t *css_buf, u32 *css_cnt)
 {
   const hashconfig_t *hashconfig = hashcat_ctx->hashconfig;
@@ -586,10 +586,10 @@ static void mp_setup_sys (cs_t *mp_sys)
   for (pos = 10, chr = 0x41; chr <= 0x46; chr++) { mp_sys[7].cs_buf[pos++] = chr;
                                                    mp_sys[7].cs_len = pos; }
 }
-
+/*
 static int mp_setup_usr (hashcat_ctx_t *hashcat_ctx, cs_t *mp_sys, cs_t *mp_usr, const char *buf, const u32 userindex)
 {
-  HCFILE fp;
+  FILE fp;
 
   if (fopen ( buf, "rb") == false)
   {
@@ -623,7 +623,7 @@ static int mp_setup_usr (hashcat_ctx_t *hashcat_ctx, cs_t *mp_sys, cs_t *mp_usr,
 
     mp_file[nread] = 0;
 
-    const size_t len = fstat(fileno(mp_file), nread);
+    const size_t len = fstat(fileno(&mp_file), nread);
 
     if (len == 0)
     {
@@ -633,20 +633,23 @@ static int mp_setup_usr (hashcat_ctx_t *hashcat_ctx, cs_t *mp_sys, cs_t *mp_usr,
     }
 
     const int rc = mp_expand (hashcat_ctx, mp_file, len, mp_sys, mp_usr, userindex, 0);
-
-    if (rc == -1) return -1;
+      
+      //fclose (&fp);
+      
+      if (rc == -1) return -1;
   }
 
   return 0;
 }
-
+*/
+/*
 static void mp_reset_usr (cs_t *mp_usr, const u32 userindex)
 {
   mp_usr[userindex].cs_len = 0;
 
   memset (mp_usr[userindex].cs_buf, 0, sizeof (mp_usr[userindex].cs_buf));
 }
-
+*/
 static int sp_setup_tbl (hashcat_ctx_t *hashcat_ctx)
 {
   folder_config_t *folder_config = hashcat_ctx->folder_config;
@@ -718,7 +721,7 @@ static int sp_setup_tbl (hashcat_ctx_t *hashcat_ctx)
     return -1;
   }
 
-  HCFILE fp;
+  FILE fp;
 
   if (fopen ( hcstat, "rb") == false)
   {
@@ -748,7 +751,7 @@ static int sp_setup_tbl (hashcat_ctx_t *hashcat_ctx)
 
   Size outlen = SP_FILESZ;
 
-  const char props = 0x1c; // lzma properties constant, retrieved with 7z2hashcat
+  //const char props = 0x1c; // lzma properties constant, retrieved with 7z2hashcat
 
   //const SRes res = hc_lzma2_decompress (inbuf, &inlen, outbuf, &outlen, &props);
 /*
@@ -1129,7 +1132,7 @@ static int mask_append (hashcat_ctx_t *hashcat_ctx, const char *mask, const char
 
       char *prepend_mask = NULL;
 
-      hc_asprintf (&prepend_mask, "%s,%s", prepend, mask);
+      asprintf (&prepend_mask, "%s,%s", prepend, mask);
 
       const int rc = mask_append_final (hashcat_ctx, prepend_mask);
 
@@ -1436,17 +1439,17 @@ int mask_ctx_init (hashcat_ctx_t *hashcat_ctx)
   mask_ctx->mfs = (mf_t *) hccalloc (MAX_MFS, sizeof (mf_t));
 
   mp_setup_sys (mask_ctx->mp_sys);
-
+/*
   if (user_options->custom_charset_1) { if (mp_setup_usr (hashcat_ctx, mask_ctx->mp_sys, mask_ctx->mp_usr, user_options->custom_charset_1, 0) == -1) return -1; }
   if (user_options->custom_charset_2) { if (mp_setup_usr (hashcat_ctx, mask_ctx->mp_sys, mask_ctx->mp_usr, user_options->custom_charset_2, 1) == -1) return -1; }
   if (user_options->custom_charset_3) { if (mp_setup_usr (hashcat_ctx, mask_ctx->mp_sys, mask_ctx->mp_usr, user_options->custom_charset_3, 2) == -1) return -1; }
   if (user_options->custom_charset_4) { if (mp_setup_usr (hashcat_ctx, mask_ctx->mp_sys, mask_ctx->mp_usr, user_options->custom_charset_4, 3) == -1) return -1; }
-
+*/
   if (user_options->benchmark == true)
   {
     if (hashconfig->benchmark_charset != NULL)
     {
-      if (mp_setup_usr (hashcat_ctx, mask_ctx->mp_sys, mask_ctx->mp_usr, hashconfig->benchmark_charset, 0) == -1) return -1;
+      //if (mp_setup_usr (hashcat_ctx, mask_ctx->mp_sys, mask_ctx->mp_usr, hashconfig->benchmark_charset, 0) == -1) return -1;
     }
   }
 
@@ -1472,7 +1475,7 @@ int mask_ctx_init (hashcat_ctx_t *hashcat_ctx)
 
             if (hc_path_is_file (arg) == true)
             {
-              HCFILE mask_fp;
+              FILE mask_fp;
 
               if (fopen ( arg, "r") == false)
               {
@@ -1485,7 +1488,7 @@ int mask_ctx_init (hashcat_ctx_t *hashcat_ctx)
 
               while (!feof (&mask_fp))
               {
-                const size_t line_len = fgets (&mask_fp, line_buf, HCBUFSIZ_LARGE);
+                const size_t line_len = atol(fgets ( line_buf, HCBUFSIZ_LARGE,&mask_fp));
 
                 if (line_len == 0) continue;
 
@@ -1557,7 +1560,7 @@ int mask_ctx_init (hashcat_ctx_t *hashcat_ctx)
       {
         mask_ctx->mask_from_file = true;
 
-        HCFILE mask_fp;
+        FILE mask_fp;
 
         if (fopen ( arg, "r") == false)
         {
@@ -1570,7 +1573,7 @@ int mask_ctx_init (hashcat_ctx_t *hashcat_ctx)
 
         while (!feof (&mask_fp))
         {
-          const size_t line_len = fgets (&mask_fp, line_buf, HCBUFSIZ_LARGE);
+          const size_t line_len = atol(fgets (line_buf, HCBUFSIZ_LARGE,&mask_fp));
 
           if (line_len == 0) continue;
 
@@ -1627,7 +1630,7 @@ int mask_ctx_init (hashcat_ctx_t *hashcat_ctx)
       {
         mask_ctx->mask_from_file = true;
 
-        HCFILE mask_fp;
+        FILE mask_fp;
 
         if (fopen ( arg, "r") == false)
         {
@@ -1640,7 +1643,7 @@ int mask_ctx_init (hashcat_ctx_t *hashcat_ctx)
 
         while (!feof (&mask_fp))
         {
-          const size_t line_len = fgets (&mask_fp, line_buf, HCBUFSIZ_LARGE);
+          const size_t line_len = atol(fgets ( line_buf, HCBUFSIZ_LARGE,&mask_fp));
 
           if (line_len == 0) continue;
 
@@ -1724,7 +1727,7 @@ void mask_ctx_destroy (hashcat_ctx_t *hashcat_ctx)
 int mask_ctx_parse_maskfile (hashcat_ctx_t *hashcat_ctx)
 {
   mask_ctx_t     *mask_ctx     = hashcat_ctx->mask_ctx;
-  user_options_t *user_options = hashcat_ctx->user_options;
+  //user_options_t *user_options = hashcat_ctx->user_options;
 
   if (mask_ctx->enabled == false) return 0;
 
@@ -1789,7 +1792,7 @@ int mask_ctx_parse_maskfile (hashcat_ctx_t *hashcat_ctx)
   mf_t *mf = mfs_buf + mfs_cnt;
 
   mf->mf_buf[mf->mf_len] = 0;
-
+/*
   user_options->custom_charset_1 = NULL;
   user_options->custom_charset_2 = NULL;
   user_options->custom_charset_3 = NULL;
@@ -1825,7 +1828,7 @@ int mask_ctx_parse_maskfile (hashcat_ctx_t *hashcat_ctx)
         break;
     }
   }
-
+*/
   mask_ctx->mask = mfs_buf[mfs_cnt].mf_buf;
 
   return 0;

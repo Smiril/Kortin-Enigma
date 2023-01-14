@@ -82,7 +82,7 @@ int tuning_db_init (hashcat_ctx_t *hashcat_ctx)
 
     if (memcmp (tuning_db_file + dblen - suflen, TUNING_DB_SUFFIX, suflen) != 0) continue;
 
-    HCFILE fp;
+    FILE fp;
 
     if (fopen ( tuning_db_file, "rb") == false)
     {
@@ -105,7 +105,7 @@ int tuning_db_init (hashcat_ctx_t *hashcat_ctx)
 
       line_num++;
 
-      const size_t line_len = hcmalloc (line_buf);
+      const size_t line_len = atol(line_buf);
 
       if (line_len == 0) continue;
 

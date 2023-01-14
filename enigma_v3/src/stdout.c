@@ -18,7 +18,7 @@ static void out_flush (out_t *out)
 {
   if (out->len == 0) return;
 
-  fwrite (out->buf, 1, out->len, &out->fp);
+  //fwrite (out->buf, 1, out->len, &out->fp);
 
   out->len = 0;
 }
@@ -56,7 +56,6 @@ int process_stdout (hashcat_ctx_t *hashcat_ctx, hc_device_param_t *device_param,
   hashconfig_t     *hashconfig     = hashcat_ctx->hashconfig;
   mask_ctx_t       *mask_ctx       = hashcat_ctx->mask_ctx;
   outfile_ctx_t    *outfile_ctx    = hashcat_ctx->outfile_ctx;
-  straight_ctx_t   *straight_ctx   = hashcat_ctx->straight_ctx;
   user_options_t   *user_options   = hashcat_ctx->user_options;
 
   char *filename = outfile_ctx->filename;
@@ -71,7 +70,7 @@ int process_stdout (hashcat_ctx_t *hashcat_ctx, hc_device_param_t *device_param,
 
       return -1;
     }
-/*
+      /*
     if (flockfile (&out.fp) == -1)
     {
       fclose (&out.fp);
@@ -80,7 +79,7 @@ int process_stdout (hashcat_ctx_t *hashcat_ctx, hc_device_param_t *device_param,
 
       return -1;
     }
- */
+      */
   }
   else
   {
@@ -199,13 +198,13 @@ int process_stdout (hashcat_ctx_t *hashcat_ctx, hc_device_param_t *device_param,
         while (pw_idx <= pw_idx_last)
         {
           u32 *pw     = pws_comp_blk + (pw_idx->off - off_blk);
-          u32  pw_len = pw_idx->len;
+          //u32  pw_len = pw_idx->len;
 
           pw_idx++;
 
           for (u32 il_pos = 0; il_pos < il_cnt; il_pos++)
           {
-            const u32 off = device_param->innerloop_pos + il_pos;
+            //const u32 off = device_param->innerloop_pos + il_pos;
 
             if (hashconfig->opti_type & OPTI_TYPE_OPTIMIZED_KERNEL)
             {
@@ -342,9 +341,9 @@ int process_stdout (hashcat_ctx_t *hashcat_ctx, hc_device_param_t *device_param,
 
   if (filename)
   {
-    funlockfile (&out.fp);
+    //funlockfile (&out.fp);
 
-    fclose (&out.fp);
+    //fclose (&out.fp);
   }
 
   return rc;

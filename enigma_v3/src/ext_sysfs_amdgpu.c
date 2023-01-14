@@ -107,7 +107,7 @@ int hm_SYSFS_AMDGPU_get_fan_speed_current (void *hashcat_ctx, const int backend_
 
   hcfree (syspath);
 
-  HCFILE fp_cur;
+  FILE fp_cur;
 
   if (fopen ( path_cur, "r") == false)
   {
@@ -135,7 +135,7 @@ int hm_SYSFS_AMDGPU_get_fan_speed_current (void *hashcat_ctx, const int backend_
 
   fclose (&fp_cur);
 
-  HCFILE fp_max;
+  FILE fp_max;
 
   if (fopen ( path_max, "r") == false)
   {
@@ -197,7 +197,7 @@ int hm_SYSFS_AMDGPU_get_temperature_current (void *hashcat_ctx, const int backen
 
   hcfree (syspath);
 
-  HCFILE fp;
+  FILE fp;
 
   if (fopen (path, "r") == false)
   {
@@ -242,7 +242,7 @@ int hm_SYSFS_AMDGPU_get_pp_dpm_sclk (void *hashcat_ctx, const int backend_device
 
   hcfree (syspath);
 
-  HCFILE fp;
+  FILE fp;
 
   if (fopen ( path, "r") == false)
   {
@@ -297,7 +297,7 @@ int hm_SYSFS_AMDGPU_get_pp_dpm_mclk (void *hashcat_ctx, const int backend_device
 
   hcfree (syspath);
 
-  HCFILE fp;
+  FILE fp;
 
   if (fopen ( path, "r") == false)
   {
@@ -352,7 +352,7 @@ int hm_SYSFS_AMDGPU_get_pp_dpm_pcie (void *hashcat_ctx, const int backend_device
 
   hcfree (syspath);
 
-  HCFILE fp;
+  FILE fp;
 
   if (fopen ( path, "r") == false)
   {
@@ -403,7 +403,7 @@ int hm_SYSFS_AMDGPU_get_gpu_busy_percent (void *hashcat_ctx, const int backend_d
 
   hcfree (syspath);
 
-  HCFILE fp;
+  FILE fp;
 
   if (fopen ( path, "r") == false)
   {

@@ -30,11 +30,15 @@
 #include "event.h"
 
 //---------------------------------------------------------------------
+const char charset[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+int max_index = (sizeof(charset) - 1);
+//---------------------------------------------------------------------
 
 void configmain(char *hugh) {
     // open file
     FILE *fp = fopen(hugh, "r");
     size_t len = 27;
+    size_t len2 = 6;
     // need malloc memory for line, if not, segmentation fault error will occurred.
     char *line = malloc(sizeof(char) * len);
     // check if file exist (and you can open it) or not
@@ -44,68 +48,82 @@ void configmain(char *hugh) {
     }
     while(fgets(line, len, fp) != NULL) {
         for (int i = 0; i < 6; i++){
-            snprintf(&rotor[i][MSGC],MSGC,"%s", line);
+            strncpy(&rotor[i][len],line,len);
             }
-            snprintf(&ref1[MSGC],MSGC,"%s",line);
-            snprintf(&notch1[MSGG],MSGG,"%s",line);
+        strncpy(&ref1[len],line,len);
+        strncpy(&notch1[len2],line,len2);
     }
     free(line);
 }
 
 //---------------------------------------------------------------------
-
-static char coin(int fex)
+static char *coin(int fex)
 {
+
     bool isDuplicate = false;
+ 
     //---------------------------------------------------------------------
-    const char *charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    const char charset[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
     int max_index = (strlen(charset) - 1);
+
     //---------------------------------------------------------------------
-    char picked[fex];
-    char number[max_index];
+    char picked[fex - 1];
+    
+    memset( picked, 0, fex - 1 );
+    
+    char number[1];
+
     int j = 0,i = 0;
 
-    for (i = 0; i <= fex; i++) {
-        memset( picked, 0, fex );
+    for (i = 0; i < fex; i++) {
+
         do {
+
             int target = rand() % max_index; // Generate
+
             strncpy((char *)number,&charset[target],strlen(number)); // Pick
+
             // Check for duplicates
-            for (j = 0; j < 1; j++) {
+
+            for (j = 0; j < fex; j++) {
+
                 if (number == &picked[j]) {
+
                     isDuplicate = true;
-                    break; // Duplicate detected
+
+                    // break; // Duplicate detected
+
                 } // end if
-                else {
-                    strncpy((char *)&picked[j],number,strlen(number)); // picked
-                    return picked[j];
-                    //break; // No Duplicate detected
-                } // end else
+                //else {
+
+                    //memmove((void *)&charset[max_index], &charset[max_index], max_index - strlen(number));
+
+                    //max_index--;
+
+                    //isDuplicate = false;
+
+                    // break; // No Duplicate detected
+
+                //} // end else
+
             } // end for
+
         } // end do
         while (isDuplicate); // equivalent to while(isDuplicate == true)
 
+        //if (!isDuplicate) { // equivalent to if(isDuplicate == false)
+
+            strncpy((char *)&picked[j],number,strlen(number)); // picked
+
+        //} // end if
+
     } // end for
+    //printf("%s\n",picked);
    
-    return 0;
+   return picked;
 }
-
-int main(void)
-{
-    int i = 0;
-    time_t start, stop;
-    start = time(NULL);
-    for (i = 0; i < 6; i++) {
-        coin(25);
-    } // end for
-    coin(4);
-    stop = time(NULL);
-    printf("Time elapsed : %ld seconds\n",(stop - start));
-
-    return 0;
-}
-
-
 
 int getRank(char *cyph) {
 
@@ -707,7 +725,7 @@ void permuteOnce(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *c
     printf("\n... Found %d solutions.\n", ct);
 }
 /*helper to read a character*/
-char readCh(void)
+char *readCh(void)
 {
     char c, ret = '\0';
   while((c = getchar()) != '\n')
@@ -745,7 +763,7 @@ void initParams(main_ctx_t *main_ctx)
       }
       printf("Stecker: ");
       i = 0;
-      while((d = getchar()) != '\n')
+      while((d = readCh()) != '\n')
       {
         main_ctx->plug[i] = d;
         i++;
@@ -756,7 +774,7 @@ void initParams(main_ctx_t *main_ctx)
   {
       printf("Reflector: ");
       k = 0;
-      while((d = getchar()) != '\n')
+      while((d = readCh()) != '\n')
       {
       ukw[k] = d;
       k++;
@@ -765,7 +783,7 @@ void initParams(main_ctx_t *main_ctx)
       
       printf("NOTCH: ");
       j = 0;
-      while((g = getchar()) != '\n')
+      while((g = readCh()) != '\n')
       {
       nox[j] = g;
       j++;
@@ -789,7 +807,7 @@ void initParams(main_ctx_t *main_ctx)
       }
       printf("Stecker: ");
       i = 0;
-      while((c = getchar()) != '\n')
+      while((c = readCh()) != '\n')
       {
         main_ctx->plug[i] = c;
         i++;
@@ -808,7 +826,7 @@ void sbfParams(main_ctx_t *main_ctx)
     hashcat_ctx_t *hashcat_ctx = NULL;
     
   int i,j,k,l;
-  char f,a,b,d,g;
+  char *f,*a,*b,*d,*g;
   printf("d)efault or u)ser: ");
   f = readCh();
   if(f != 'u')
@@ -826,18 +844,18 @@ void sbfParams(main_ctx_t *main_ctx)
       
       printf("Message: ");
       i = 0;
-      while((a = getchar()) != '\n')
+      while((a = readCh()) != '\n')
       {
-      main_ctx->cyph[i] = a;
+      main_ctx->cyph[i] = *a;
       i++;
       }
       main_ctx->cyph[i] = '\0';
       
       printf("Dict: ");
       l = 0;
-      while((b = getchar()) != '\n')
+      while((b = readCh()) != '\n')
       {
-      framex[l] = b;
+      framex[l] = *b;
       l++;
       }
       framex[l] = '\0';
@@ -846,9 +864,9 @@ void sbfParams(main_ctx_t *main_ctx)
   {
     printf("Reflector: ");
     j = 0;
-    while((d = getchar()) != '\n')
+    while((d = readCh()) != '\n')
     {
-    ukw[j] = d;
+    ukw[j] = *d;
     j++;
     }
     ukw[j] = '\0';
@@ -858,9 +876,9 @@ void sbfParams(main_ctx_t *main_ctx)
     }
     printf("NOTCH: ");
     k = 0;
-    while((g = getchar()) != '\n')
+    while((g = readCh()) != '\n')
     {
-    nox[k] = g;
+    nox[k] = *g;
     k++;
     }
     nox[k] = '\0';
@@ -875,18 +893,18 @@ void sbfParams(main_ctx_t *main_ctx)
     }
     printf("Message: ");
     i = 0;
-    while((a = getchar()) != '\n')
+    while((a = readCh()) != '\n')
     {
-    main_ctx->cyph[i] = a;
+    main_ctx->cyph[i] = *a;
     i++;
     }
     main_ctx->cyph[i] = '\0';
     
     printf("Dict: ");
     l = 0;
-    while((b = getchar()) != '\n')
+    while((b = readCh()) != '\n')
     {
-    framex[l] = b;
+    framex[l] = *b;
     l++;
     }
     framex[l] = '\0';
@@ -902,7 +920,7 @@ void bfParams(main_ctx_t *main_ctx)
     hashcat_ctx_t *hashcat_ctx = NULL;
     
   int i,j,k,l;
-  char c,a,b,d,g;
+  char *c,*a,*b,*d,*g;
   printf("d)efault or u)ser: ");
   c = readCh();
   if(c != 'u')
@@ -914,18 +932,18 @@ void bfParams(main_ctx_t *main_ctx)
       }
       printf("Message: ");
       i = 0;
-      while((a = getchar()) != '\n')
+      while((a = readCh()) != '\n')
       {
-      main_ctx->cyph[i] = a;
+      main_ctx->cyph[i] = *a;
       i++;
       }
       main_ctx->cyph[i] = '\0';
       
       printf("Dict: ");
       l = 0;
-      while((b = getchar()) != '\n')
+      while((b = readCh()) != '\n')
       {
-      framex[l] = b;
+      framex[l] = *b;
       l++;
       }
       framex[l] = '\0';
@@ -935,9 +953,9 @@ void bfParams(main_ctx_t *main_ctx)
   {
       printf("Reflector: ");
       j = 0;
-      while((d = getchar()) != '\n')
+      while((d = readCh()) != '\n')
       {
-      ukw[j] = d;
+      ukw[j] = *d;
       j++;
       }
       ukw[j] = '\0';
@@ -947,9 +965,9 @@ void bfParams(main_ctx_t *main_ctx)
       }
       printf("NOTCH: ");
       k = 0;
-      while((g = getchar()) != '\n')
+      while((g = readCh()) != '\n')
       {
-      nox[k] = g;
+      nox[k] = *g;
       k++;
       }
       nox[k] = '\0';
@@ -959,18 +977,18 @@ void bfParams(main_ctx_t *main_ctx)
       }
       printf("Message: ");
       i = 0;
-      while((a = getchar()) != '\n')
+      while((a = readCh()) != '\n')
       {
-      main_ctx->cyph[i] = a;
+      main_ctx->cyph[i] = *a;
       i++;
       }
       main_ctx->cyph[i] = '\0';
       
       printf("Dict: ");
       l = 0;
-      while((b = getchar()) != '\n')
+      while((b = readCh()) != '\n')
       {
-      framex[l] = b;
+      framex[l] = *b;
       l++;
       }
       framex[l] = '\0';
@@ -1004,9 +1022,9 @@ int main(int argc, char **argv) {
             printf("Config File: ");
             char *b;
             int l = 0;
-            while((b = getchar()) != '\n')
+            while((b = readCh()) != '\n')
             {
-            flames[l] = b;
+            flames[l] = *b;
             l++;
             }
             flames[l] = '\0';
@@ -1021,9 +1039,9 @@ int main(int argc, char **argv) {
             printf("Config File: ");
             char *b;
             int l = 0;
-            while((b = getchar()) != '\n')
+            while((b = readCh()) != '\n')
             {
-            flames[l] = b;
+            flames[l] = *b;
             l++;
             }
             flames[l] = '\0';
@@ -1038,9 +1056,9 @@ int main(int argc, char **argv) {
             printf("Config File: ");
             char *b;
             int l = 0;
-            while((b = getchar()) != '\n')
+            while((b = readCh()) != '\n')
             {
-            flames[l] = b;
+            flames[l] = *b;
             l++;
             }
             flames[l] = '\0';

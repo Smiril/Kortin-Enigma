@@ -749,7 +749,7 @@ int kernel_rules_load (hashcat_ctx_t *hashcat_ctx, kernel_rule_t **out_buf, u32 
 
     char *rp_file = user_options->rp_files[i];
 
-    HCFILE fp;
+    FILE fp;
 
     u32 rule_line = 0;
 
@@ -767,7 +767,7 @@ int kernel_rules_load (hashcat_ctx_t *hashcat_ctx, kernel_rule_t **out_buf, u32 
 
     while (!feof (&fp))
     {
-      rule_len = (u32) fgets (&fp, rule_buf, HCBUFSIZ_LARGE);
+      rule_len = (u32) atoi(fgets ( rule_buf, HCBUFSIZ_LARGE,&fp));
 
       if (rule_line == (u32) -1)
       {

@@ -59,13 +59,13 @@ char *hm_SYSFS_CPU_get_syspath_hwmon ()
 
     hc_asprintf (&path, "%s/hwmon%d/name", SYSFS_HWMON, i);
 
-    HCFILE fp;
+    FILE fp;
 
     if (fopen ( path, "rb") == false) continue;
 
     char buf[32] = { 0 };
 
-    const size_t line_len = fgets (&fp, buf, sizeof (buf));
+    const size_t line_len = atol(fgets (buf, sizeof (buf),&fp));
 
     if (line_len)
     {
@@ -100,7 +100,7 @@ int hm_SYSFS_CPU_get_temperature_current (void *hashcat_ctx, int *val)
 
   hcfree (syspath);
 
-  HCFILE fp;
+  FILE fp;
 
   if (fopen ( path, "r") == false)
   {

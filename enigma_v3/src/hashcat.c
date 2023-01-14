@@ -32,10 +32,9 @@
 #include "monitor.h"
 #include "mpsp.h"
 #include "backend.h"
-#include "outfile_check.h"
-#include "outfile.h"
+//#include "outfile_check.h"
+//#include "outfile.h"
 #include "pidfile.h"
-#include "potfile.h"
 #include "restore.h"
 #include "selftest.h"
 #include "status.h"
@@ -184,7 +183,7 @@ static int inner2_loop (hashcat_ctx_t *hashcat_ctx)
 
   thread_param_t *threads_param = (thread_param_t *) hccalloc (backend_ctx->backend_devices_cnt, sizeof (thread_param_t));
 
-  hc_thread_t *c_threads = (hc_thread_t *) hccalloc (backend_ctx->backend_devices_cnt, sizeof (hc_thread_t));
+  thread_t *c_threads = (thread_t *) hccalloc (backend_ctx->backend_devices_cnt, sizeof (thread_t));
 
   /**
    * create autotune threads
@@ -201,10 +200,10 @@ static int inner2_loop (hashcat_ctx_t *hashcat_ctx)
     thread_param->hashcat_ctx = hashcat_ctx;
     thread_param->tid         = backend_devices_idx;
 
-    hc_thread_create (c_threads[backend_devices_idx], 0, thread_param);
+   pthread_create (c_threads[backend_devices_idx] , 0 , thread_param , 0);
   }
 
-  hc_thread_wait (backend_ctx->backend_devices_cnt, c_threads);
+  pthread_exit ((void*)c_threads);
 
   // check for any autotune failures
   // by default, skipping device on error
@@ -320,15 +319,15 @@ static int inner2_loop (hashcat_ctx_t *hashcat_ctx)
 
     if (user_options_extra->wordlist_mode == WL_MODE_STDIN)
     {
-      hc_thread_create (c_threads[backend_devices_idx], thread_calc_stdin, thread_param);
+      pthread_create (c_threads[backend_devices_idx],0, thread_calc_stdin, thread_param);
     }
     else
     {
-      hc_thread_create (c_threads[backend_devices_idx], thread_calc, thread_param);
+      pthread_create (c_threads[backend_devices_idx],0, thread_calc, thread_param);
     }
   }
 
-  hc_thread_wait (backend_ctx->backend_devices_cnt, c_threads);
+  pthread_exit ((void*)c_threads);
 
   hcfree (c_threads);
 
@@ -501,17 +500,13 @@ static int inner1_loop (hashcat_ctx_t *hashcat_ctx)
 
 static int outer_loop (hashcat_ctx_t *hashcat_ctx)
 {
-  hashconfig_t         *hashconfig          = hashcat_ctx->hashconfig;
-  hashes_t             *hashes              = hashcat_ctx->main_ctx;
   mask_ctx_t           *mask_ctx            = hashcat_ctx->mask_ctx;
-  module_ctx_t         *module_ctx          = hashcat_ctx->module_ctx;
-  backend_ctx_t        *backend_ctx         = hashcat_ctx->backend_ctx;
+    
   outcheck_ctx_t       *outcheck_ctx        = hashcat_ctx->outcheck_ctx;
   restore_ctx_t        *restore_ctx         = hashcat_ctx->restore_ctx;
   status_ctx_t         *status_ctx          = hashcat_ctx->status_ctx;
   straight_ctx_t       *straight_ctx        = hashcat_ctx->straight_ctx;
   user_options_t       *user_options        = hashcat_ctx->user_options;
-  user_options_extra_t *user_options_extra  = hashcat_ctx->user_options_extra;
 
   status_ctx->devices_status = STATUS_INIT;
 
@@ -524,7 +519,7 @@ static int outer_loop (hashcat_ctx_t *hashcat_ctx)
   /**
    * setup variables and buffers depending on hash_mode
    */
-
+/*
   EVENT (EVENT_HASHCONFIG_PRE);
 
   if (hashconfig_init (hashcat_ctx) == -1)
@@ -535,11 +530,11 @@ static int outer_loop (hashcat_ctx_t *hashcat_ctx)
   }
 
   EVENT (EVENT_HASHCONFIG_POST);
-
+*/
   /**
    * deprecated notice
    */
-
+/*
   if (module_ctx->module_deprecated_notice != MODULE_DEFAULT)
   {
     if (user_options->deprecated_check_disable == false)
@@ -575,13 +570,13 @@ static int outer_loop (hashcat_ctx_t *hashcat_ctx)
       }
     }
   }
-
+*/
   /**
    * generate hashlist filename for later use
    */
 /*
   if (hashes_init_filename (hashcat_ctx) == -1) return -1;
-
+*/
   /**
    * load hashes, stage 1
    */
@@ -597,7 +592,7 @@ static int outer_loop (hashcat_ctx_t *hashcat_ctx)
       return -1;
     }
   }
-
+*/
   /**
    * load hashes, stage 2, remove duplicates, build base structure
    */
@@ -605,11 +600,11 @@ static int outer_loop (hashcat_ctx_t *hashcat_ctx)
   hashes->hashes_cnt_orig = hashes->hashes_cnt;
 
   if (hashes_init_stage2 (hashcat_ctx) == -1) return -1;
-
+*/
   /**
    * potfile removes
    */
-
+/*
   if (user_options->potfile_disable == false)
   {
     EVENT (EVENT_POTFILE_REMOVE_PARSE_PRE);
@@ -628,7 +623,7 @@ static int outer_loop (hashcat_ctx_t *hashcat_ctx)
 
     EVENT (EVENT_POTFILE_REMOVE_PARSE_POST);
   }
-
+*/
   /**
    * zero hash removes
    */
@@ -644,7 +639,7 @@ static int outer_loop (hashcat_ctx_t *hashcat_ctx)
   /**
    * potfile show/left handling
    */
-
+/*
   if (user_options->show == true)
   {
     status_ctx->devices_status = STATUS_RUNNING;
@@ -670,11 +665,11 @@ static int outer_loop (hashcat_ctx_t *hashcat_ctx)
 
     return 0;
   }
-
+*/
   /**
    * check global hash count in case module developer sets a them to a specific limit
    */
-
+/*
   if (hashes->digests_cnt < hashconfig->hashes_count_min)
   {
     event_log_error (hashcat_ctx, "Not enough hashes loaded - minimum is %u for this hash-mode.", hashconfig->hashes_count_min);
@@ -688,11 +683,11 @@ static int outer_loop (hashcat_ctx_t *hashcat_ctx)
 
     return -1;
   }
-
+*/
   /**
    * maybe all hashes were cracked, we can exit here
    */
-
+/*
   if (status_ctx->devices_status == STATUS_CRACKED)
   {
     if ((user_options->remove == true) && ((hashes->hashlist_mode == HL_MODE_FILE_PLAIN) || (hashes->hashlist_mode == HL_MODE_FILE_BINARY)))
@@ -709,7 +704,7 @@ static int outer_loop (hashcat_ctx_t *hashcat_ctx)
 
     return 0;
   }
-
+*/
   /**
    * load hashes, stage 4, automatic Optimizers
    */
@@ -865,7 +860,7 @@ static int outer_loop (hashcat_ctx_t *hashcat_ctx)
   /**
    * create self-test threads
    */
-
+/*
   if ((hashconfig->opts_type & OPTS_TYPE_SELF_TEST_DISABLE) == 0)
   {
     EVENT (EVENT_SELFTEST_STARTING);
@@ -919,13 +914,13 @@ static int outer_loop (hashcat_ctx_t *hashcat_ctx)
 
     EVENT (EVENT_SELFTEST_FINISHED);
   }
-
+*/
   /**
    * (old) weak hash check is the first to write to potfile, so open it for writing from here
    * the weak hash check was removed maybe we can move this more to the bottom now
    */
 
-  if (potfile_write_open (hashcat_ctx) == -1) return -1;
+  //if (potfile_write_open (hashcat_ctx) == -1) return -1;
 
   /**
    * status and monitor threads
@@ -1007,7 +1002,7 @@ static int outer_loop (hashcat_ctx_t *hashcat_ctx)
 
   // finalize potfile
 
-  potfile_write_close (hashcat_ctx);
+  //potfile_write_close (hashcat_ctx);
 
   // finalize backend session
 
@@ -1238,7 +1233,7 @@ int hashcat_session_init (hashcat_ctx_t *hashcat_ctx, const char *install_folder
    * outfile itself
    */
 
-  if (outfile_init (hashcat_ctx) == -1) return -1;
+  //if (outfile_init (hashcat_ctx) == -1) return -1;
 
   /**
    * potfile init
@@ -1246,7 +1241,7 @@ int hashcat_session_init (hashcat_ctx_t *hashcat_ctx, const char *install_folder
    * plus it depends on hash_mode, so we continue using it in outer_loop
    */
 
-  if (potfile_init (hashcat_ctx) == -1) return -1;
+  //if (potfile_init (hashcat_ctx) == -1) return -1;
 
   /**
    * dictstat init
@@ -1294,7 +1289,7 @@ int hashcat_session_init (hashcat_ctx_t *hashcat_ctx, const char *install_folder
 
   return 0;
 }
-
+/*
 bool autodetect_hashmode_test (hashcat_ctx_t *hashcat_ctx)
 {
   hashconfig_t          *hashconfig         = hashcat_ctx->hashconfig;
@@ -1337,11 +1332,11 @@ bool autodetect_hashmode_test (hashcat_ctx_t *hashcat_ctx)
       hashes->hashfile = user_options_extra->hc_hash;
     }
   }
-
+*/
   /**
    * load hashes, part I: find input mode
    */
-
+/*
   const char *hashfile      = hashes->hashfile;
   const u32   hashlist_mode = hashes->hashlist_mode;
 
@@ -1349,7 +1344,7 @@ bool autodetect_hashmode_test (hashcat_ctx_t *hashcat_ctx)
 
   if (hashlist_mode == HL_MODE_FILE_PLAIN)
   {
-    HCFILE fp;
+    FILE fp;
 
     if (fopen ( hashfile, "rb") == false) return false;
 
@@ -1359,11 +1354,11 @@ bool autodetect_hashmode_test (hashcat_ctx_t *hashcat_ctx)
   }
 
   hashes->hashlist_format = hashlist_format;
-
+*/
   /**
    * load hashes, part II: allocate required memory, set pointers
    */
-
+/*
   void   *digest    =            hccalloc (1, hashconfig->dgst_size);
   salt_t *salt      = (salt_t *) hccalloc (1, sizeof (salt_t));
   void   *esalt     = NULL;
@@ -1430,7 +1425,7 @@ bool autodetect_hashmode_test (hashcat_ctx_t *hashcat_ctx)
   }
   else if (hashlist_mode == HL_MODE_FILE_PLAIN)
   {
-    HCFILE fp;
+    FILE fp;
 
     int error_count = 0;
 
@@ -1440,7 +1435,7 @@ bool autodetect_hashmode_test (hashcat_ctx_t *hashcat_ctx)
 
     while (!feof (&fp))
     {
-      const size_t line_len = fgets (&fp, line_buf, HCBUFSIZ_LARGE);
+      const size_t line_len = atol(fgets (line_buf, HCBUFSIZ_LARGE, &fp));
 
       if (line_len == 0) continue;
 
@@ -1523,6 +1518,7 @@ bool autodetect_hashmode_test (hashcat_ctx_t *hashcat_ctx)
 
   return success;
 }
+ */
 /*
 int autodetect_hashmodes (hashcat_ctx_t *hashcat_ctx, usage_sort_t *usage_sort_buf)
 {
@@ -1891,9 +1887,9 @@ int hashcat_session_destroy (hashcat_ctx_t *hashcat_ctx)
   backend_ctx_devices_destroy (hashcat_ctx);
   backend_ctx_destroy         (hashcat_ctx);
   //outcheck_ctx_destroy        (hashcat_ctx);
-  outfile_destroy             (hashcat_ctx);
+  //outfile_destroy             (hashcat_ctx);
   pidfile_ctx_destroy         (hashcat_ctx);
-  potfile_destroy             (hashcat_ctx);
+  //potfile_destroy             (hashcat_ctx);
   restore_ctx_destroy         (hashcat_ctx);
   tuning_db_destroy           (hashcat_ctx);
   user_options_destroy        (hashcat_ctx);

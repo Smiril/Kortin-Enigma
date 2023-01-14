@@ -44,7 +44,7 @@ static int read_restore (hashcat_ctx_t *hashcat_ctx)
 
   char *eff_restore_file = restore_ctx->eff_restore_file;
 
-  HCFILE fp;
+  FILE fp;
 
   if (fopen ( eff_restore_file, "rb") == false)
   {
@@ -193,7 +193,7 @@ static int write_restore (hashcat_ctx_t *hashcat_ctx)
 
   char *new_restore_file = restore_ctx->new_restore_file;
 
-  HCFILE fp;
+  FILE fp;
 
   if (fopen ( new_restore_file, "wb") == false)
   {
@@ -201,7 +201,7 @@ static int write_restore (hashcat_ctx_t *hashcat_ctx)
 
     return -1;
   }
-
+/*
   if (setvbuf (fp.pfp, NULL, _IONBF, 0))
   {
     event_log_error (hashcat_ctx, "setvbuf file '%s': %s", new_restore_file, strerror (errno));
@@ -210,7 +210,7 @@ static int write_restore (hashcat_ctx_t *hashcat_ctx)
 
     return -1;
   }
-
+*/
   fwrite (rd, sizeof (restore_data_t), 1, &fp);
 
   for (u32 i = 0; i < rd->argc; i++)
@@ -222,7 +222,7 @@ static int write_restore (hashcat_ctx_t *hashcat_ctx)
 
   fflush (&fp);
 
-  fsync (&fp);
+  //fsync (&fp);
 
   fclose (&fp);
 

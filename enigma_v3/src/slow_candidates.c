@@ -36,7 +36,7 @@ void slow_candidates_seek (hashcat_ctx_t *hashcat_ctx, void *extra_info, const u
 
         while (true)
         {
-          HCFILE *fp = &extra_info_straight->fp;
+          FILE *fp = &extra_info_straight->fp;
 
           get_next_word (hashcat_ctx, fp, &line_buf, &line_len);
 
@@ -75,8 +75,8 @@ void slow_candidates_seek (hashcat_ctx_t *hashcat_ctx, void *extra_info, const u
   {
     extra_info_combi_t *extra_info_combi = (extra_info_combi_t *) extra_info;
 
-    HCFILE *base_fp = &extra_info_combi->base_fp;
-    HCFILE *combs_fp = &extra_info_combi->combs_fp;
+    FILE *base_fp = &extra_info_combi->base_fp;
+    FILE *combs_fp = &extra_info_combi->combs_fp;
 
     for (u64 i = cur; i < end; i++)
     {
@@ -122,7 +122,7 @@ void slow_candidates_seek (hashcat_ctx_t *hashcat_ctx, void *extra_info, const u
 
       while (true)
       {
-        line_len = (u32) fgets (combs_fp, line_buf, HCBUFSIZ_LARGE);
+        line_len = (u32) atoi(fgets ( line_buf, HCBUFSIZ_LARGE,combs_fp));
 
         line_len = convert_from_hex (hashcat_ctx, line_buf, line_len);
 
@@ -177,7 +177,7 @@ void slow_candidates_next (hashcat_ctx_t *hashcat_ctx, void *extra_info)
 
       while (true)
       {
-        HCFILE *fp = &extra_info_straight->fp;
+        FILE *fp = &extra_info_straight->fp;
 
         get_next_word (hashcat_ctx, fp, &line_buf, &line_len);
 
@@ -242,8 +242,8 @@ void slow_candidates_next (hashcat_ctx_t *hashcat_ctx, void *extra_info)
   {
     extra_info_combi_t *extra_info_combi = (extra_info_combi_t *) extra_info;
 
-    HCFILE *base_fp = &extra_info_combi->base_fp;
-    HCFILE *combs_fp = &extra_info_combi->combs_fp;
+    FILE *base_fp = &extra_info_combi->base_fp;
+    FILE *combs_fp = &extra_info_combi->combs_fp;
 
     if ((extra_info_combi->pos % combinator_ctx->combs_cnt) == 0)
     {
@@ -291,7 +291,7 @@ void slow_candidates_next (hashcat_ctx_t *hashcat_ctx, void *extra_info)
 
     while (true)
     {
-      line_len = (u32) fgets (combs_fp, line_buf, HCBUFSIZ_LARGE);
+      line_len = (u32) atoi(fgets (line_buf, HCBUFSIZ_LARGE,combs_fp));
 
       line_len = convert_from_hex (hashcat_ctx, line_buf, line_len);
 

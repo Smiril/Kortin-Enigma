@@ -13,7 +13,7 @@
 #include "shared.h"
 #include "backend.h"
 #include "user_options.h"
-#include "outfile.h"
+//#include "outfile.h"
 /*
 #ifdef WITH_BRAIN
 #include "brain.h"
@@ -456,8 +456,8 @@ int user_options_getopt (hashcat_ctx_t *hashcat_ctx, int argc, char **argv)
       case IDX_MARKOV_THRESHOLD:          user_options->markov_threshold          = hc_strtoul (optarg, NULL, 10);   break;
       case IDX_MARKOV_HCSTAT2:            user_options->markov_hcstat2            = optarg;                          break;
       case IDX_OUTFILE:                   user_options->outfile                   = optarg;                          break;
-      case IDX_OUTFILE_FORMAT:            user_options->outfile_format            = outfile_format_parse (optarg);
-                                          user_options->outfile_format_chgd       = true;                            break;
+      //case IDX_OUTFILE_FORMAT:            user_options->outfile_format            = outfile_format_parse (optarg);
+        //                                  user_options->outfile_format_chgd       = true;                            break;
       case IDX_OUTFILE_AUTOHEX_DISABLE:   user_options->outfile_autohex           = false;                           break;
       case IDX_OUTFILE_CHECK_TIMER:       user_options->outfile_check_timer       = hc_strtoul (optarg, NULL, 10);   break;
       case IDX_WORDLIST_AUTOHEX_DISABLE:  user_options->wordlist_autohex_disable  = true;                            break;

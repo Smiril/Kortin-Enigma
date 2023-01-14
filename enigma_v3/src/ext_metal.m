@@ -45,7 +45,7 @@ static bool iokit_getGPUCore (void *hashcat_ctx, int *gpu_core)
 
   CFMutableDictionaryRef matching = IOServiceMatching ("IOAccelerator");
 
-  io_service_t service = IOServiceGetMatchingService (kIOMasterPortDefault, matching);
+  io_service_t service = IOServiceGetMatchingService (kIOMainPortDefault, matching);
 
   if (!service)
   {
@@ -1327,11 +1327,11 @@ int hc_mtlCreateLibraryWithFile (void *hashcat_ctx, mtl_device_id metal_device, 
     return -1;
   }
 
-  NSString *k_string = [NSString stringWithCString: cached_file encoding: NSUTF8StringEncoding];
+  NSString *url = [NSString stringWithCString: cached_file encoding: NSUTF8StringEncoding];
 
-  if (k_string != nil)
+  if (url != nil)
   {
-    id <MTLLibrary> r = [metal_device newLibraryWithFile: k_string error: &error];
+    id <MTLLibrary> r = [metal_device newLibraryWithURL: url error: &error];
 
     if (error != nil)
     {
@@ -1351,9 +1351,9 @@ int hc_mtlCreateLibraryWithSource (void *hashcat_ctx, mtl_device_id metal_device
 {
   NSError *error = nil;
 
-  NSString *k_string = [NSString stringWithCString: kernel_sources encoding: NSUTF8StringEncoding];
+  NSString *url = [NSString stringWithCString: kernel_sources encoding: NSUTF8StringEncoding];
 
-  if (k_string != nil)
+  if (url != nil)
   {
     MTLCompileOptions *compileOptions = [MTLCompileOptions new];
 
@@ -1377,7 +1377,7 @@ int hc_mtlCreateLibraryWithSource (void *hashcat_ctx, mtl_device_id metal_device
     }
 
     // todo: detect current os version and choose the right
-//    compileOptions.languageVersion = MTL_LANGUAGEVERSION_2_3;
+    //compileOptions.languageVersion = MTL_LANGUAGEVERSION_2_3;
 /*
     if (@available(macOS 12.0, *))
     {
@@ -1408,7 +1408,7 @@ int hc_mtlCreateLibraryWithSource (void *hashcat_ctx, mtl_device_id metal_device
       compileOptions.languageVersion = MTL_LANGUAGEVERSION_1_1;
     }
 */
-    id<MTLLibrary> r = [metal_device newLibraryWithSource: k_string options: compileOptions error: &error];
+    id<MTLLibrary> r = [metal_device newLibraryWithSource: url options: compileOptions error: &error];
 
     [compileOptions release];
     compileOptions = nil;

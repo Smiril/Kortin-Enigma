@@ -50,7 +50,7 @@ size_t convert_from_hex (hashcat_ctx_t *hashcat_ctx, char *line_buf, const size_
   return (line_len);
 }
 
-int load_segment (hashcat_ctx_t *hashcat_ctx, HCFILE *fp)
+int load_segment (hashcat_ctx_t *hashcat_ctx, FILE *fp)
 {
   wl_data_t *wl_data = hashcat_ctx->wl_data;
 
@@ -269,7 +269,7 @@ void get_next_word_std (char *buf, u64 sz, u64 *len, u64 *off)
   *len = sz;
 }
 
-void get_next_word (hashcat_ctx_t *hashcat_ctx, HCFILE *fp, char **out_buf, u32 *out_len)
+void get_next_word (hashcat_ctx_t *hashcat_ctx, FILE *fp, char **out_buf, u32 *out_len)
 {
   user_options_t       *user_options       = hashcat_ctx->user_options;
   user_options_extra_t *user_options_extra = hashcat_ctx->user_options_extra;
@@ -424,7 +424,7 @@ void pw_add (hc_device_param_t *device_param, const u8 *pw_buf, const int pw_len
   }
 }
 
-int count_words (hashcat_ctx_t *hashcat_ctx, HCFILE *fp, const char *dictfile, u64 *result)
+int count_words (hashcat_ctx_t *hashcat_ctx, FILE *fp, const char *dictfile, u64 *result)
 {
   combinator_ctx_t     *combinator_ctx     = hashcat_ctx->combinator_ctx;
   hashconfig_t         *hashconfig         = hashcat_ctx->hashconfig;
@@ -439,14 +439,14 @@ int count_words (hashcat_ctx_t *hashcat_ctx, HCFILE *fp, const char *dictfile, u
   dictstat_t d;
 
   memset (&d, 0, sizeof (d));
-
+/*
   if (fstat (fp, &d.stat))
   {
     *result = 0;
 
     return 0;
   }
-
+*/
   d.stat.st_mode    = 0;
   d.stat.st_nlink   = 0;
   d.stat.st_uid     = 0;

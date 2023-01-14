@@ -397,7 +397,7 @@ bool hc_path_has_bom (const char *path)
 {
   u8 buf[8] = { 0 };
 
-  HCFILE fp;
+  FILE fp;
 
   if (fopen ( path, "rb") == false) return false;
 
@@ -694,11 +694,11 @@ bool hc_same_files (char *file1, char *file2)
 
     int do_check = 0;
 
-    HCFILE fp;
+    FILE fp;
 
-    if (fopen ( file1, "r") == true)
+    if (fopen ( file1, "r") == 0)
     {
-      if (fstat (&fp, &tmpstat_file1))
+      if (fstat (fileno(&fp), &tmpstat_file1))
       {
         fclose (&fp);
 
@@ -710,9 +710,9 @@ bool hc_same_files (char *file1, char *file2)
       do_check++;
     }
 
-    if (fopen ( file2, "r") == true)
+    if (fopen ( file2, "r") == 0)
     {
-      if (fstat (&fp, &tmpstat_file2))
+      if (fstat (fileno(&fp), &tmpstat_file2))
       {
         fclose (&fp);
 
@@ -1400,15 +1400,15 @@ bool is_apple_silicon (void)
 
 char *file_to_buffer (const char *filename)
 {
-  HCFILE fp;
+  FILE fp;
 
-  if (fopen (filename, "r") == true)
+  if (fopen (filename, "r") == 0)
   {
     struct stat st;
 
     memset (&st, 0, sizeof (st));
 
-    if (fstat (&fp, &st))
+    if (fstat (fileno(&fp), &st))
     {
       fclose (&fp);
 

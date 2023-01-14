@@ -16,7 +16,7 @@ static int check_running_process (hashcat_ctx_t *hashcat_ctx)
 
   char *pidfile_filename = pidfile_ctx->filename;
 
-  HCFILE fp;
+  FILE fp;
 
   if (fopen ( pidfile_filename, "rb") == false) return 0;
 
@@ -153,7 +153,7 @@ static int write_pidfile (hashcat_ctx_t *hashcat_ctx)
 
   char *pidfile_filename = pidfile_ctx->filename;
 
-  HCFILE fp;
+  FILE fp;
 
   if (fopen ( pidfile_filename, "wb") == false)
   {

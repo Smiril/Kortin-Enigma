@@ -71,7 +71,7 @@ int straight_ctx_update_loop (hashcat_ctx_t *hashcat_ctx)
         logfile_sub_var_string ("rulefile", user_options->rp_files[i]);
       }
 
-      HCFILE fp;
+      FILE fp;
 
       if (fopen ( straight_ctx->dict, "rb") == false)
       {
@@ -106,7 +106,7 @@ int straight_ctx_update_loop (hashcat_ctx_t *hashcat_ctx)
 
     if (combinator_ctx->combs_mode == COMBINATOR_MODE_BASE_LEFT)
     {
-      HCFILE fp;
+      FILE fp;
 
       if (fopen ( combinator_ctx->dict1, "rb") == false)
       {
@@ -128,7 +128,7 @@ int straight_ctx_update_loop (hashcat_ctx_t *hashcat_ctx)
     }
     else if (combinator_ctx->combs_mode == COMBINATOR_MODE_BASE_RIGHT)
     {
-      HCFILE fp;
+      FILE fp;
 
       if (fopen ( combinator_ctx->dict2, "rb") == false)
       {
@@ -174,7 +174,7 @@ int straight_ctx_update_loop (hashcat_ctx_t *hashcat_ctx)
     logfile_sub_string (straight_ctx->dict);
     logfile_sub_string (mask_ctx->mask);
 
-    HCFILE fp;
+    FILE fp;
 
     if (fopen ( straight_ctx->dict, "rb") == false)
     {
@@ -214,7 +214,7 @@ int straight_ctx_update_loop (hashcat_ctx_t *hashcat_ctx)
         logfile_sub_var_string ("rulefile", user_options->rp_files[i]);
       }
 
-      HCFILE fp;
+      FILE fp;
 
       if (fopen ( straight_ctx->dict, "rb") == false)
       {

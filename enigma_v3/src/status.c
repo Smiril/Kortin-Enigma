@@ -10,7 +10,7 @@
 #include "thread.h"
 #include "timer.h"
 #include "hwmon.h"
-#include "outfile.h"
+//#include "outfile.h"
 #include "monitor.h"
 #include "mpsp.h"
 #include "terminal.h"
@@ -837,15 +837,15 @@ char *status_get_guess_candidates_dev (const hashcat_ctx_t *hashcat_ctx, const i
   }
 
   if ((device_param->outerloop_left == 0) || (device_param->innerloop_left == 0)) return display;
-
+/*
   const u64 outerloop_first = 0;
   const u64 outerloop_last  = device_param->outerloop_left - 1;
 
   const u32 innerloop_first = 0;
   const u32 innerloop_last  = device_param->innerloop_left - 1;
-
-  plain_t plain1 = { outerloop_first, innerloop_first, 0, 0, 0, 0, 0 };
-  plain_t plain2 = { outerloop_last,  innerloop_last,  0, 0, 0, 0, 0 };
+*/
+  //plain_t plain1 = { outerloop_first, innerloop_first, 0, 0, 0, 0, 0 };
+  //plain_t plain2 = { outerloop_last,  innerloop_last,  0, 0, 0, 0, 0 };
 
   u32 plain_buf1[(64 * 2) + 2] = { 0 };
   u32 plain_buf2[(64 * 2) + 2] = { 0 };
@@ -856,8 +856,8 @@ char *status_get_guess_candidates_dev (const hashcat_ctx_t *hashcat_ctx, const i
   int plain_len1 = 0;
   int plain_len2 = 0;
 
-  build_plain ((hashcat_ctx_t *) hashcat_ctx, device_param, &plain1, plain_buf1, &plain_len1);
-  build_plain ((hashcat_ctx_t *) hashcat_ctx, device_param, &plain2, plain_buf2, &plain_len2);
+  //build_plain ((hashcat_ctx_t *) hashcat_ctx, device_param, &plain1, plain_buf1, &plain_len1);
+  //build_plain ((hashcat_ctx_t *) hashcat_ctx, device_param, &plain2, plain_buf2, &plain_len2);
 
   const bool always_ascii = (hashconfig->opts_type & OPTS_TYPE_PT_ALWAYS_ASCII) ? true : false;
 
