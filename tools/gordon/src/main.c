@@ -41,7 +41,7 @@ static char coin(int fex)
             newabc[0] = charset[rand() % max_index];
             // Check for duplicates
             for (j = 0; j <= fex; j++) {
-                if (&newabc[1] == &picked[j]) {
+                if (&newabc[0] == &picked[j]) {
                     isDuplicate = true;
                     break; // Duplicate detected
                 } // end if
