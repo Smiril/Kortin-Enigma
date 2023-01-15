@@ -41,7 +41,6 @@ $outerArrx = [0, 1, 2, 3, 4];
 rotor($outerArrx);
 $outerArrxx = [0];
 ref($outerArrxx);
-$outerArrxxx = [0];
-notch($outerArrxxx);
+notch($outerArrxx);
 echo "\n";
 ?>
