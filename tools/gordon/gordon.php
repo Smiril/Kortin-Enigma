@@ -1,10 +1,5 @@
 <?php
-<style type="text/css">
-body {
-    background-color: #336699;
-    text-color: #ffffff;
-}
-</style>
+echo "<style type=\"text/css\"> body { background-color: #336699; text-color: #ffffff; } </style>"
 
 function rotor($arr) {
     foreach ($arr as $v) {
