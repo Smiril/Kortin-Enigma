@@ -12,10 +12,6 @@
 #include <semaphore.h>
 #include <sys/time.h>
 
-#define DEVICES_MAX 64
-#define EXEC_CACHE 2
-#define SPEED_CACHE 1
-
 #define IN_RANK 0
 #define MAXLINEX 1000000
 #define MSGY 1320
