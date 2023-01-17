@@ -38,21 +38,12 @@ void configmain(main_ctx_t *main_ctx,char *hugh) {
             xmlFree(uri);
         }
         cur = cur->next;
-    }
-
-    count = 0;
-    count1 = 0;
-    while (cur != NULL) {
         if ((!xmlStrcmp(cur->name, (const xmlChar *)"xmlref"))) {
             uri = xmlGetProp(cur, (xmlChar *)config2[count++]);
             strlcpy(&main_ctx->ref1[0][count1++], (char *)uri,MSGC);
             xmlFree(uri);
         }
         cur = cur->next;
-    }
-    count = 0;
-    count1 = 0;
-    while (cur != NULL) {
         if ((!xmlStrcmp(cur->name, (const xmlChar *)"xmlnotch"))) {
             uri = xmlGetProp(cur, (xmlChar *)config3[count++]);
             strlcpy(&main_ctx->notch1[0][count1++], (char *)uri,MSGG);
