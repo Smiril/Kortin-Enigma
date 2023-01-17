@@ -6,7 +6,7 @@ env:
 on:
   push:
     branches:
-      - master
+      - main
     tags:
       - v*
     paths:
@@ -17,7 +17,7 @@ on:
       - '.github/workflows/build.yml'
   pull_request:
     branches:
-      - master
+      - main
     paths:
 
       - 'enigma_v4'
@@ -32,16 +32,16 @@ jobs:
       fail-fast: false
       Kortin-Enigma:
         shared: [0, 1]
-    name: Build macOS (${{ Kortin-Enigma.shared == 0 && 'Static' || 'Shared' }})
+    name: Build macOS (${{ matrix.shared == 0 && 'Static' || 'Shared' }})
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       - name: Build
         env:
-          SHARED: ${{ Kortin-Enigma.shared }}
+          SHARED: ${{ matrix.shared }}
         run: make
       - name: Generate artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: enigma-macos-${{ Kortin-Enigma.shared == 0 && 'static' || 'shared' }}
+          name: enigma-macos-${{ matrix.shared == 0 && 'static' || 'shared' }}
           path: ${{ env.include_paths }}
