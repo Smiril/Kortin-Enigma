@@ -2,9 +2,7 @@ name: Build
 
 env:
   include_paths: |
-    enigma_v3/src
-    enigma_v3/deps/
-    docs/
+    enigma_v4
 on:
   push:
     branches:
@@ -12,21 +10,20 @@ on:
     tags:
       - v*
     paths:
-      - 'enigma_v3/autoconf.sh'
-      - 'enigma_v3/src/**.h'
-      - 'enigma_v3/src/**.c'
-      - '**/Makefile.am'
-      - '**/configure.ac'
+      - 'enigma_v4'
+      - 'enigma_v4/**.h'
+      - 'enigma_v4/**.c'
+      - 'enigma_v4/Makefile'
       - '.github/workflows/build.yml'
   pull_request:
     branches:
       - master
     paths:
-      - 'enigma_v3/autoconf.sh'
-      - 'enigma_v3/src/**.h'
-      - 'enigma_v3/src/**.c'
-      - '**/Makefile.am'
-      - '**/configure.ac'
+
+      - 'enigma_v4'
+      - 'enigma_v4/**.h'
+      - 'enigma_v4/**.c'
+      - 'enigma_v4/Makefile'
       - '.github/workflows/build.yml'
 
 jobs:
@@ -38,13 +35,13 @@ jobs:
     name: Build macOS (${{ Kortin-Enigma.shared == 0 && 'Static' || 'Shared' }})
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Build
         env:
           SHARED: ${{ Kortin-Enigma.shared }}
-        run: autoconf.sh
+        run: make
       - name: Generate artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: hashcat-macos-${{ Kortin-Enigma.shared == 0 && 'static' || 'shared' }}
+          name: enigma-macos-${{ Kortin-Enigma.shared == 0 && 'static' || 'shared' }}
           path: ${{ env.include_paths }}
