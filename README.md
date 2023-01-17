@@ -46,9 +46,9 @@ git clone https://github.com/Smiril/Kortin-Enigma.git
 ## Building
 
 ```
-cd Kortin-Enigma/enigma_v4 \
-make \
-sudo make install \
+cd Kortin-Enigma/enigma_v4
+make
+sudo make install
 make clean
 
 ```
