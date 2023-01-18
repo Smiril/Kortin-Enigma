@@ -47,12 +47,12 @@ function savex($arr) {
     foreach ($arr as $v) {
         $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
         // convert to array
-        $arrxxx = str_split($chars, 1);
+        $arrxxcx = str_split($chars, 1);
         // shuffle the array
-        shuffle($arrxxx);
+        shuffle($arrxxcx);
         // array to chars with 26 chars
         echo "\n";
-        echo substr(implode('', $arrxxx), 0, 45);
+        echo substr(implode('', $arrxxcx), 0, 45);
     }
 }
 
