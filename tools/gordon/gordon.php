@@ -61,13 +61,13 @@ echo "\n";
 
 $xmlString = '<?xml version="1.0" encoding="utf-8"?>
     <config>
-        <xmlConfig rotor1="'. rotor($outerArrxx) .'"/>
-        <xmlConfig rotor2="'. rotor($outerArrxx) .'"/>
-        <xmlConfig rotor3="'. rotor($outerArrxx) .'"/>
-        <xmlConfig rotor4="'. rotor($outerArrxx) .'"/>
-        <xmlConfig rotor5="'. rotor($outerArrxx) .'"/>
-        <xmlref ref="'. ref($outerArrxx) .'"/>
-        <xmlnotch notch="'. notch($outerArrxx) .'"/>
+        <xmlConfig rotor1=<?php rotor($outerArrxx) ?>/>
+        <xmlConfig rotor2=<?php rotor($outerArrxx) ?>/>
+        <xmlConfig rotor3=<?php rotor($outerArrxx) ?>/>
+        <xmlConfig rotor4=<?php rotor($outerArrxx) ?>/>
+        <xmlConfig rotor5=<?php rotor($outerArrxx) ?>/>
+        <xmlref ref=<?php ref($outerArrxx) ?>/>
+        <xmlnotch notch=<?php notch($outerArrxx) ?>/>
     </config>';
 
 $dom = new DOMDocument;
@@ -75,7 +75,7 @@ $dom->preserveWhiteSpace = FALSE;
 $dom->loadXML($xmlString);
 
 //Save XML as a file
-$dom->save('xml/enigma'. savex($outerArrxx) .'.xml');
+$dom->save('xml/enigma'<?php savex($outerArrxx) ?>.xml');
 
 $dom->formatOutput = TRUE;
 echo $dom->saveXml();
