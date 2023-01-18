@@ -43,10 +43,28 @@ function notch($arr) {
     }
 }
 
-$outerArrx = [0, 1, 2, 3, 4];
-rotor($outerArrx);
 $outerArrxx = [0];
-ref($outerArrxx);
-notch($outerArrxx);
 echo "\n";
+
+$xmlString = '<?xml version="1.0" encoding="utf-8"?>
+    <config>
+        <xmlConfig rotor1="'. rotor($outerArrxx); .'"/>
+        <xmlConfig rotor2="'. rotor($outerArrxx); .'"/>
+        <xmlConfig rotor3="'. rotor($outerArrxx); .'"/>
+        <xmlConfig rotor4="'. rotor($outerArrxx); .'"/>
+        <xmlConfig rotor5="'. rotor($outerArrxx); .'"/>
+        <xmlref ref="'. ref($outerArrxx); .'"/>
+        <xmlnotch notch="'. notch($outerArrxx); .'"/>
+    </config>';
+
+$dom = new DOMDocument;
+$dom->preserveWhiteSpace = FALSE;
+$dom->loadXML($xmlString);
+
+//Save XML as a file
+$dom->save('xml/enigma'. ref($outerArrxx); .'.xml');
+
+$dom->formatOutput = TRUE;
+echo $dom->saveXml();
+
 ?>
