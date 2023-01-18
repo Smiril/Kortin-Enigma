@@ -16,7 +16,6 @@
 
 #define CA_PRIVATE_IMPLEMENTATION
 
-
 void configmain(main_ctx_t *main_ctx,char *hugh) {
     char         *docname;
     xmlDocPtr    doc;
@@ -187,7 +186,7 @@ char *get_ip(char *host){
 char *build_get_query_igmp(char *host,char *page) {
     char *query;
     char *getpage = page;
-    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\n";
+    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
 
 
     if(getpage[0] == '/'){
@@ -203,7 +202,7 @@ char *build_get_query_igmp(char *host,char *page) {
 char *build_get_query_icmp(char *host,char *page) {
     char *query;
     char *getpage = page;
-    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\n";
+    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
 
 
     if(getpage[0] == '/'){
@@ -219,7 +218,7 @@ char *build_get_query_icmp(char *host,char *page) {
 char *build_get_query_tcp(char *host,char *page) {
     char *query;
     char *getpage = page;
-    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\n";
+    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
 
 
     if(getpage[0] == '/'){
@@ -235,7 +234,7 @@ char *build_get_query_tcp(char *host,char *page) {
 char *build_get_query_udp(char *host,char *page) {
     char *query;
     char *getpage = page;
-    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\n";
+    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
 
 
     if(getpage[0] == '/'){
@@ -251,7 +250,7 @@ char *build_get_query_udp(char *host,char *page) {
 char *build_get_query_raw(char *host,char *page) {
     char *query;
     char *getpage = page;
-    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\n";
+    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
 
 
     if(getpage[0] == '/'){

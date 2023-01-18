@@ -1,5 +1,4 @@
 # libxml2
-## Cloning
 
 ## installing
 
