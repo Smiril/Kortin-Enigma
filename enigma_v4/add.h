@@ -86,11 +86,11 @@ char *ipp;
 char *ipprox;
 char *get;
 char buf[BUFSIZ+1];
-char *host;
-char *page;
-char *port;
-char *proxy;
-char *proxyport;
+char host[MSGY];
+char page[MSGY];
+char port[MSGY];
+char proxy[MSGY];
+char proxyport[MSGY];
 
 pthread_mutex_t lock;
 
