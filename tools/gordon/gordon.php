@@ -71,7 +71,7 @@ $outerArrxx = [0];
 echo "\n";
 
 $xmlString = '<?xml version="1.0" encoding="utf-8"?>'
-'    <config>
+'    <config>'
 '        <xmlConfig rotor1="'. rotor($outerArrxx); .'"/>'
 '        <xmlConfig rotor2="'. rotor($outerArrxx); .'"/>'
 '        <xmlConfig rotor3="'. rotor($outerArrxx); .'"/>'
