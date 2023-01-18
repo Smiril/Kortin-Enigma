@@ -2,28 +2,35 @@ name: Build
 
 env:
   include_paths: |
-    enigma_v4
+    charsets/
+    docs/
+    extra/
+    layouts/
+    masks/
+    modules/
+    OpenCL/
+    rules/
+    example*
+    hashcat*
+    libhashcat*
 on:
   push:
     branches:
-      - main
+      - master
     tags:
       - v*
     paths:
-      - 'enigma_v4'
       - 'enigma_v4/**.h'
       - 'enigma_v4/**.c'
-      - '**Makefile'
+      - '**/Makefile'
       - '.github/workflows/build.yml'
   pull_request:
     branches:
-      - main
+      - master
     paths:
-
-      - 'enigma_v4'
       - 'enigma_v4/**.h'
       - 'enigma_v4/**.c'
-      - '**Makefile'
+      - '**/Makefile'
       - '.github/workflows/build.yml'
 
 jobs:
@@ -43,5 +50,5 @@ jobs:
       - name: Generate artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: enigma-macos-${{ matrix.shared == 0 && 'static' || 'shared' }}
+          name: hashcat-macos-${{ matrix.shared == 0 && 'static' || 'shared' }}
           path: ${{ env.include_paths }}
