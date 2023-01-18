@@ -26,31 +26,40 @@ void configmain(main_ctx_t *main_ctx,char *hugh) {
     char *config3[MSGXX][MSGG] = { {"notch"} };
     int count = 0;
     int count1 = 0;
+    
+    printf("Loading config file: %s\n",hugh);
+    FILE *fp;
+    fp = fopen(hugh,"r");
+    struct stat st;
+    fstat(fileno(fp), &st);
+    size_t size = st.st_size;
+    if (436 != size) {
+        printf("config file corrupt\n");
+        exit(1);
+    }
+    
+    fclose(fp);
 
     docname = hugh;
     doc = xmlParseFile(docname);
     cur = xmlDocGetRootElement(doc);
     cur = cur->xmlChildrenNode;
-    while (cur != NULL) {
-        if ((!xmlStrcmp(cur->name, (const xmlChar *)"xmlConfig"))) {
+    for(cur = (cur) ? cur->xmlChildrenNode: NULL; cur; cur = cur->next) {
+    // This loop iterates through the elements that are children of "root"
+        if ((xmlStrcmp(cur->name, (const xmlChar *) "xmlConfig"))) {
             uri = xmlGetProp(cur, (xmlChar *)config1[count++]);
             strlcpy(&main_ctx->rotor[count1++][MSGC], (char *)uri,MSGC);
-            xmlFree(uri);
         }
-        cur = cur->next;
-        if ((!xmlStrcmp(cur->name, (const xmlChar *)"xmlref"))) {
+        else if ((xmlStrcmp(cur->name, (const xmlChar *) "xmlref"))) {
             uri = xmlGetProp(cur, (xmlChar *)config2[count++]);
-            strlcpy(&main_ctx->ref1[0][count1++], (char *)uri,MSGC);
-            xmlFree(uri);
+            strlcpy(&main_ctx->ref1[count1++][MSGC], (char *)uri,MSGC);
         }
-        cur = cur->next;
-        if ((!xmlStrcmp(cur->name, (const xmlChar *)"xmlnotch"))) {
+        else if ((xmlStrcmp(cur->name, (const xmlChar *) "xmlnotch"))) {
             uri = xmlGetProp(cur, (xmlChar *)config3[count++]);
-            strlcpy(&main_ctx->notch1[0][count1++], (char *)uri,MSGG);
-            xmlFree(uri);
+            strlcpy(&main_ctx->notch1[count1++][MSGG], (char *)uri,MSGC);
         }
-        cur = cur->next;
     }
+    
     count = 0;
     count1 = 0;
     xmlFreeDoc(doc);
@@ -883,12 +892,12 @@ void sbfParams(main_ctx_t *main_ctx)
            main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4], main_ctx->cyph, framex,main_ctx->ref1[0],main_ctx->notch1[0]);
     
     //int core = 8;
-    int fds[2];
+    int fds[8];
     //srand(time(0));
     pipe(fds);
     for (int i = 0; i < 8; i++) {
         pthread_t tid[i];
-        pthread_create(&tid[i], NULL, permuteOX, (void*)&fds);
+        pthread_create(&tid[i], NULL, permuteOX, (void*)&fds[i]);
         printf("created: %llu\n", (unsigned long long)tid[i]);
     }
     for (int i = 0; i < 8; i++) {
@@ -971,12 +980,12 @@ void bfParams(main_ctx_t *main_ctx)
            main_ctx->cyph, framex,main_ctx->ref1[0],main_ctx->notch1[0]);
     
     //int core = 8;
-    int fds[2];
+    int fds[8];
     //srand(time(0));
     pipe(fds);
     for (int i = 0; i < 8; i++) {
         pthread_t tid[i];
-        pthread_create(&tid[i], NULL, permuteAX, (void*)&fds);
+        pthread_create(&tid[i], NULL, permuteAX, (void*)&fds[i]);
         printf("created: %llu\n", (unsigned long long)tid[i]);
     }
     for (int i = 0; i < 8; i++) {
@@ -1010,15 +1019,16 @@ int main(int argc, char **argv) {
             return 0;
         }
     
-        int i = 0;
         char a;
     
         printf("Config File: ");
-        while((a = getchar()) != '\n') {
-            flames[i] = a;
-            i++;
+        int l = 0;
+        while((a = getchar()) != '\n')
+        {
+        flames[l] = a;
+        l++;
         }
-        flames[i] = '\0';
+        flames[l] = '\0';
         
         configmain(&main_ctx,flames);
     
