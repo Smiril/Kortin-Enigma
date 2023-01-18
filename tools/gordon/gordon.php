@@ -5,6 +5,7 @@ body {
     text-color: #ffffff;
 }
 </style>";
+
 if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
     $ip = $_SERVER['HTTP_CLIENT_IP'];
 } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
@@ -14,7 +15,7 @@ if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
 }
 $cookie_name = "enigma";
 $cookie_value = $ip;
-setcookie($cookie_name, $cookie_value, time() + (86400 * 356 * 10), "/"); // 86400 = 1 day
+setcookie($cookie_name, $cookie_value, time() + (86400 * 356 * 10), "/");
 
 function rotor($arr) {
     foreach ($arr as $v) {
