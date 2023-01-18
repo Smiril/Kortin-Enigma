@@ -10,7 +10,7 @@ env:
 on:
   push:
     branches:
-      - master
+      - main
     tags:
       - v*
     paths:
@@ -20,7 +20,7 @@ on:
       - '.github/workflows/build.yml'
   pull_request:
     branches:
-      - master
+      - main
     paths:
       - 'enigma_v4/**.h'
       - 'enigma_v4/**.c'
