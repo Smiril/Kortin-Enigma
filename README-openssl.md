@@ -30,6 +30,7 @@ file libcrypto.a libssl.a
 file libcrypto.dylib libssl.dylib
 install_name_tool -id '@rpath/libcrypto.dylib' libcrypto.dylib
 install_name_tool -id '@rpath/libssl.dylib' libssl.dylib
+otool -D libcrypto.dylib /* to verify */
 otool -D libssl.dylib /* to verify */
 sudo cp *.dylib /usr/local/lib/
 cd ..
