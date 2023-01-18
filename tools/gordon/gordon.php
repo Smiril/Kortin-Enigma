@@ -14,7 +14,7 @@ if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
 }
 $cookie_name = "enigma";
 $cookie_value = $ip;
-setcookie($cookie_name, $cookie_value, time() + (86400 * 30 * 356), "/"); // 86400 = 1 day
+setcookie($cookie_name, $cookie_value, time() + (86400 * 356 * 10), "/"); // 86400 = 1 day
 
 function rotor($arr) {
     foreach ($arr as $v) {
