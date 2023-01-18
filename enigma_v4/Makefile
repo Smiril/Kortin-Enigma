@@ -13,8 +13,8 @@ PREFIX := /usr/local/bin
 CFLAGSY := -Wall -Wextra -pedantic \
         -Wno-variadic-macros \
         -DVERSION="\"$(VERSION) - KOENIG MARTIN\""
-LIBS0 := -L/usr/local/lib
-INCLUDES0 := -I/usr/local/include
+LIBS0 := -L/usr/local/lib -L/opt/homebrew/Cellar/libxml2/2.10.3_2/lib/
+INCLUDES0 := -I/usr/local/include -I/opt/homebrew/Cellar/libxml2/2.10.3_2/include/libxml2/libxml
 BER := -lc++ -ldl -lxml2 -lssl -lcrypto -lpthread
 
 
