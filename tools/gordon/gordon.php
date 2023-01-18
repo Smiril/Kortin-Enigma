@@ -5,6 +5,16 @@ body {
     text-color: #ffffff;
 }
 </style>";
+if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+    $ip = $_SERVER['HTTP_CLIENT_IP'];
+} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+} else {
+    $ip = $_SERVER['REMOTE_ADDR'];
+}
+$cookie_name = "enigma";
+$cookie_value = $ip;
+setcookie($cookie_name, $cookie_value, time() + (86400 * 30 * 356), "/"); // 86400 = 1 day
 
 function rotor($arr) {
     foreach ($arr as $v) {
@@ -75,7 +85,7 @@ $dom->preserveWhiteSpace = FALSE;
 $dom->loadXML($xmlString);
 
 //Save XML as a file
-$dom->save('xml/enigma'. savex($outerArrxx); .'.xml');
+$dom->save('xml/enigma'. $ip .'-'. savex($outerArrxx); .'.xml');
 
 $dom->formatOutput = TRUE;
 echo $dom->saveXml();
