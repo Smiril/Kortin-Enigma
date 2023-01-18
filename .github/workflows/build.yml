@@ -13,7 +13,7 @@ on:
       - 'enigma_v4'
       - 'enigma_v4/**.h'
       - 'enigma_v4/**.c'
-      - 'enigma_v4/Makefile'
+      - '**/Makefile'
       - '.github/workflows/build.yml'
   pull_request:
     branches:
@@ -23,14 +23,14 @@ on:
       - 'enigma_v4'
       - 'enigma_v4/**.h'
       - 'enigma_v4/**.c'
-      - 'enigma_v4/Makefile'
+      - '**/Makefile'
       - '.github/workflows/build.yml'
 
 jobs:
   build-macos:
     strategy:
       fail-fast: false
-      Kortin-Enigma:
+      matrix:
         shared: [0, 1]
     name: Build macOS (${{ matrix.shared == 0 && 'Static' || 'Shared' }})
     runs-on: macos-latest
