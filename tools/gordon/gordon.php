@@ -75,7 +75,7 @@ $dom->preserveWhiteSpace = FALSE;
 $dom->loadXML($xmlString);
 
 //Save XML as a file
-$dom->save('xml/enigma'<?php savex($outerArrxx) ?>.xml');
+$dom->save('xml/enigma'<?php savex($outerArrxx) ?>'.xml');
 
 $dom->formatOutput = TRUE;
 echo $dom->saveXml();
