@@ -2,17 +2,11 @@ name: Build
 
 env:
   include_paths: |
-    charsets/
     docs/
-    extra/
-    layouts/
-    masks/
-    modules/
-    OpenCL/
-    rules/
-    example*
-    hashcat*
-    libhashcat*
+    share/
+    images/
+    enigma_v4/
+    tools/
 on:
   push:
     branches:
