@@ -7,15 +7,15 @@ LIBNAME := $(NAME)
 LIBNAME1 := T.E.D. - The Enemy Dail
 LIBNAME2 := Enigma
 VERSION := $(LIBNAME) $(MAJOR).$(MINOR) $(CODENAME1)
-SIGNING_IDENTITY="Apple Development: sonar@gmx.com (XXXXXXXXXX)"
+SIGNING_IDENTITY="Apple Development: florit@gmx.at (86ZX5898TT)"
 CC := clang
-PREFIX := /usr/local
+PREFIX := /usr/local/bin
 CFLAGSY := -Wall -Wextra -pedantic \
         -Wno-variadic-macros \
         -DVERSION="\"$(VERSION) - KOENIG MARTIN\""
 LIBS0 := -L/usr/local/lib
 INCLUDES0 := -I/usr/local/include
-BER := -lc++ -ldl -lxml2
+BER := -lc++ -ldl -lxml2 -lssl -lcrypto -lpthread
 
 
 .PHONY: all sign install uninstall clean version
@@ -40,15 +40,15 @@ sign:
 	xcrun codesign -f -s $(SIGNING_IDENTITY) --preserve-metadata=identifier,entitlements --timestamp=none x86_app arm_app universal_app
 	
 install:
-	cp ./universal_app $(PREFIX)/bin/enigma
-	chmod u+x $(PREFIX)/bin/enigma
-	mkdir -p $(PREFIX)/share/enigma
-	cp ../share/*.xml $(PREFIX)/share/enigma/
-	cp ../share/*.txt $(PREFIX)/share/enigma/
+	cp ./universal_app $(PREFIX)/enigma
+	chmod u+x $(PREFIX)/enigma
+	mkdir -p /usr/local/share/enigma
+	cp ./*.xml /usr/local/share/enigma/
+	cp ./*.txt /usr/local/share/enigma/
 
 uninstall:
-	rm -f $(PREFIX)/bin/enigma
-	rm -rf $(PREFIX)/share/enigma
+	rm $(PREFIX)/enigma
+	rm -rf /usr/local/share/enigma
 
 clean:
 	rm -rf universal_app
