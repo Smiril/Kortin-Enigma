@@ -43,6 +43,19 @@ function notch($arr) {
     }
 }
 
+function savex($arr) {
+    foreach ($arr as $v) {
+        $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
+        // convert to array
+        $arrxxx = str_split($chars, 1);
+        // shuffle the array
+        shuffle($arrxxx);
+        // array to chars with 26 chars
+        echo "\n";
+        echo substr(implode('', $arrxxx), 0, 45);
+    }
+}
+
 $outerArrxx = [0];
 echo "\n";
 
@@ -62,7 +75,7 @@ $dom->preserveWhiteSpace = FALSE;
 $dom->loadXML($xmlString);
 
 //Save XML as a file
-$dom->save('xml/enigma'. ref($outerArrxx) .'.xml');
+$dom->save('xml/enigma'. savex($outerArrxx) .'.xml');
 
 $dom->formatOutput = TRUE;
 echo $dom->saveXml();
