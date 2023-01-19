@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <config>
-        <xmlConfig rotor1="WTOKASUYVRBXJHQCPZEFMDINLG"/>
-        <xmlConfig rotor2="GJLPUBSWEMCTQVHXAOFZDRKYNI"/>
-        <xmlConfig rotor3="JWFMHNBPUSDYTIXVZGRQLAOEKC"/>
-        <xmlConfig rotor4="ESOVPZJAYQUIRHXLNFTGKDCMWB"/>
-        <xmlConfig rotor5="HEJXQOTZBVFDASCILWPGYNMURK"/>
-        <xmlref ref="MOWJYPUXNDSRAIBFVLKZGQCHET"/>
-        <xmlnotch notch="YMDRH"/>
-    </config>
+<config>
+    <rotor1 name="rotor1">WTOKASUYVRBXJHQCPZEFMDINLG</rotor1>
+    <rotor2 name="rotor2">GJLPUBSWEMCTQVHXAOFZDRKYNI</rotor2>
+    <rotor3 name="rotor3">JWFMHNBPUSDYTIXVZGRQLAOEKC</rotor3>
+    <rotor4 name="rotor4">ESOVPZJAYQUIRHXLNFTGKDCMWB</rotor4>
+    <rotor5 name="rotor5">HEJXQOTZBVFDASCILWPGYNMURK</rotor5>
+    <xmlref name="ref">MOWJYPUXNDSRAIBFVLKZGQCHET</xmlref>
+    <xmlnotch name="notch">YMDRH</xmlnotch>
+</config>

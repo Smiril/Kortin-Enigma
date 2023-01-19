@@ -21,11 +21,11 @@ void configmain(main_ctx_t *main_ctx,char *hugh) {
     xmlDocPtr    doc;
     xmlNodePtr   cur;
     xmlChar      *uri;
+    int count = 0;
+    int count1 = 0;
     char *config1[MSGG][MSGC] = { {"rotor1", "rotor2", "rotor3", "rotor4", "rotor5"} };
     char *config2[MSGXX][MSGC] = { {"ref"} };
     char *config3[MSGXX][MSGG] = { {"notch"} };
-    int count = 0;
-    int count1 = 0;
     
     printf("Loading config file: %s\n",hugh);
     FILE *fp;
@@ -33,8 +33,9 @@ void configmain(main_ctx_t *main_ctx,char *hugh) {
     struct stat st;
     fstat(fileno(fp), &st);
     size_t size = st.st_size;
-    if (436 != size) {
-        printf("config file corrupt\n");
+    printf("%zu\n",size);
+    if (471 != size) {
+        printf("config file is corrupt\n");
         exit(1);
     }
     
@@ -43,25 +44,37 @@ void configmain(main_ctx_t *main_ctx,char *hugh) {
     docname = hugh;
     doc = xmlParseFile(docname);
     cur = xmlDocGetRootElement(doc);
-    cur = cur->xmlChildrenNode;
-    for(cur = (cur) ? cur->xmlChildrenNode: NULL; cur; cur = cur->next) {
-    // This loop iterates through the elements that are children of "root"
-        if ((xmlStrcmp(cur->name, (const xmlChar *) "xmlConfig"))) {
-            uri = xmlGetProp(cur, (xmlChar *)config1[count++]);
-            strlcpy(&main_ctx->rotor[count1++][MSGC], (char *)uri,MSGC);
-        }
-        else if ((xmlStrcmp(cur->name, (const xmlChar *) "xmlref"))) {
-            uri = xmlGetProp(cur, (xmlChar *)config2[count++]);
-            strlcpy(&main_ctx->ref1[count1++][MSGC], (char *)uri,MSGC);
-        }
-        else if ((xmlStrcmp(cur->name, (const xmlChar *) "xmlnotch"))) {
-            uri = xmlGetProp(cur, (xmlChar *)config3[count++]);
-            strlcpy(&main_ctx->notch1[count1++][MSGG], (char *)uri,MSGG);
-        }
+    
+    if(cur == NULL) {
+        printf("error\n");
+        exit(1);
     }
     
-    count = 0;
-    count1 = 0;
+  cur = cur->xmlChildrenNode;
+  while (cur != NULL) {
+      if (xmlStrcmp(cur->name, (const xmlChar *) config1[count++])) {
+          printf("node type: Element, name: %s\n",cur->name);
+          if((uri =  xmlGetProp(cur,(xmlChar *)cur->next)) != NULL) {
+              strncpy(&main_ctx->rotor[count1++][MSGC],(const char *)uri,MSGC);
+              xmlFree(uri);
+          }
+      }
+      else if (xmlStrcmp(cur->name, (const xmlChar *) config2[count++])) {
+              printf("node type: Element, name: %s\n",cur->name);
+              if((uri =  xmlGetProp(cur,(xmlChar *)cur->next)) != NULL) {
+                  strncpy(&main_ctx->ref1[count1++][MSGC],(const char *)uri,MSGC);
+                  xmlFree(uri);
+              }
+          }
+      else if (xmlStrcmp(cur->name, (const xmlChar *) config3[count++])) {
+                  printf("node type: Element, name: %s\n",cur->name);
+                  if((uri =  xmlGetProp(cur,(xmlChar *)cur->next)) != NULL) {
+                      strncpy(&main_ctx->notch1[count1++][MSGG],(const char *)uri,MSGG);
+                      xmlFree(uri);
+                  }
+              }
+      cur = cur->next;
+  }
     xmlFreeDoc(doc);
 }
 
@@ -496,38 +509,6 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
     }
 
     return 0;
-}
-
-//---------------------------------------------------------------------
-const char *coin(int fex)
-{
-    bool isDuplicate = false;
-    //---------------------------------------------------------------------
-    char charset[27] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    int max_index = (strlen(charset) - 1);
-    //---------------------------------------------------------------------
-    static char picked[27];
-    char newabc[1];
-    int j = 0,i = 0;
-
-    for (i = 0; i <= fex; i++) {
-        
-        do {
-            newabc[0] = charset[random() % max_index];
-            // Check for duplicates
-            for (j = 0; j <= fex; j++) {
-                if (&newabc[0] == &picked[j]) {
-                    isDuplicate = true;
-                    break; // Duplicate detected
-                } // end if
-            } // end for
-        } // end do
-        while (isDuplicate && j == fex); // equivalent to while(isDuplicate == false)
-        
-        strncpy((char *)&picked[j],&newabc[0],strlen(&picked[j])); // picked
-    } // end for
-    
-    return picked;
 }
 
 int getRank(char *cyph) {
