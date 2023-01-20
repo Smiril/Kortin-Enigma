@@ -25,15 +25,14 @@ void configmain(main_ctx_t *main_ctx,char *hugh) {
     int count1 = 0;
     //int count2 = 0;
     char *config[MSGG][MSGC] = { {"rotor1", "rotor2", "rotor3", "rotor4", "rotor5"} };
-    //char *config2[MSGXX][MSGC] = { {"xmlref"} };
-    //char *config3[MSGXX][MSGG] = { {"xmlnotch"} };
+    
     printf("Loading config file: %s\n",hugh);
     FILE *fp;
     fp = fopen(hugh,"r");
     struct stat st;
     fstat(fileno(fp), &st);
     size_t size = st.st_size;
-    
+  
     if (433 != size) {
         printf("config file is corrupt\n");
         exit(1);
@@ -56,8 +55,9 @@ void configmain(main_ctx_t *main_ctx,char *hugh) {
         //if(cur->type == XML_ELEMENT_NODE) {
             if (xmlStrcmp(cur->name, (const xmlChar *) config[count++])) {
                 if((uri =  xmlGetProp(cur,(xmlChar *)"name")) != NULL) {
-                    strncpy(&main_ctx->rotor[count1++][MSGC],(const char *)uri,MSGC);
+                    strncpy(&main_ctx->rotor[count1][MSGC],(const char *)uri,MSGC);
                     xmlFree(uri);
+                    count1++;
                 }
             }
             else if (xmlStrcmp(cur->name, (const xmlChar *) "xmlref")) {
@@ -196,18 +196,98 @@ char *get_ip(char *host){
     return ipx;
 }
 
-char *build_get_query_igmp(char *host,char *page) {
+char *d_build_get_query_igmp(char *host,char *page) {
     char *query;
     char *getpage = page;
-    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
+    char *tpl = "GET /%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
 
 
     if(getpage[0] == '/'){
         getpage = getpage + 1;
     }
 
-    query = (char *)malloc(strlen(proxy)+strlen((const char *)proxyport)+strlen(getpage)+strlen(host)+strlen(USERAGENT)+strlen(tpl)-6);
-    sprintf(query,tpl,proxy,proxyport,getpage,host,USERAGENT);
+    query = (char *)malloc(strlen(getpage)+strlen(host)+strlen(USERAGENT)+strlen(tpl)-3);
+    sprintf(query,tpl,getpage,host,USERAGENT);
+            
+    return query;
+}
+
+char *d_build_get_query_icmp(char *host,char *page) {
+    char *query;
+    char *getpage = page;
+    char *tpl = "GET /%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
+
+
+    if(getpage[0] == '/'){
+        getpage = getpage + 1;
+    }
+
+    query = (char *)malloc(strlen(getpage)+strlen(host)+strlen(USERAGENT)+strlen(tpl)-3);
+    sprintf(query,tpl,getpage,host,USERAGENT);
+            
+    return query;
+}
+
+char *d_build_get_query_tcp(char *host,char *page) {
+    char *query;
+    char *getpage = page;
+    char *tpl = "GET /%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
+
+
+    if(getpage[0] == '/'){
+        getpage = getpage + 1;
+    }
+
+    query = (char *)malloc(strlen(getpage)+strlen(host)+strlen(USERAGENT)+strlen(tpl)-3);
+    sprintf(query,tpl,getpage,host,USERAGENT);
+            
+    return query;
+}
+
+char *d_build_get_query_udp(char *host,char *page) {
+    char *query;
+    char *getpage = page;
+    char *tpl = "GET /%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
+
+
+    if(getpage[0] == '/'){
+        getpage = getpage + 1;
+    }
+
+    query = (char *)malloc(strlen(getpage)+strlen(host)+strlen(USERAGENT)+strlen(tpl)-3);
+    sprintf(query,tpl,getpage,host,USERAGENT);
+            
+    return query;
+}
+
+char *d_build_get_query_raw(char *host,char *page) {
+    char *query;
+    char *getpage = page;
+    char *tpl = "GET /%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
+
+
+    if(getpage[0] == '/'){
+        getpage = getpage + 1;
+    }
+
+    query = (char *)malloc(strlen(getpage)+strlen(host)+strlen(USERAGENT)+strlen(tpl)-3);
+    sprintf(query,tpl,getpage,host,USERAGENT);
+            
+    return query;
+}
+
+char *build_get_query_igmp(char *host,char *page) {
+    char *query;
+    char *getpage = page;
+    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s:%s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
+
+
+    if(getpage[0] == '/'){
+        getpage = getpage + 1;
+    }
+
+    query = (char *)malloc(strlen(proxy)+strlen((const char *)proxyport)+strlen(getpage)+strlen(host)+strlen(port)+strlen(USERAGENT)+strlen(tpl)-7);
+    sprintf(query,tpl,proxy,proxyport,getpage,host,port,USERAGENT);
             
     return query;
 }
@@ -215,15 +295,15 @@ char *build_get_query_igmp(char *host,char *page) {
 char *build_get_query_icmp(char *host,char *page) {
     char *query;
     char *getpage = page;
-    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
+    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s:%s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
 
 
     if(getpage[0] == '/'){
         getpage = getpage + 1;
     }
 
-    query = (char *)malloc(strlen(proxy)+strlen((const char *)proxyport)+strlen(getpage)+strlen(host)+strlen(USERAGENT)+strlen(tpl)-6);
-    sprintf(query,tpl,proxy,proxyport,getpage,host,USERAGENT);
+    query = (char *)malloc(strlen(proxy)+strlen((const char *)proxyport)+strlen(getpage)+strlen(host)+strlen(port)+strlen(USERAGENT)+strlen(tpl)-7);
+    sprintf(query,tpl,proxy,proxyport,getpage,host,port,USERAGENT);
             
     return query;
 }
@@ -231,15 +311,15 @@ char *build_get_query_icmp(char *host,char *page) {
 char *build_get_query_tcp(char *host,char *page) {
     char *query;
     char *getpage = page;
-    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
+    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s:%s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
 
 
     if(getpage[0] == '/'){
         getpage = getpage + 1;
     }
 
-    query = (char *)malloc(strlen(proxy)+strlen((const char *)proxyport)+strlen(getpage)+strlen(host)+strlen(USERAGENT)+strlen(tpl)-6);
-    sprintf(query,tpl,proxy,proxyport,getpage,host,USERAGENT);
+    query = (char *)malloc(strlen(proxy)+strlen((const char *)proxyport)+strlen(getpage)+strlen(host)+strlen(port)+strlen(USERAGENT)+strlen(tpl)-7);
+    sprintf(query,tpl,proxy,proxyport,getpage,host,port,USERAGENT);
             
     return query;
 }
@@ -247,15 +327,15 @@ char *build_get_query_tcp(char *host,char *page) {
 char *build_get_query_udp(char *host,char *page) {
     char *query;
     char *getpage = page;
-    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
+    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s:%s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
 
 
     if(getpage[0] == '/'){
         getpage = getpage + 1;
     }
 
-    query = (char *)malloc(strlen(proxy)+strlen((const char *)proxyport)+strlen(getpage)+strlen(host)+strlen(USERAGENT)+strlen(tpl)-6);
-    sprintf(query,tpl,proxy,proxyport,getpage,host,USERAGENT);
+    query = (char *)malloc(strlen(proxy)+strlen((const char *)proxyport)+strlen(getpage)+strlen(host)+strlen(port)+strlen(USERAGENT)+strlen(tpl)-7);
+    sprintf(query,tpl,proxy,proxyport,getpage,host,port,USERAGENT);
             
     return query;
 }
@@ -263,17 +343,250 @@ char *build_get_query_udp(char *host,char *page) {
 char *build_get_query_raw(char *host,char *page) {
     char *query;
     char *getpage = page;
-    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
+    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s:%s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
 
 
     if(getpage[0] == '/'){
         getpage = getpage + 1;
     }
 
-    query = (char *)malloc(strlen(proxy)+strlen((const char *)proxyport)+strlen(getpage)+strlen(host)+strlen(USERAGENT)+strlen(tpl)-6);
-    sprintf(query,tpl,proxy,proxyport,getpage,host,USERAGENT);
+    query = (char *)malloc(strlen(proxy)+strlen((const char *)proxyport)+strlen(getpage)+strlen(host)+strlen(port)+strlen(USERAGENT)+strlen(tpl)-7);
+    sprintf(query,tpl,proxy,proxyport,getpage,host,port,USERAGENT);
             
     return query;
+}
+
+void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page){
+    if( strcmp (SERVICE,"https") == 0){
+        SSL_load_error_strings();
+        OpenSSL_add_ssl_algorithms();
+        meth = SSLv23_method();
+        ctx = SSL_CTX_new(meth);
+        CHK_NULL(ctx);
+        
+        if(!ctx){
+            printf("Theres no Crypto Method choosen!\n");
+            exit(1);
+        }
+        
+        if(SSL_CTX_load_verify_locations(ctx,CERTF,HOME) < 0){
+            printf("Verify of the cert failed!\n");
+            exit(1);
+        }
+        
+        if(SSL_CTX_use_certificate_file(ctx,CERTF,SSL_FILETYPE_PEM) < 0){
+            printf("certfile is not valid\n");
+            exit(1);
+        }
+        
+        if(SSL_CTX_use_PrivateKey_file(ctx,KEYF,SSL_FILETYPE_PEM) < 0){
+            printf("keyfile is not valid\n");
+            exit(1);
+        }
+
+        if(SSL_CTX_check_private_key(ctx) < 0){
+            printf("Private key does not match the Public key\n");
+            exit(1);
+        }
+    }
+    
+    sock2 = 1;
+    
+    if( strcmp (PROTO,"tcp") == 0){
+    sock2 = create_tcp_socket();
+    }
+    else if( strcmp (PROTO,"udp") == 0){
+    sock2 = create_udp_socket();
+    }
+    else if( strcmp (PROTO,"icmp") == 0){
+    sock2 = create_icmp_socket();
+    }
+    else if( strcmp (PROTO,"ip") == 0){
+    sock2 = create_igmp_socket();
+    }
+    else if( strcmp (PROTO,"raw") == 0){
+    sock2 = create_raw_socket();
+    }
+    else {
+        perror("Wrong Protocol");
+        exit(1);
+    }
+    
+    ip = get_ip(host);
+    
+    is_valid_ip(ip)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
+
+    fprintf(stderr,"connect to %s ",ip);
+    sa.sin_family = AF_INET;
+    sa.sin_port = htons(atoi(port));
+    sa.sin_addr.s_addr = INADDR_ANY;
+    
+    remote = (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in *));
+    remote->sin_family = AF_INET;
+    remote->sin_port = htons(atoi(port));
+    tmpresx = inet_pton(AF_INET, host, (void *)(&(remote->sin_addr.s_addr)));
+    
+    is_valid_ip(ip)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
+    
+    int res;
+    
+    if( ( res = connect(sock2,(struct sockaddr *)remote,sizeof(struct sockaddr)) ) < 0 | errno != EINPROGRESS){
+        perror("could not connect");
+        exit(1);
+    }
+
+    if (res == 0)
+     {
+    perror("connect");
+       // OK -- socket is ready for IO
+     }
+
+    struct timeval timeout;
+    timeout.tv_sec = 120;
+    timeout.tv_usec = 0;
+
+    if(setsockopt(sock2,SOL_SOCKET,SO_RCVTIMEO,(char *)&timeout,sizeof(timeout)) < 0){
+        perror("rcv sockopt failed");}
+
+    if(setsockopt(sock2,SOL_SOCKET,SO_SNDTIMEO,(char *)&timeout,sizeof(timeout)) < 0){
+        perror("snd sockopt failed");}
+    
+    if( strcmp (SERVICE,"https") == 0){
+        ssl = SSL_new(ctx);
+        CHK_NULL(ssl);
+        SSL_set_fd(ssl,sock2);
+        err = SSL_connect(ssl);
+        CHK_SSL(err);
+        printf("SSL Connection using %s \n",SSL_get_cipher(ssl));
+        server_cert = SSL_get_peer_certificate(ssl);
+        CHK_NULL(server_cert);
+        str = X509_NAME_oneline(X509_get_subject_name(server_cert),0,0);
+        CHK_NULL(str);
+        printf("\t subject: %s\n",str);
+        OPENSSL_free(str);
+        X509_free(server_cert);
+    }
+    
+    if( strcmp (PROTO,"tcp") == 0){
+    get = d_build_get_query_tcp(host,page);
+    }
+    else if( strcmp (PROTO,"udp") == 0){
+    get = d_build_get_query_udp(host,page);
+    }
+    else if( strcmp (PROTO,"icmp") == 0){
+    get = d_build_get_query_icmp(host,page);
+    }
+    else if( strcmp (PROTO,"igmp") == 0){
+    get = d_build_get_query_igmp(host,page);
+    }
+    else if( strcmp (PROTO,"raw") == 0){
+    get = d_build_get_query_raw(host,page);
+    }
+    else {
+        perror("Wrong Protocol");
+        exit(1);
+    }
+
+    fprintf(stderr,"Query is:\n\x1B[32m<<START>>\x1B[39m\n\x1B[33m%s\x1B[39m\n\x1B[32m<<END>>\x1B[39m\n",get);
+
+    int sent = 0;
+    if( strcmp (SERVICE,"https") == 0){
+
+            tmpres = SSL_write(ssl,get+sent,strlen(get)-sent);
+            if(tmpres == 0){
+                perror("can not send query");
+                exit(1);
+            }
+        
+    }
+    
+    if( strcmp (SERVICE,"http") == 0){
+        
+            tmpres = send(sock2,get+sent,strlen(get)-sent,0);
+            if(tmpres == 0){
+                perror("can not send query");
+                exit(1);
+            }
+            sent += tmpres;
+        
+    }
+    
+    memset(buf,0,sizeof(buf));
+    
+    int htmlstart = 0;
+    char *htmlcontent;
+
+
+    if( strcmp (SERVICE,"https") == 0){
+        while((tmpres = SSL_read(ssl,buf,BUFSIZ)) > 0){
+            if(htmlstart == 0){
+                htmlcontent = strstr(buf,"\r\n\r\n");
+                htmlstart = 1;
+                htmlcontent += 4;
+            }else{
+                htmlcontent = buf ;
+            }
+            
+            if(htmlstart){
+                strcpy(flex,htmlcontent);
+            }
+            
+            memset(buf,0,tmpres);
+            
+            if(tmpres == 0){
+                perror("Error reciving data");
+            }
+            else {
+                FILE *rp = fopen("/usr/local/share/enigma/remote.xml","w");
+                fprintf(rp,"%s",flex);
+                fclose(rp);
+                configmain(main_ctx,"/usr/local/share/enigma/remote.xml");
+            }
+        }
+    }
+    
+    if( strcmp (SERVICE,"http") == 0){
+        while((tmpres = recv(sock2,buf,BUFSIZ,0)) == 0){
+            if(htmlstart == 0){
+                htmlcontent = strstr(buf,"\r\n");
+            
+                if(htmlcontent == 0){
+                    htmlstart = 1;
+                    htmlcontent += 4;
+                }else{
+                    htmlcontent = buf;
+                }
+                
+                if(htmlstart){
+                    strcpy(flex,htmlcontent);
+                }
+                
+                memset(buf,0,tmpres);
+            }
+        
+            if(tmpres == 0){
+                perror("error reciving data");
+            }
+            else {
+                FILE *rp = fopen("/usr/local/share/enigma/remote.xml","w");
+                fprintf(rp,"%s",flex);
+                fclose(rp);
+                configmain(main_ctx,"/usr/local/share/enigma/remote.xml");
+            }
+        }
+    }
+    
+    if( strcmp (SERVICE,"https") == 0){
+        SSL_shutdown(ssl);
+    }
+        close(sock2);
+    
+    if( strcmp (SERVICE,"https") == 0){
+        SSL_free(ssl);
+        SSL_CTX_free(ctx);
+    }
+
+    return 0;
 }
 
 void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *host,char *port,char *page){
@@ -1433,7 +1746,7 @@ int main(int argc, char **argv) {
             return 0;
         }
     
-        char a1,b2,c3,d4,e5,y;
+        char a1,b2,c3,d4,e5,y,p;
         int a,b,c,d,e;
         printf("s)aved or r)emote: ");
         y = readCh();
@@ -1453,49 +1766,83 @@ int main(int argc, char **argv) {
         }
         else
         {
+            printf("p)roxy or d)irect Connection: ");
+            p = readCh();
+            if(p != 'p')
+            {
+                flag = 1;
+                c = 0;
+                printf("Config Host (donmain): ");
+                while((c3 = getchar()) != '\n')
+                {
+                host[c] = c3;
+                c++;
+                }
+                host[c] = '\0';
+                d = 0;
+                printf("Config Host Port (443): ");
+                while((d4 = getchar()) != '\n')
+                {
+                port[d] = d4;
+                d++;
+                }
+                port[d] = '\0';
+                e = 0;
+                printf("Config Page (/gordon.php): ");
+                while((e5 = getchar()) != '\n')
+                {
+                page[e] = e5;
+                e++;
+                }
+                page[e] = '\0';
+                
+                connection_handler_d(&main_ctx,host,port,page);
+            }
+            else {
             flag = 1;
             printf("Config Proxy (ip): ");
             a = 0;
             while((a1 = getchar()) != '\n')
             {
-            proxy[a] = a1;
-            a++;
+                proxy[a] = a1;
+                a++;
             }
             proxy[a] = '\0';
             printf("Config Proxy Port (8080): ");
             b = 0;
             while((b2 = getchar()) != '\n')
             {
-            proxyport[b] = b2;
-            b++;
+                proxyport[b] = b2;
+                b++;
             }
             proxyport[b] = '\0';
             c = 0;
-            printf("Config Host (ip): ");
+            printf("Config Host (donmain): ");
             while((c3 = getchar()) != '\n')
             {
-            host[c] = c3;
-            c++;
+                host[c] = c3;
+                c++;
             }
             host[c] = '\0';
             d = 0;
             printf("Config Host Port (443): ");
             while((d4 = getchar()) != '\n')
             {
-            port[d] = d4;
-            d++;
+                port[d] = d4;
+                d++;
             }
             port[d] = '\0';
             e = 0;
             printf("Config Page (/gordon.php): ");
             while((e5 = getchar()) != '\n')
             {
-            page[e] = e5;
-            e++;
+                page[e] = e5;
+                e++;
             }
             page[e] = '\0';
             
             connection_handler(&main_ctx,proxy,proxyport,host,port,page);
+            }
         }
     
         if(strcmp(argv[1], "--option-1a") == 0)
