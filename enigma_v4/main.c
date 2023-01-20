@@ -45,8 +45,8 @@ void configmain(main_ctx_t *main_ctx,char *hugh) {
     doc = xmlParseFile(docname);
     cur = xmlDocGetRootElement(doc);
     
-    if(cur == NULL) {
-        printf("error\n");
+    if(xmlStrcmp(cur->name, (const xmlChar *) "config")) {
+        printf("error wrong file!\n");
         exit(1);
     }
     
