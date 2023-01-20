@@ -71,15 +71,15 @@ $outerArrxx = [0];
 echo "\n";
 
 $xmlString = '<?xml version="1.0" encoding="utf-8"?>'
-'    <config>'
-'        <rotor1 name="'. rotor($outerArrxx); .'"></rotor1>'
-'        <rotor2 name="'. rotor($outerArrxx); .'"></rotor2>'
-'        <rotor3 name="'. rotor($outerArrxx); .'"></rotor3>'
-'        <rotor4 name="'. rotor($outerArrxx); .'"></rotor4>'
-'        <rotor5 name="'. rotor($outerArrxx); .'"></rotor5>'
-'        <xmlref name="'. ref($outerArrxx); .'"></xmlref>'
-'        <xmlnotch name="'. notch($outerArrxx); .'"></xmlnotch>'
-'    </config>';
+'<config>'
+'    <rotor1 name="'. rotor($outerArrxx); .'"></rotor1>'
+'    <rotor2 name="'. rotor($outerArrxx); .'"></rotor2>'
+'    <rotor3 name="'. rotor($outerArrxx); .'"></rotor3>'
+'    <rotor4 name="'. rotor($outerArrxx); .'"></rotor4>'
+'    <rotor5 name="'. rotor($outerArrxx); .'"></rotor5>'
+'    <xmlref name="'. ref($outerArrxx); .'"></xmlref>'
+'    <xmlnotch name="'. notch($outerArrxx); .'"></xmlnotch>'
+'</config>';
 
 $dom = new DOMDocument;
 $dom->preserveWhiteSpace = FALSE;
