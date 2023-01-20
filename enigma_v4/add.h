@@ -110,8 +110,8 @@ typedef struct main_ctx
 {
         /* Rotor wirings */
         char rotor[MSGG][MSGC];
-        char ref1[MSGXX][MSGC];
-        char notch1[MSGXX][MSGG];
+        char ref1[MSGC];
+        char notch1[MSGG];
         char order[MSGG];/*={ 1, 3, 5, 7, 9 };*/
         char rings[MSGG];/*={ 'A','A','A','A','A'};*/
         char pos[MSGG];/*={ 'A','A','A','A','A'};*/
