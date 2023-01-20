@@ -24,8 +24,8 @@ void configmain(main_ctx_t *main_ctx,char *hugh) {
     int count = 0;
     int count1 = 0;
     char *config1[MSGG][MSGC] = { {"rotor1", "rotor2", "rotor3", "rotor4", "rotor5"} };
-    char *config2[MSGXX][MSGC] = { {"ref"} };
-    char *config3[MSGXX][MSGG] = { {"notch"} };
+    char *config2[MSGXX][MSGC] = { {"xmlref"} };
+    char *config3[MSGXX][MSGG] = { {"xmlnotch"} };
     
     printf("Loading config file: %s\n",hugh);
     FILE *fp;
@@ -53,19 +53,19 @@ void configmain(main_ctx_t *main_ctx,char *hugh) {
   cur = cur->xmlChildrenNode;
   while (cur != NULL) {
       if (xmlStrcmp(cur->name, (const xmlChar *) config1[count++])) {
-          if((uri =  xmlGetProp(cur,(xmlChar *)cur->name)) != NULL) {
+          if((uri =  xmlGetProp(cur,(xmlChar *)"name")) != NULL) {
               strncpy(&main_ctx->rotor[count1++][MSGC],(const char *)uri,MSGC);
               xmlFree(uri);
           }
       }
       else if (xmlStrcmp(cur->name, (const xmlChar *) config2[count++])) {
-              if((uri =  xmlGetProp(cur,(xmlChar *)cur->name)) != NULL) {
+              if((uri =  xmlGetProp(cur,(xmlChar *)"name")) != NULL) {
                   strncpy(&main_ctx->ref1[count1++][MSGC],(const char *)uri,MSGC);
                   xmlFree(uri);
               }
           }
       else if (xmlStrcmp(cur->name, (const xmlChar *) config3[count++])) {
-                  if((uri =  xmlGetProp(cur,(xmlChar *)cur->name)) != NULL) {
+                  if((uri =  xmlGetProp(cur,(xmlChar *)"name")) != NULL) {
                       strncpy(&main_ctx->notch1[count1++][MSGG],(const char *)uri,MSGG);
                       xmlFree(uri);
                   }
