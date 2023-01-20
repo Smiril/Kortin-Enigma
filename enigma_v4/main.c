@@ -32,8 +32,6 @@ void configmain(main_ctx_t *main_ctx,char *hugh) {
     fp = fopen(hugh,"r");
     struct stat st;
     fstat(fileno(fp), &st);
-    size_t size = st.st_size;
-    printf("%zu\n",size);
     if (433 != size) {
         printf("config file is corrupt\n");
         exit(1);
