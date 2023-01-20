@@ -18,7 +18,7 @@
 #define MSGLEN 161
 #define MSGX 13
 #define MSGXX 1
-#define MSGC 26
+#define MSGC 27
 #define MSGP 11
 #define MSGG 5
 #define TO 'Z'
