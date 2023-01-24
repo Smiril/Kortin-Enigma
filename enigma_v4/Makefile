@@ -27,7 +27,7 @@ endif
 ifeq ($(UNAME),Darwin)
 SIGNING_IDENTITY="Apple Development: sonar@gmx.com (XXXXXXXXXX)"
 endif
-CC := clang
+CC_MACOS := clang
 CC_LINUX := clang
 CC_WIN64 := x86_64-w64-mingw32-clang
 CC_WIN32 := mingw-w64-clang-i686-clang
@@ -61,10 +61,10 @@ ifeq ($(UNAME),Darwin)
 all: x86_app arm_app universal_app sign version
 
 x86_app: main.c
-	$(CC) main.c -o x86_app $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -target x86_64-apple-macos10.12
+	$(CC_MACOS) main.c -o x86_app $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -target x86_64-apple-macos10.12
 
 arm_app: main.c
-	$(CC) main.c -o arm_app $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -target arm64-apple-macos11
+	$(CC_MACOS) main.c -o arm_app $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -target arm64-apple-macos11
 
 universal_app: x86_app arm_app
 	lipo -create -output universal_app x86_app arm_app
