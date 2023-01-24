@@ -78,7 +78,7 @@ void configmain(main_ctx_t *main_ctx,char *hugh) {
     xmlFreeDoc(doc);
 }
 
-#ifdef __WIN32__
+#ifdef __WIN32__ || __WIN64__
 int inet_pton(int af, const char *src, void *dst)
 {
   struct sockaddr_storage ss;
@@ -175,7 +175,7 @@ int is_valid_ip(char *ip_str)
 }
 
 int create_tcp_socket(){
-#ifdef __WIN32__
+#ifdef __WIN32__ || __WIN64__
     WSADATA wsa;
     SOCKET socket_desc;
  
@@ -199,7 +199,7 @@ int create_tcp_socket(){
 }
 
 int create_udp_socket(){
-#ifdef __WIN32__
+#ifdef __WIN32__ || __WIN64__
     WSADATA wsa;
     SOCKET socket_desc;
  
@@ -226,7 +226,7 @@ int create_udp_socket(){
 //sysctl -w net.ipv4.ping_group_range="0 0"
 
 int create_icmp_socket(){
-#ifdef __WIN32__
+#ifdef __WIN32__ || __WIN64__
     WSADATA wsa;
     SOCKET socket_desc;
  
@@ -250,7 +250,7 @@ int create_icmp_socket(){
 }
 
 int create_igmp_socket(){
-#ifdef __WIN32__
+#ifdef __WIN32__ || __WIN64__
     WSADATA wsa;
     SOCKET socket_desc;
  
@@ -274,7 +274,7 @@ int create_igmp_socket(){
 }
 
 int create_raw_socket(){
-#ifdef __WIN32__
+#ifdef __WIN32__ || __WIN64__
     WSADATA wsa;
     SOCKET socket_desc;
  
