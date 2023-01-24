@@ -29,7 +29,8 @@ SIGNING_IDENTITY="Apple Development: sonar@gmx.com (XXXXXXXXXX)"
 endif
 CC := clang
 CC_LINUX := clang
-CC_WIN := x86_64-w64-mingw32-clang
+CC_WIN64 := x86_64-w64-mingw32-clang
+CC_WIN32 := mingw-w64-clang-i686-clang
 PREFIX := /usr/local/bin
 CFLAGSY := -Wall -Wextra -pedantic \
         -Wno-variadic-macros \
@@ -41,13 +42,16 @@ BER := -lc++ -ldl -lxml2 -lssl -lcrypto -lpthread
 ifeq ($(UNAME),Linux)
 .PHONY: all install uninstall clean version
 
-all: enigma enigmaexe version
+all: enigma enigma32 enigma64 version
 
 enigma: main.c
 	$(CC_LINUX) main.c -o enigma $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -s
 	
-enigmaexe: main.c
-	$(CC_WIN) main.c -o enigma.exe $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -s
+enigma32: main.c
+	$(CC_WIN32) main.c -o enigma.exe $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -s
+	
+enigma64: main.c
+	$(CC_WIN64) main.c -o enigma.exe $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -s
 	
 endif
 
