@@ -7,7 +7,26 @@ LIBNAME := $(NAME)
 LIBNAME1 := T.E.D. - The Enemy Dail
 LIBNAME2 := Enigma
 VERSION := $(LIBNAME) $(MAJOR).$(MINOR) $(CODENAME1)
+##
+## Detect Operating System
+##
+
+UNAME                   := $(shell uname -s)
+
+# we need to strip the windows version number to be able to build hashcat on cygwin hosts
+UNAME                   := $(patsubst CYGWIN_NT-%,CYGWIN,$(UNAME))
+
+# same for msys
+UNAME                   := $(patsubst MSYS_NT-%,MSYS2,$(UNAME))
+UNAME                   := $(patsubst MINGW32_NT-%,MSYS2,$(UNAME))
+UNAME                   := $(patsubst MINGW64_NT-%,MSYS2,$(UNAME))
+
+ifeq (,$(filter $(UNAME),Linux Darwin))
+$(error "! Your Operating System ($(UNAME)) is not supported by this Makefile")
+endif
+ifeq ($(UNAME),Darwin)
 SIGNING_IDENTITY="Apple Development: sonar@gmx.com (XXXXXXXXXX)"
+endif
 CC := clang
 PREFIX := /usr/local/bin
 CFLAGSY := -Wall -Wextra -pedantic \
@@ -17,7 +36,16 @@ LIBS0 := -L/usr/local/lib -L/opt/homebrew/Cellar/libxml2/2.10.3_2/lib/
 INCLUDES0 := -I/usr/local/include -I/opt/homebrew/Cellar/libxml2/2.10.3_2/include/libxml2/libxml
 BER := -lc++ -ldl -lxml2 -lssl -lcrypto -lpthread
 
+ifeq ($(UNAME),Linux)
+.PHONY: all install uninstall clean version
 
+all: enigma version
+
+enigma: main.c
+	$(CC) main.c -o x86_app $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -s
+endif
+
+ifeq ($(UNAME),Darwin)
 .PHONY: all sign install uninstall clean version
 
 all: x86_app arm_app universal_app sign version
@@ -31,14 +59,17 @@ arm_app: main.c
 universal_app: x86_app arm_app
 	lipo -create -output universal_app x86_app arm_app
     
+endif
 version:
 	@echo " +****************************************************************************+"
 	@echo " + $(LIBNAME2) $(MAJOR).$(MINOR) $(LIBNAME1)       by:    Art-ifact-Crew           +"
 	@echo " +****************************************************************************+"
+ifeq ($(UNAME),Darwin)
 sign:
 	export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/../bin/codesign_allocate
 	xcrun codesign -f -s $(SIGNING_IDENTITY) --preserve-metadata=identifier,entitlements --timestamp=none x86_app arm_app universal_app
 	
+endif
 install:
 	cp ./universal_app $(PREFIX)/enigma
 	chmod u+x $(PREFIX)/enigma
@@ -49,8 +80,13 @@ install:
 uninstall:
 	rm $(PREFIX)/enigma
 	rm -rf /usr/local/share/enigma
-
+ifeq ($(UNAME),Linux)
+clean:
+	rm -rf enigma
+endif
+ifeq ($(UNAME),Darwin)
 clean:
 	rm -rf universal_app
 	rm -rf x86_app
 	rm -rf arm_app
+endif
