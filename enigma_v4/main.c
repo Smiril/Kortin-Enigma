@@ -24,7 +24,7 @@ void configmain(main_ctx_t *main_ctx,char *hugh) {
     int count = 0;
     int count1 = 0;
     //int count2 = 0;
-    char *config[MSGG][MSGC] = { {"rotor1", "rotor2", "rotor3", "rotor4", "rotor5"} };
+    char *config[4][7] = { {"rotor1", "rotor2", "rotor3", "rotor4", "rotor5"} };
     
     printf("Loading config file: %s\n",hugh);
     FILE *fp;
