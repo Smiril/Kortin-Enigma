@@ -33,7 +33,7 @@ void configmain(main_ctx_t *main_ctx,char *hugh) {
     fstat(fileno(fp), &st);
     size_t size = st.st_size;
   
-    if (433 != size) {
+    if (522 != size) {
         printf("config file is corrupt\n");
         exit(1);
     }
