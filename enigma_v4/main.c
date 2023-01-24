@@ -163,7 +163,7 @@ int create_igmp_socket(){
     int socket_desc;
 
   if((socket_desc = socket(AF_INET, SOCK_DGRAM, IPPROTO_IP)) < 0){
-    perror("Can't create IP socket");
+    perror("Can't create IGMP socket");
     exit(1);
   }
   return socket_desc;
