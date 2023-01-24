@@ -13,7 +13,7 @@ VERSION := $(LIBNAME) $(MAJOR).$(MINOR) $(CODENAME1)
 
 UNAME                   := $(shell uname -s)
 
-# we need to strip the windows version number to be able to build hashcat on cygwin hosts
+# we need to strip the windows version number to be able to build enigma on cygwin hosts
 UNAME                   := $(patsubst CYGWIN_NT-%,CYGWIN,$(UNAME))
 
 # same for msys
