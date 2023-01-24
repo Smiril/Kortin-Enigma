@@ -28,21 +28,29 @@ ifeq ($(UNAME),Darwin)
 SIGNING_IDENTITY="Apple Development: sonar@gmx.com (XXXXXXXXXX)"
 endif
 CC := clang
+CC_LINUX := gcc
+CXX_LINUX := g++
+CC_WIN := x86_64-w64-mingw32-gcc
+CXX_WIN := x86_64-w64-mingw32-g++
 PREFIX := /usr/local/bin
 CFLAGSY := -Wall -Wextra -pedantic \
         -Wno-variadic-macros \
         -DVERSION="\"$(VERSION) - KOENIG MARTIN\""
-LIBS0 := -L/usr/local/lib -L/opt/homebrew/Cellar/libxml2/2.10.3_2/lib/
-INCLUDES0 := -I/usr/local/include -I/opt/homebrew/Cellar/libxml2/2.10.3_2/include/libxml2/libxml
+LIBS0 := -L/usr/local/lib
+INCLUDES0 := -I/usr/local/include
 BER := -lc++ -ldl -lxml2 -lssl -lcrypto -lpthread
 
 ifeq ($(UNAME),Linux)
 .PHONY: all install uninstall clean version
 
-all: enigma version
+all: enigma enigmaexe version
 
 enigma: main.c
-	$(CC) main.c -o enigma $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -s
+	$(CC_LINUX) main.c -o enigma $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -s
+	
+enigmaexe: main.c
+	$(CC_WIN) main.c -o enigma.exe $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -s
+	
 endif
 
 ifeq ($(UNAME),Darwin)
