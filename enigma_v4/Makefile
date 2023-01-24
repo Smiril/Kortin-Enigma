@@ -28,10 +28,8 @@ ifeq ($(UNAME),Darwin)
 SIGNING_IDENTITY="Apple Development: sonar@gmx.com (XXXXXXXXXX)"
 endif
 CC := clang
-CC_LINUX := gcc
-CXX_LINUX := g++
-CC_WIN := x86_64-w64-mingw32-gcc
-CXX_WIN := x86_64-w64-mingw32-g++
+CC_LINUX := clang
+CC_WIN := x86_64-w64-mingw32-clang
 PREFIX := /usr/local/bin
 CFLAGSY := -Wall -Wextra -pedantic \
         -Wno-variadic-macros \
