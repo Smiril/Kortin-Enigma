@@ -16,12 +16,17 @@
 #include <stdbool.h>
 #include <stdarg.h>
 #include <errno.h>
+#ifdef __WIN32__
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#else
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netinet/ip_icmp.h>
 #include <arpa/inet.h>
 #include <sys/select.h>
 #include <netdb.h>
+#endif
 #include <pthread.h>
 #include <semaphore.h>
 #include <sys/types.h>
