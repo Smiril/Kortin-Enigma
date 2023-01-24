@@ -42,7 +42,7 @@ ifeq ($(UNAME),Linux)
 all: enigma version
 
 enigma: main.c
-	$(CC) main.c -o x86_app $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -s
+	$(CC) main.c -o enigma $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -s
 endif
 
 ifeq ($(UNAME),Darwin)
@@ -70,12 +70,22 @@ sign:
 	xcrun codesign -f -s $(SIGNING_IDENTITY) --preserve-metadata=identifier,entitlements --timestamp=none x86_app arm_app universal_app
 	
 endif
+ifeq ($(UNAME),Linux)
+install:
+	cp ./enigma $(PREFIX)/enigma
+	chmod u+x $(PREFIX)/enigma
+	mkdir -p /usr/local/share/enigma
+	cp ./*.xml /usr/local/share/enigma/
+	cp ./*.txt /usr/local/share/enigma/
+endif
+ifeq ($(UNAME),Darwin)
 install:
 	cp ./universal_app $(PREFIX)/enigma
 	chmod u+x $(PREFIX)/enigma
 	mkdir -p /usr/local/share/enigma
 	cp ./*.xml /usr/local/share/enigma/
 	cp ./*.txt /usr/local/share/enigma/
+endif
 
 uninstall:
 	rm $(PREFIX)/enigma
