@@ -48,10 +48,10 @@ enigma: main.c
 	$(CC_LINUX) main.c -o enigma $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -s
 	
 enigma32: main.c
-	$(CC_WIN32) main.c -o enigma.exe $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -s
+	$(CC_WIN32) main.c -o enigma32.exe $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -s
 	
 enigma64: main.c
-	$(CC_WIN64) main.c -o enigma.exe $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -s
+	$(CC_WIN64) main.c -o enigma64.exe $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -s
 	
 endif
 
