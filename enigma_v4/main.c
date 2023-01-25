@@ -78,7 +78,7 @@ void configmain(main_ctx_t *main_ctx,char *hugh) {
     xmlFreeDoc(doc);
 }
 
-#if defined(__WIN32__) && (defined(__WIN64__)
+#if defined(__WIN32__) && defined(__WIN64__)
 int inet_pton(int af, const char *src, void *dst)
 {
   struct sockaddr_storage ss;
@@ -175,7 +175,7 @@ int is_valid_ip(char *ip_str)
 }
 
 int create_tcp_socket(){
-#if defined(__WIN32__) && (defined(__WIN64__)
+#if defined(__WIN32__) && defined(__WIN64__)
     WSADATA wsa;
     SOCKET socket_desc;
  
@@ -199,7 +199,7 @@ int create_tcp_socket(){
 }
 
 int create_udp_socket(){
-#if defined(__WIN32__) && (defined(__WIN64__)
+#if defined(__WIN32__) && defined(__WIN64__)
     WSADATA wsa;
     SOCKET socket_desc;
  
@@ -226,7 +226,7 @@ int create_udp_socket(){
 //sysctl -w net.ipv4.ping_group_range="0 0"
 
 int create_icmp_socket(){
-#if defined(__WIN32__) && (defined(__WIN64__)
+#if defined(__WIN32__) && defined(__WIN64__)
     WSADATA wsa;
     SOCKET socket_desc;
  
@@ -250,7 +250,7 @@ int create_icmp_socket(){
 }
 
 int create_igmp_socket(){
-#if defined(__WIN32__) && (defined(__WIN64__)
+#if defined(__WIN32__) && defined(__WIN64__)
     WSADATA wsa;
     SOCKET socket_desc;
  
@@ -274,7 +274,7 @@ int create_igmp_socket(){
 }
 
 int create_raw_socket(){
-#if defined(__WIN32__) && (defined(__WIN64__)
+#if defined(__WIN32__) && defined(__WIN64__)
     WSADATA wsa;
     SOCKET socket_desc;
  
@@ -532,7 +532,11 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     
     ip = get_ip(host);
     
+#if !defined(__WIN32__) && !defined(__WIN64__)
     is_valid_ip(ip)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
+#elif
+    is_valid_ip(ip)? printf("Valid\n"): printf("Not valid\n");
+#endif
 
     fprintf(stderr,"connect to %s ",ip);
     sa.sin_family = AF_INET;
@@ -544,7 +548,11 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     remote->sin_port = htons(atoi(port));
     tmpresx = inet_pton(AF_INET, host, (void *)(&(remote->sin_addr.s_addr)));
     
+#if !defined(__WIN32__) && !defined(__WIN64__)
     is_valid_ip(ip)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
+#elif
+    is_valid_ip(ip)? printf("Valid\n"): printf("Not valid\n");
+#endif
     
     int res;
     
@@ -766,7 +774,7 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
     ip = get_ip(host);
     ipp = get_ip(proxy);
     fprintf(stderr,"go from %s ",ipp);
-#if !defined(__WIN32__) && !(defined(__WIN64__)
+#if !defined(__WIN32__) && !defined(__WIN64__)
     is_valid_ip(ipp)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
 #elif
     is_valid_ip(ipp)? printf("Valid\n"): printf("Not valid\n");
@@ -781,7 +789,11 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
     remote->sin_port = htons(atoi(proxyport));
     tmpresx = inet_pton(AF_INET, proxy, (void *)(&(remote->sin_addr.s_addr)));
     
+#if !defined(__WIN32__) && !defined(__WIN64__)
     is_valid_ip(ip)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
+#elif
+    is_valid_ip(ip)? printf("Valid\n"): printf("Not valid\n");
+#endif
     
     int res;
     
@@ -841,7 +853,7 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
         perror("Wrong Protocol");
         exit(1);
     }
-#if !defined(__WIN32__) && !(defined(__WIN64__)
+#if !defined(__WIN32__) && !defined(__WIN64__)
     fprintf(stderr,"Query is:\n\x1B[32m<<START>>\x1B[39m\n\x1B[33m%s\x1B[39m\n\x1B[32m<<END>>\x1B[39m\n",get);
 #elif
     fprintf(stderr,"Query is:\n<<START>>\n%s\n<<END>>\n",get);
@@ -1326,7 +1338,7 @@ int rotate(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, c
                                             if ( fail <= 666 ) {
                                                 /* XXX: Show result if is different to the last one */
                                                 if( rank > oldrank ) {
-#if !defined(__WIN32__) && !(defined(__WIN64__)
+#if !defined(__WIN32__) && !defined(__WIN64__)
                                                     printf("\x1B[33mWheels\x1B[39m \x1B[32m%d %d %d %d %d\x1B[39m \x1B[33mStart\x1B[39m \x1B[32m%c %c %c %c %c\x1B[39m \x1B[33mRings\x1B[39m \x1B[32m%c %c %c %c %c\x1B[39m \x1B[33mStecker\x1B[39m \"\x1B[32m%s\x1B[39m\" TEXT: %s Rank: %d\n",
                                                            main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4],
                                                            main_ctx->pos[0], main_ctx->pos[1], main_ctx->pos[2], main_ctx->pos[3], main_ctx->pos[4],
@@ -1344,7 +1356,7 @@ int rotate(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, c
                                             
                                         if(strcmp(cyph, enigma(fff, main_ctx)) == 0)
                                         {
-#if !defined(__WIN32__) && !(defined(__WIN64__)
+#if !defined(__WIN32__) && !defined(__WIN64__)
                                             printf("\x1B[33mWheels\x1B[39m \x1B[32m%d %d %d %d %d\x1B[39m \x1B[33mStart\x1B[39m \x1B[32m%c %c %c %c %c\x1B[39m \x1B[33mRings\x1B[39m \x1B[32m%c %c %c %c %c\x1B[39m \x1B[33mStecker\x1B[39m \"\x1B[32m%s\x1B[39m\"\nReflector: %s\nNOTCH: %s\n",
                                                    main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4],
                                                    main_ctx->pos[0], main_ctx->pos[1], main_ctx->pos[2], main_ctx->pos[3], main_ctx->pos[4],
@@ -1665,7 +1677,7 @@ void initParams(main_ctx_t *main_ctx)
         main_ctx->plug[i] = '\0';
           
     }
-#if !defined(__WIN32__) && !(defined(__WIN64__)
+#if !defined(__WIN32__) && !defined(__WIN64__)
   printf("\x1B[33mWheels\x1B[39m \x1B[32m %d %d %d %d %d \x1B[39m \x1B[33mStart\x1B[39m \x1B[32m %c %c %c %c %c \x1B[39m \x1B[33mRings\x1B[39m \x1B[32m %c %c %c %c %c \x1B[39m Stecker \"\x1B[32m%s\x1B[39m\"\n\x1B[33mReflector\x1B[39m \x1B[32m %s \x1B[39m \x1B[33mNOTch\x1B[39m\x1B[32m %s \x1B[39m\n",
          main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4],
          main_ctx->pos[0], main_ctx->pos[1], main_ctx->pos[2], main_ctx->pos[3], main_ctx->pos[4],
@@ -1755,7 +1767,7 @@ void sbfParams(main_ctx_t *main_ctx)
         
         //strcpy(framex,"/usr/local/share/enigma/german.txt");
     }
-#if !defined(__WIN32__) && !(defined(__WIN64__)
+#if !defined(__WIN32__) && !defined(__WIN64__)
     printf("\x1B[33mWheels\x1B[39m \x1B[32m %d %d %d %d %d \x1B[39m \x1B[33mMessage\x1B[39m\x1B[32m %s \x1B[39m\x1B[33mDict\x1B[39m \x1B[32m %s \x1B[39m\n\x1B[33mReflector\x1B[39m \x1B[32m %s \x1B[39m \x1B[33mNOTch\x1B[39m\x1B[32m %s \x1B[39m\n",
            main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4], main_ctx->cyph, framex,main_ctx->ref1,main_ctx->notch1);
 #elif
@@ -1846,7 +1858,7 @@ void bfParams(main_ctx_t *main_ctx)
         
         //strcpy(framex,"/usr/local/share/enigma/german.txt");
     }
-#if !defined(__WIN32__) && !(defined(__WIN64__)
+#if !defined(__WIN32__) && !defined(__WIN64__)
     printf("\x1B[33mMessage\x1B[39m\x1B[32m %s \x1B[39m\x1B[33mDict\x1B[39m \x1B[32m %s \x1B[39m\n\x1B[33mReflector\x1B[39m \x1B[32m %s \x1B[39m \x1B[33mNOTch\x1B[39m\x1B[32m %s \x1B[39m\n",
            main_ctx->cyph, framex,main_ctx->ref1,main_ctx->notch1);
 #elif
@@ -1876,11 +1888,11 @@ int main(int argc, char **argv) {
     main_ctx_t main_ctx;
     
     if(argc < 2 || argc > 2){ /*main case*/
-#if !defined(__WIN32__) && !(defined(__WIN64__)
+#if !defined(__WIN32__) && !defined(__WIN64__)
           printf("\x1b[32m");
 #endif
           printf("\nOption usage: %s --help\n",argv[0]);
-#if !defined(__WIN32__) && !(defined(__WIN64__)
+#if !defined(__WIN32__) && !defined(__WIN64__)
           printf("\x1b[0m");
 #endif
           return -1;
@@ -1888,7 +1900,7 @@ int main(int argc, char **argv) {
     
         if(strcmp(argv[1], "--version") == 0)
         {
-#if !defined(__WIN32__) && !(defined(__WIN64__)
+#if !defined(__WIN32__) && !defined(__WIN64__)
             printf("Version\n\n\t\x1B[35m%s\x1B[39m -  \x1B[32mT.E.D.\x1B[39m - \x1B[33mThe Enemy Dail\x1B[39m - Koenig Martin\n",PROGNAME);
 #elif
             printf("Version\n\n\t%s -  T.E.D. - The Enemy Dail - Koenig Martin\n",PROGNAME);
@@ -1897,7 +1909,7 @@ int main(int argc, char **argv) {
         }
         if(strcmp(argv[1], "--help") == 0)
         {
-#if !defined(__WIN32__) && !(defined(__WIN64__)
+#if !defined(__WIN32__) && !defined(__WIN64__)
             printf("Help\n\n\t\x1B[33m--option-1a\x1B[39m = Enigma Crack Algo\n\t\x1B[33m--option-1b\x1B[39m = Enigma Crack Once Algo\n\t\x1B[33m--option-1\x1B[39m = Enigma 5 Rotor Calculator\n\t\x1B[33m--version\x1B[39m = Version\n\n");
 #elif
             printf("Help\n\n\t--option-1a = Enigma Crack Algo\n\t--option-1b = Enigma Crack Once Algo\n\t--option-1 = Enigma 5 Rotor Calculator\n\t--version = Version\n\n");

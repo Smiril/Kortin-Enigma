@@ -16,7 +16,7 @@
 #include <stdbool.h>
 #include <stdarg.h>
 #include <errno.h>
-#if defined(__WIN32__) && (defined(__WIN64__)
+#if defined(__WIN32__) && defined(__WIN64__)
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #else
