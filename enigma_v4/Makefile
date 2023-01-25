@@ -36,7 +36,7 @@ CFLAGSY := -Wall -Wextra -pedantic \
         -Wno-variadic-macros \
         -DVERSION="\"$(VERSION) - KOENIG MARTIN\""
 LIBS0 := -L/usr/local/lib -L/usr/lib
-INCLUDES0 := -I/usr/local/include -I/usr/include
+INCLUDES0 := -I/usr/local/include -I/usr/include/libxml2
 BER := -lc++ -ldl -lxml2 -lssl -lcrypto -lpthread
 
 ifeq ($(UNAME),Linux)
