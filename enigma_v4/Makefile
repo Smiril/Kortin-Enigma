@@ -85,16 +85,16 @@ install:
 	cp ./enigma $(PREFIX)/enigma
 	chmod u+x $(PREFIX)/enigma
 	mkdir -p /usr/local/share/enigma
-	cp ./*.xml /usr/local/share/enigma/
-	cp ./*.txt /usr/local/share/enigma/
+	cp ../share/*.xml /usr/local/share/enigma/
+	cp ../share/*.txt /usr/local/share/enigma/
 endif
 ifeq ($(UNAME),Darwin)
 install:
 	cp ./universal_app $(PREFIX)/enigma
 	chmod u+x $(PREFIX)/enigma
 	mkdir -p /usr/local/share/enigma
-	cp ./*.xml /usr/local/share/enigma/
-	cp ./*.txt /usr/local/share/enigma/
+	cp ../share/*.xml /usr/local/share/enigma/
+	cp ../share/*.txt /usr/local/share/enigma/
 endif
 
 uninstall:
