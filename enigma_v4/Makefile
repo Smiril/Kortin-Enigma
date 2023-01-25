@@ -31,12 +31,12 @@ CC_MACOS := clang
 CC_LINUX := clang
 CC_WIN64 := x86_64-w64-mingw32-clang
 CC_WIN32 := mingw-w64-clang-i686-clang
-PREFIX := /usr/local/bin
+PREFIX := /usr/local
 CFLAGSY := -Wall -Wextra -pedantic \
         -Wno-variadic-macros \
         -DVERSION="\"$(VERSION) - KOENIG MARTIN\""
-LIBS0 := -L/usr/local/lib
-INCLUDES0 := -I/usr/local/include
+LIBS0 := -L/usr/local/lib -L/usr/lib
+INCLUDES0 := -I/usr/local/include -I/usr/include
 BER := -lc++ -ldl -lxml2 -lssl -lcrypto -lpthread
 
 ifeq ($(UNAME),Linux)
@@ -82,23 +82,23 @@ sign:
 endif
 ifeq ($(UNAME),Linux)
 install:
-	cp ./enigma $(PREFIX)/enigma
-	chmod u+x $(PREFIX)/enigma
+	cp ./enigma $(PREFIX)/bin/enigma
+	chmod u+x $(PREFIX)/bin/enigma
 	mkdir -p /usr/local/share/enigma
 	cp ../share/*.xml /usr/local/share/enigma/
 	cp ../share/*.txt /usr/local/share/enigma/
 endif
 ifeq ($(UNAME),Darwin)
 install:
-	cp ./universal_app $(PREFIX)/enigma
-	chmod u+x $(PREFIX)/enigma
+	cp ./universal_app $(PREFIX)/bin/enigma
+	chmod u+x $(PREFIX)/bin/enigma
 	mkdir -p /usr/local/share/enigma
 	cp ../share/*.xml /usr/local/share/enigma/
 	cp ../share/*.txt /usr/local/share/enigma/
 endif
 
 uninstall:
-	rm $(PREFIX)/enigma
+	rm $(PREFIX)/bin/enigma
 	rm -rf /usr/local/share/enigma
 ifeq ($(UNAME),Linux)
 clean:
