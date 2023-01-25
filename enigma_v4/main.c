@@ -1303,7 +1303,7 @@ int rotate(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, c
                                         int fail = 0;
                                         
                                         /* Calculate all cypher */
-                                        strncpy(fff, enigma(cyph, main_ctx), sizeof(fff));
+                                        strncpy(fff, enigma(cyph, main_ctx), strlen(fff));
                                         rank = getRank(fff);
 
                                         while(strlen(fff) > i)
