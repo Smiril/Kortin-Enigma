@@ -35,10 +35,16 @@ PREFIX := /usr/local
 CFLAGSY := -Wall -Wextra -pedantic \
         -Wno-variadic-macros \
         -DVERSION="\"$(VERSION) - KOENIG MARTIN\""
+ifeq ($(UNAME),Linux)
+LIBS0 := -L/usr/local/lib -L/usr/lib -L/usr/lib/iconv_hook
+INCLUDES0 := -I/usr/local/include -I/usr/include/libxml2 -I/usr/lib/iconv_hook
+BER := -lc++ -ldl -lxml2 -liconv -lssl -lcrypto -lpthread
+endif
+ifeq ($(UNAME),Darwin)
 LIBS0 := -L/usr/local/lib -L/usr/lib
 INCLUDES0 := -I/usr/local/include -I/usr/include/libxml2
 BER := -lc++ -ldl -lxml2 -liconv -lssl -lcrypto -lpthread
-
+endif
 ifeq ($(UNAME),Linux)
 .PHONY: all install uninstall clean version
 
