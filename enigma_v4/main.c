@@ -55,20 +55,20 @@ void configmain(main_ctx_t *main_ctx,char *hugh) {
         //if(cur->type == XML_ELEMENT_NODE) {
             if (xmlStrcmp(cur->name, (const xmlChar *) config[count++])) {
                 if((uri =  xmlGetProp(cur,(xmlChar *)"name")) != NULL) {
-                    strncpy(&main_ctx->rotor[count1][MSGC],(const char *)uri,MSGC);
+                    strcpy(&main_ctx->rotor[count1][MSGC],(const char *)uri);
                     xmlFree(uri);
                     count1++;
                 }
             }
             else if (xmlStrcmp(cur->name, (const xmlChar *) "xmlref")) {
                 if((uri =  xmlGetProp(cur,(xmlChar *)"name")) != NULL) {
-                    strncpy(main_ctx->ref1,(const char *)uri,MSGC);
+                    strcpy(main_ctx->ref1,(const char *)uri);
                     xmlFree(uri);
                 }
             }
             else if (xmlStrcmp(cur->name, (const xmlChar *) "xmlnotch")) {
                 if((uri =  xmlGetProp(cur,(xmlChar *)"name")) != NULL) {
-                    strncpy(main_ctx->notch1,(const char *)uri,MSGG);
+                    strcpy(main_ctx->notch1,(const char *)uri);
                     xmlFree(uri);
                 }
             }
