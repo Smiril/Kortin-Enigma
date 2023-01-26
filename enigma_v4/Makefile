@@ -32,7 +32,7 @@ CC_LINUX := clang
 CC_WIN64 := x86_64-w64-mingw32-gcc
 CC_WIN32 := i686-w64_mingw32-gcc
 PREFIX := /usr/local
-CFLAGSY := -Wall -Wextra -pedantic \
+CFLAGSY := -Wall -Wextra -pedantic -ferror-limit=500 \
         -Wno-variadic-macros \
         -DVERSION="\"$(VERSION) - KOENIG MARTIN\""
 ifeq ($(UNAME),Linux)
