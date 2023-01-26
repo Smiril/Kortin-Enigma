@@ -29,15 +29,15 @@ SIGNING_IDENTITY="Apple Development: sonar@gmx.com (XXXXXXXXXX)"
 endif
 CC_MACOS := clang
 CC_LINUX := clang
-CC_WIN64 := x86_64-w64-mingw32-clang
-CC_WIN32 := mingw-w64-clang-i686-clang
+CC_WIN64 := x86_64-w64-mingw32-gcc
+CC_WIN32 := i686-w64_mingw32-gcc
 PREFIX := /usr/local
 CFLAGSY := -Wall -Wextra -pedantic \
         -Wno-variadic-macros \
         -DVERSION="\"$(VERSION) - KOENIG MARTIN\""
 LIBS0 := -L/usr/local/lib -L/usr/lib
 INCLUDES0 := -I/usr/local/include -I/usr/include/libxml2
-BER := -lc++ -ldl -lxml2 -lssl -lcrypto -lpthread
+BER := -lc++ -ldl -lxml2 -liconv -lssl -lcrypto -lpthread
 
 ifeq ($(UNAME),Linux)
 .PHONY: all install uninstall clean version
@@ -48,10 +48,10 @@ enigma: main.c
 	$(CC_LINUX) main.c -o enigma $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -s
 	
 enigma32: main.c
-	$(CC_WIN32) main.c -o enigma32.exe $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -s
+	$(CC_WIN32) main.c -o enigma32.exe $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -lws2_w32 -s
 	
 enigma64: main.c
-	$(CC_WIN64) main.c -o enigma64.exe $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -s
+	$(CC_WIN64) main.c -o enigma64.exe $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -lws2_w32 -s
 	
 endif
 
