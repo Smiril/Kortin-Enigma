@@ -187,7 +187,7 @@ int create_tcp_socket(){
     }
      
     printf("Initialised.\n]");
-#elif defined(__APPLE__) && defined(__LINUX__)
+#else
   int socket_desc;
 #endif
     
@@ -211,7 +211,7 @@ int create_udp_socket(){
     }
      
     printf("Initialised.\n]");
-#elif defined(__APPLE__) && defined(__LINUX__)
+#else
   int socket_desc;
 #endif
 
@@ -238,7 +238,7 @@ int create_icmp_socket(){
     }
      
     printf("Initialised.\n]");
-#elif defined(__APPLE__) && defined(__LINUX__)
+#else
   int socket_desc;
 #endif
 
@@ -262,7 +262,7 @@ int create_igmp_socket(){
     }
      
     printf("Initialised.\n]");
-#elif defined(__APPLE__) && defined(__LINUX__)
+#else
   int socket_desc;
 #endif
 
@@ -286,7 +286,7 @@ int create_raw_socket(){
     }
      
     printf("Initialised.\n]");
-#elif defined(__APPLE__) && defined(__LINUX__)
+#else
   int socket_desc;
 #endif
 
