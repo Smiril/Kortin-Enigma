@@ -19,7 +19,7 @@
 #if defined(__WIN32__) && defined(__WIN64__)
 #include <winsock2.h>
 #include <ws2tcpip.h>
-#else
+#elif defined(__APPLE__) && defined(__LINUX__)
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netinet/ip_icmp.h>

@@ -187,7 +187,7 @@ int create_tcp_socket(){
     }
      
     printf("Initialised.\n]");
-#else
+#elif defined(__APPLE__) && defined(__LINUX__)
   int socket_desc;
 #endif
     
@@ -211,7 +211,7 @@ int create_udp_socket(){
     }
      
     printf("Initialised.\n]");
-#else
+#elif defined(__APPLE__) && defined(__LINUX__)
   int socket_desc;
 #endif
 
@@ -238,7 +238,7 @@ int create_icmp_socket(){
     }
      
     printf("Initialised.\n]");
-#else
+#elif defined(__APPLE__) && defined(__LINUX__)
   int socket_desc;
 #endif
 
@@ -262,7 +262,7 @@ int create_igmp_socket(){
     }
      
     printf("Initialised.\n]");
-#else
+#elif defined(__APPLE__) && defined(__LINUX__)
   int socket_desc;
 #endif
 
@@ -286,7 +286,7 @@ int create_raw_socket(){
     }
      
     printf("Initialised.\n]");
-#else
+#elif defined(__APPLE__) && defined(__LINUX__)
   int socket_desc;
 #endif
 
@@ -534,7 +534,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     
 #if !defined(__WIN32__) && !defined(__WIN64__)
     is_valid_ip(ip)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
-#elif
+#elif !defined(__APPLE__) && !defined(__LINUX__)
     is_valid_ip(ip)? printf("Valid\n"): printf("Not valid\n");
 #endif
 
@@ -550,7 +550,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     
 #if !defined(__WIN32__) && !defined(__WIN64__)
     is_valid_ip(ip)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
-#elif
+#elif !defined(__APPLE__) && !defined(__LINUX__)
     is_valid_ip(ip)? printf("Valid\n"): printf("Not valid\n");
 #endif
     
@@ -776,7 +776,7 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
     fprintf(stderr,"go from %s ",ipp);
 #if !defined(__WIN32__) && !defined(__WIN64__)
     is_valid_ip(ipp)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
-#elif
+#elif !defined(__APPLE__) && !defined(__LINUX__)
     is_valid_ip(ipp)? printf("Valid\n"): printf("Not valid\n");
 #endif
     fprintf(stderr,"connect to %s ",ip);
@@ -791,7 +791,7 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
     
 #if !defined(__WIN32__) && !defined(__WIN64__)
     is_valid_ip(ip)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
-#elif
+#elif !defined(__APPLE__) && !defined(__LINUX__)
     is_valid_ip(ip)? printf("Valid\n"): printf("Not valid\n");
 #endif
     
@@ -855,7 +855,7 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
     }
 #if !defined(__WIN32__) && !defined(__WIN64__)
     fprintf(stderr,"Query is:\n\x1B[32m<<START>>\x1B[39m\n\x1B[33m%s\x1B[39m\n\x1B[32m<<END>>\x1B[39m\n",get);
-#elif
+#elif !defined(__APPLE__) && !defined(__LINUX__)
     fprintf(stderr,"Query is:\n<<START>>\n%s\n<<END>>\n",get);
 #endif
     int sent = 0;
@@ -1343,7 +1343,7 @@ int rotate(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, c
                                                            main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4],
                                                            main_ctx->pos[0], main_ctx->pos[1], main_ctx->pos[2], main_ctx->pos[3], main_ctx->pos[4],
                                                            main_ctx->rings[0], main_ctx->rings[1], main_ctx->rings[2], main_ctx->rings[3], main_ctx->rings[4], main_ctx->plug, fff, rank);
-#elif
+#elif !defined(__APPLE__) && !defined(__LINUX__)
                                                     printf("Wheels %d %d %d %d %d Start %c %c %c %c %c Ring %c %c %c %c %c Stecker \"%s\" TEXT: %s Rank: %d\n",
                                                            main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4],
                                                            main_ctx->pos[0], main_ctx->pos[1], main_ctx->pos[2], main_ctx->pos[3], main_ctx->pos[4],
@@ -1361,7 +1361,7 @@ int rotate(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, c
                                                    main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4],
                                                    main_ctx->pos[0], main_ctx->pos[1], main_ctx->pos[2], main_ctx->pos[3], main_ctx->pos[4],
                                                    main_ctx->rings[0], main_ctx->rings[1], main_ctx->rings[2], main_ctx->rings[3], main_ctx->rings[4], main_ctx->plug,main_ctx->ref1,main_ctx->notch1);
-#elif
+#elif !defined(__APPLE__) && !defined(__LINUX__)
                                             printf("Wheels %d %d %d %d %d Start %c %c %c %c %c Rings %c %c %c %c %c Stecker \"%s\"\nReflector: %s\nNOTCH: %s\n",
                                                    main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4],
                                                    main_ctx->pos[0], main_ctx->pos[1], main_ctx->pos[2], main_ctx->pos[3], main_ctx->pos[4],
@@ -1682,7 +1682,7 @@ void initParams(main_ctx_t *main_ctx)
          main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4],
          main_ctx->pos[0], main_ctx->pos[1], main_ctx->pos[2], main_ctx->pos[3], main_ctx->pos[4],
          main_ctx->rings[0], main_ctx->rings[1], main_ctx->rings[2], main_ctx->rings[3], main_ctx->rings[4], main_ctx->plug,main_ctx->ref1,main_ctx->notch1);
-#elif
+#elif !defined(__APPLE__) && !defined(__LINUX__)
     printf("Wheels %d %d %d %d %d Start %c %c %c %c %c Rings %c %c %c %c %c Stecker \"%s"\nReflector %s NOTch %s \n",
            main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4],
            main_ctx->pos[0], main_ctx->pos[1], main_ctx->pos[2], main_ctx->pos[3], main_ctx->pos[4],
@@ -1770,7 +1770,7 @@ void sbfParams(main_ctx_t *main_ctx)
 #if !defined(__WIN32__) && !defined(__WIN64__)
     printf("\x1B[33mWheels\x1B[39m \x1B[32m %d %d %d %d %d \x1B[39m \x1B[33mMessage\x1B[39m\x1B[32m %s \x1B[39m\x1B[33mDict\x1B[39m \x1B[32m %s \x1B[39m\n\x1B[33mReflector\x1B[39m \x1B[32m %s \x1B[39m \x1B[33mNOTch\x1B[39m\x1B[32m %s \x1B[39m\n",
            main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4], main_ctx->cyph, framex,main_ctx->ref1,main_ctx->notch1);
-#elif
+#elif !defined(__APPLE__) && !defined(__LINUX__)
     printf("Wheels%d %d %d %d %d Message %s Dict %s \nReflector %s NOTch %s \n",
            main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4], main_ctx->cyph, framex,main_ctx->ref1,main_ctx->notch1);
 #endif
@@ -1861,7 +1861,7 @@ void bfParams(main_ctx_t *main_ctx)
 #if !defined(__WIN32__) && !defined(__WIN64__)
     printf("\x1B[33mMessage\x1B[39m\x1B[32m %s \x1B[39m\x1B[33mDict\x1B[39m \x1B[32m %s \x1B[39m\n\x1B[33mReflector\x1B[39m \x1B[32m %s \x1B[39m \x1B[33mNOTch\x1B[39m\x1B[32m %s \x1B[39m\n",
            main_ctx->cyph, framex,main_ctx->ref1,main_ctx->notch1);
-#elif
+#elif !defined(__APPLE__) && !defined(__LINUX__)
     printf("Message %s Dict %s \nReflector %s NOTch %s \n",
            main_ctx->cyph, framex,main_ctx->ref1,main_ctx->notch1);
 #endif
@@ -1902,7 +1902,7 @@ int main(int argc, char **argv) {
         {
 #if !defined(__WIN32__) && !defined(__WIN64__)
             printf("Version\n\n\t\x1B[35m%s\x1B[39m -  \x1B[32mT.E.D.\x1B[39m - \x1B[33mThe Enemy Dail\x1B[39m - Koenig Martin\n",PROGNAME);
-#elif
+#elif !defined(__APPLE__) && !defined(__LINUX__)
             printf("Version\n\n\t%s -  T.E.D. - The Enemy Dail - Koenig Martin\n",PROGNAME);
 #endif
             return 0;
@@ -1911,7 +1911,7 @@ int main(int argc, char **argv) {
         {
 #if !defined(__WIN32__) && !defined(__WIN64__)
             printf("Help\n\n\t\x1B[33m--option-1a\x1B[39m = Enigma Crack Algo\n\t\x1B[33m--option-1b\x1B[39m = Enigma Crack Once Algo\n\t\x1B[33m--option-1\x1B[39m = Enigma 5 Rotor Calculator\n\t\x1B[33m--version\x1B[39m = Version\n\n");
-#elif
+#elif !defined(__APPLE__) && !defined(__LINUX__)
             printf("Help\n\n\t--option-1a = Enigma Crack Algo\n\t--option-1b = Enigma Crack Once Algo\n\t--option-1 = Enigma 5 Rotor Calculator\n\t--version = Version\n\n");
 #endif
             return 0;
