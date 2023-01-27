@@ -16,40 +16,40 @@
 
 #define CA_PRIVATE_IMPLEMENTATION
 
-void configmain(main_ctx_t *main_ctx,char *hugh) {
-    char         *docname;
-    xmlDocPtr    doc;
-    xmlNodePtr   cur;
-    xmlChar      *uri;
-    int count = 0;
-    int count1 = 0;
-    //int count2 = 0;
-    char *config[4][7] = { {"rotor1", "rotor2", "rotor3", "rotor4", "rotor5"} };
+void configmain(main_ctx_t *main_ctx,char *docname) {
     
-    printf("Loading config file: %s\n",hugh);
-    FILE *fp;
-    fp = fopen(hugh,"r");
-    struct stat st;
-    fstat(fileno(fp), &st);
-    size_t size = st.st_size;
-  
-    if (522 != size) {
-        printf("config file is corrupt\n");
-        exit(1);
-    }
-    
-    fclose(fp);
+     xmlDocPtr       doc;
+     xmlNodePtr      cur;
+     xmlChar         *uri;
+     int count = 0;
+     int count1 = 0;
+     //int count2 = 0;
+     char *config[4][7] = { {"rotor1", "rotor2", "rotor3", "rotor4", "rotor5"} };
+     
+     printf("Loading config file: %s\n",docname);
+     FILE *fp;
+     fp = fopen(docname,"r");
+     struct stat st;
+     fstat(fileno(fp), &st);
+     size_t size = st.st_size;
+   
+     if (522 != size) {
+         printf("config file is corrupt\n");
+         exit(1);
+     }
+     
+     fclose(fp);
 
-    docname = hugh;
-    doc = xmlParseFile(docname);
-    cur = xmlDocGetRootElement(doc);
-    
-    if(xmlStrcmp(cur->name, (const xmlChar *) "um-configuration")) {
-        printf("error wrong file!\n");
-        exit(1);
-    }
-    
-    cur = cur->xmlChildrenNode;
+     
+     doc = xmlParseFile(docname);
+     cur = xmlDocGetRootElement(doc);
+     
+     if(xmlStrcmp(cur->name, (const xmlChar *) "um-configuration")) {
+         printf("error wrong file!\n");
+         exit(1);
+     }
+     
+     cur = cur->xmlChildrenNode;
     
     while (cur != NULL) {
         //if(cur->type == XML_ELEMENT_NODE) {
