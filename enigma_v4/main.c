@@ -102,7 +102,7 @@ const char *felix(size_t fex)
 {
     srand(time(NULL));
     char arr[26] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    char *picked = (char*) calloc(fex, sizeof(char*));;
+    char *picked = (char*) calloc(fex, sizeof(char*));
     
     m(arr, NELEMS(arr), sizeof(arr[0]));
     
