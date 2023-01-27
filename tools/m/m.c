@@ -36,6 +36,7 @@ int main() {
     srand(time(NULL));
     char arr[26] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     
+    //printf("          ");
     //print_type(NELEMS(arr), printf("%c", arr[i]));
     m(arr, NELEMS(arr), sizeof(arr[0]));
     printf("Rotor1    ");
