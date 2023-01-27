@@ -8,9 +8,6 @@
 
 #ifndef addx_h
 #define addx_h
-#include <pthread.h>
-#include <semaphore.h>
-#include <sys/time.h>
 
 #define IN_RANK 0
 #define MAXLINEX 1000000
