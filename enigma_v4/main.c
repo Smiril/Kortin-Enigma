@@ -1942,7 +1942,7 @@ int main(int argc, char **argv) {
             {
                 flag = 1;
                 c = 0;
-                printf("Config Host (donmain): ");
+                printf("Config Host (domain): ");
                 while((c3 = getchar()) != '\n')
                 {
                 host[c] = c3;
@@ -1987,7 +1987,7 @@ int main(int argc, char **argv) {
             }
             proxyport[b] = '\0';
             c = 0;
-            printf("Config Host (donmain): ");
+            printf("Config Host (domain): ");
             while((c3 = getchar()) != '\n')
             {
                 host[c] = c3;
