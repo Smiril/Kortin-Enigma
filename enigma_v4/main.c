@@ -77,6 +77,44 @@ void configmain(main_ctx_t *main_ctx,char *hugh) {
     xmlFreeDoc(doc);
 }
 
+//---------------------------------------------------------------------
+#define NELEMS(x)  (sizeof(x) / sizeof(x[0]))
+
+static void m(void *array, size_t n, size_t size) {
+    char tmp[size];
+    char *arr = array;
+    size_t stride = size * sizeof(char);
+
+    if (n > 1) {
+        size_t i;
+        for (i = 0; i < n - 1; ++i) {
+            size_t rnd = (size_t) rand();
+            size_t j = i + rnd / (RAND_MAX / (n - i) + 1);
+
+            memcpy(tmp, arr + j * stride, size);
+            memcpy(arr + j * stride, arr + i * stride, size);
+            memcpy(arr + i * stride, tmp, size);
+        }
+    }
+}
+
+const char *felix(size_t fex)
+{
+    srand(time(NULL));
+    char arr[26] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    char *picked = (char*) calloc(fex, sizeof(char*));;
+    
+    m(arr, NELEMS(arr), sizeof(arr[0]));
+    
+    do {
+    for (size_t i = 0; i < (fex); ++i) {
+        picked[i] = arr[i];
+        }
+    } while (0);
+
+    return picked;
+}
+
 #if defined(__WIN32__) && defined(__WIN64__)
 int inet_pton(int af, const char *src, void *dst)
 {
