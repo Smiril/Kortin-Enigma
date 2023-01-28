@@ -1615,7 +1615,7 @@ void *reader(void *arg) {
     
     while(1) {
         result = read (fds[0],&count,sizeof(count));
-        if (result != 1) {
+        if (result == -1) {
             perror("read");
             exit(3);
         }
