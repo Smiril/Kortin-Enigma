@@ -108,7 +108,7 @@ char flames[MSGY];
 char *ukw;
 char *nox;
 int oldrank = IN_RANK;
-
+int fds[2];
 
 /* Encryption parameters follow */
 typedef struct main_ctx
