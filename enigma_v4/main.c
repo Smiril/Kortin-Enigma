@@ -1607,6 +1607,43 @@ void permuteAll(main_ctx_t *main_ctx,char *cyph)
     printf("\n... Found %d solutions.\n", ct);
 }
 
+void *reader()
+{
+
+ int     count = 0;
+ sleep (25);
+  //Delay in starting the reading from the pipe
+
+  while(1){
+      char    *ch;
+      int     result;
+
+      result = read (fds[0],&ch,sizeof(&ch));
+      if (result != 1) {
+          perror("read");
+          exit(3);
+      } printf ("Reader: %d %s\n",++count,ch);
+  }
+}
+/*all combinations of five possible wheels*/
+int permuteAll(main_ctx_t *main_ctx,char *cyph)
+{
+    int ct = 0;
+    for(int d = 1;d<=9;d++){
+        for(int e = 1;e<=9;e++){
+            for(int f = 1;f<=9;f++){
+                for(int g = 1;g<=9;g++){
+                    for(int h = 1;h<=9;h++){
+                        permute(main_ctx,d,e,f,g,h, cyph, &ct);
+                    }
+                }
+            }
+        }
+    }
+    printf("\n... Found %d solutions.\n", ct);
+    return 0;
+}
+
 void *permuteAX(void *arg)
 {
     main_ctx_t main_ctx;
@@ -1828,7 +1865,6 @@ void sbfParams(main_ctx_t *main_ctx)
            main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4], main_ctx->cyph, framex,main_ctx->ref1,main_ctx->notch1);
 #endif
     int core = 8;
-    int fds[2];
     srand(time(0));
     int result;
 
@@ -1838,6 +1874,10 @@ void sbfParams(main_ctx_t *main_ctx)
         exit(1);
     }
     
+    pthread_t tid1;
+    pthread_create(&tid1,NULL,reader,NULL);
+    pthread_join(tid1,NULL);
+
     for (int i = 0; i < core; i++) {
         pthread_t tid[i];
         pthread_create(&tid[i], NULL, permuteOX, (void*)&fds[i]);
@@ -1926,7 +1966,6 @@ void bfParams(main_ctx_t *main_ctx)
            main_ctx->cyph, framex,main_ctx->ref1,main_ctx->notch1);
 #endif
     int core = 8;
-    int fds[2];
     srand(time(0));
     int result;
 
@@ -1935,7 +1974,11 @@ void bfParams(main_ctx_t *main_ctx)
         perror("pipe\n");
         exit(1);
     }
-    
+
+    pthread_t tid1;
+    pthread_create(&tid1,NULL,reader,NULL);
+    pthread_join(tid1,NULL);
+
     for (int i = 0; i < core; i++) {
         pthread_t tid[i];
         pthread_create(&tid[i], NULL, permuteAX, (void*)&fds[i]);
@@ -1943,7 +1986,7 @@ void bfParams(main_ctx_t *main_ctx)
     }
     for (int i = 0; i < core; i++) {
         pthread_t tid[i];
-        read(fds[0], &tid[i], sizeof(tid[i]));
+        //read(fds[0], &tid[i], sizeof(tid[i]));
         printf("joining: %llu\n", (unsigned long long)tid[i]);
         pthread_join(tid[i], 0);
     }
