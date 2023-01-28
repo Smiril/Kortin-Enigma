@@ -1606,32 +1606,41 @@ void permuteAll(main_ctx_t *main_ctx,char *cyph)
   }
     printf("\n... Found %d solutions.\n", ct);
 }
+
 void *permuteAX(void *arg)
 {
     main_ctx_t main_ctx;
+    int uri;
     pthread_mutex_lock(&lock);              // lock
     int *fds = (int *)arg;
     pthread_t t = pthread_self();
-    permuteAll(&main_ctx,main_ctx.cyph);
-    write(fds[1], &t, sizeof(t));
+    pthread_detach(pthread_self());
+    if((uri = permuteAll(&main_ctx,main_ctx.cyph)) == 0) {
+        write(fds[1], &t, sizeof(t));
+    }
     pthread_mutex_unlock(&lock);            //release lock
     pthread_exit(NULL);                     //exit from child thread
 }
 /*once combination of five possible wheels*/
-void permuteOnce(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph)
+int permuteOnce(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph)
 {
     int ct = 0;
     permute(main_ctx,a, b, c, d, e, cyph, &ct);
     printf("\n... Found %d solutions.\n", ct);
+    return 0;
 }
 void *permuteOX(void *arg)
 {
     main_ctx_t main_ctx;
+    int uri;
     pthread_mutex_lock(&lock);
     int *fds = (int *)arg;
     pthread_t t = pthread_self();
-    permuteOnce(&main_ctx,main_ctx.order[0], main_ctx.order[1],main_ctx.order[2], main_ctx.order[3], main_ctx.order[4],main_ctx.cyph);
-    write(fds[1], &t, sizeof(t));
+    pthread_detach(pthread_self());
+    if((uri = permuteOnce(&main_ctx,main_ctx.order[0], main_ctx.order[1],main_ctx.order[2], main_ctx.order[3], main_ctx.order[4],main_ctx.cyph)) == 0) {
+        write(fds[1], &t, sizeof(t));
+    }
+    
     pthread_mutex_unlock(&lock);            //release lock
     pthread_exit(NULL);                     //exit from child thread
 }
@@ -1818,16 +1827,23 @@ void sbfParams(main_ctx_t *main_ctx)
     printf("Wheels%d %d %d %d %d Message %s Dict %s \nReflector %s NOTch %s \n",
            main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4], main_ctx->cyph, framex,main_ctx->ref1,main_ctx->notch1);
 #endif
-    //int core = 8;
-    int fds[8];
-    //srand(time(0));
-    pipe(fds);
-    for (int i = 0; i < 8; i++) {
+    int core = 8;
+    int fds[2];
+    srand(time(0));
+    int result;
+
+    result = pipe (fds);
+    if (result < 0){
+        perror("pipe\n");
+        exit(1);
+    }
+    
+    for (int i = 0; i < core; i++) {
         pthread_t tid[i];
         pthread_create(&tid[i], NULL, permuteOX, (void*)&fds[i]);
         printf("created: %llu\n", (unsigned long long)tid[i]);
     }
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < core; i++) {
         pthread_t tid[i];
         read(fds[0], &tid[i], sizeof(tid[i]));
         printf("joining: %llu\n", (unsigned long long)tid[i]);
@@ -1909,16 +1925,23 @@ void bfParams(main_ctx_t *main_ctx)
     printf("Message %s Dict %s \nReflector %s NOTch %s \n",
            main_ctx->cyph, framex,main_ctx->ref1,main_ctx->notch1);
 #endif
-    //int core = 8;
-    int fds[8];
-    //srand(time(0));
-    pipe(fds);
-    for (int i = 0; i < 8; i++) {
+    int core = 8;
+    int fds[2];
+    srand(time(0));
+    int result;
+
+    result = pipe (fds);
+    if (result < 0){
+        perror("pipe\n");
+        exit(1);
+    }
+    
+    for (int i = 0; i < core; i++) {
         pthread_t tid[i];
         pthread_create(&tid[i], NULL, permuteAX, (void*)&fds[i]);
         printf("created: %llu\n", (unsigned long long)tid[i]);
     }
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < core; i++) {
         pthread_t tid[i];
         read(fds[0], &tid[i], sizeof(tid[i]));
         printf("joining: %llu\n", (unsigned long long)tid[i]);
