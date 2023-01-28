@@ -64,21 +64,18 @@ void configmain(main_ctx_t *main_ctx,char *docname) {
             if (xmlStrcmp(gchild->name, (const xmlChar *)config[count++])) {
                 if((uri =  xmlGetProp(gchild,(const xmlChar *)"name"))) {
                     strcpy(&main_ctx->rotor[count1++][26],(const char *)uri);
-                    printf("%s\n",uri);
                     xmlFree(uri);
                 }
             }
             else if (xmlStrcmp(gchild->name, (const xmlChar *)"xmlref")) {
                 if((uri =  xmlGetProp(gchild,(const xmlChar *)"name"))) {
                     strcpy(&main_ctx->ref1[26],(const char *)uri);
-                    printf("%s\n",uri);
                     xmlFree(uri);
                 }
             }
             else if (xmlStrcmp(gchild->name, (const xmlChar *)"xmlnotch")) {
                 if((uri =  xmlGetProp(gchild,(const xmlChar *)"name"))) {
                     strcpy(&main_ctx->notch1[5],(const char *)uri);
-                    printf("%s\n",uri);
                     xmlFree(uri);
                 }
             }
