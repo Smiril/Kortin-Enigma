@@ -21,8 +21,8 @@ void configmain(main_ctx_t *main_ctx,char *docname) {
      xmlDocPtr       doc;
      xmlNodePtr      cur;
      xmlChar         *uri;
-     int count = 0;
-     int count1 = 0;
+     int count = -1;
+     int count1 = -1;
      //int count2 = 0;
      char *config[4][7] = { {"rotor1", "rotor2", "rotor3", "rotor4", "rotor5"} };
      
@@ -63,19 +63,19 @@ void configmain(main_ctx_t *main_ctx,char *docname) {
     while (gchild != NULL) {
             if (xmlStrcmp(gchild->name, (const xmlChar *)config[count++])) {
                 if((uri =  xmlGetProp(gchild,(const xmlChar *)"name"))) {
-                    strcpy(&main_ctx->rotor[count1++][26],(const char *)uri);
+                    strcpy(&main_ctx->rotor[count1++][27],(const char *)uri);
                     xmlFree(uri);
                 }
             }
             else if (xmlStrcmp(gchild->name, (const xmlChar *)"xmlref")) {
                 if((uri =  xmlGetProp(gchild,(const xmlChar *)"name"))) {
-                    strcpy(&main_ctx->ref1[26],(const char *)uri);
+                    strcpy(&main_ctx->ref1[27],(const char *)uri);
                     xmlFree(uri);
                 }
             }
             else if (xmlStrcmp(gchild->name, (const xmlChar *)"xmlnotch")) {
                 if((uri =  xmlGetProp(gchild,(const xmlChar *)"name"))) {
-                    strcpy(&main_ctx->notch1[5],(const char *)uri);
+                    strcpy(&main_ctx->notch1[6],(const char *)uri);
                     xmlFree(uri);
                 }
             }
