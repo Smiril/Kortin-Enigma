@@ -48,31 +48,41 @@ void configmain(main_ctx_t *main_ctx,char *docname) {
          printf("error wrong file!\n");
          exit(1);
      }
-     
-     cur = cur->xmlChildrenNode;
     
-    while (cur != NULL) {
-        //if(cur->type == XML_ELEMENT_NODE) {
-            if (xmlStrcmp(cur->name, (const xmlChar *)config[count++])) {
-                if((uri =  xmlGetProp(cur,(xmlChar *)"name")) != NULL) {
-                    strcpy(&main_ctx->rotor[count1++][MSGC],(const char *)uri);
+    xmlNode* child = cur->children->next;
+    
+    // get the child's attributes
+    xmlAttr* attr = child->properties;
+    while (attr != NULL) {
+      // move to the next attribute
+      attr = attr->next;
+    }
+
+    // go through the child's children
+    xmlNode* gchild = child->children->next;
+    while (gchild != NULL) {
+            if (xmlStrcmp(gchild->name, (const xmlChar *)config[count++])) {
+                if((uri =  xmlGetProp(gchild,(const xmlChar *)"name"))) {
+                    strcpy(&main_ctx->rotor[count1++][26],(const char *)uri);
+                    printf("%s\n",uri);
                     xmlFree(uri);
                 }
             }
-            else if (xmlStrcmp(cur->name, (const xmlChar *)"xmlref")) {
-                if((uri =  xmlGetProp(cur,(xmlChar *)"name")) != NULL) {
-                    strcpy(main_ctx->ref1,(const char *)uri);
+            else if (xmlStrcmp(gchild->name, (const xmlChar *)"xmlref")) {
+                if((uri =  xmlGetProp(gchild,(const xmlChar *)"name"))) {
+                    strcpy(&main_ctx->ref1[26],(const char *)uri);
+                    printf("%s\n",uri);
                     xmlFree(uri);
                 }
             }
-            else if (xmlStrcmp(cur->name, (const xmlChar *)"xmlnotch")) {
-                if((uri =  xmlGetProp(cur,(xmlChar *)"name")) != NULL) {
-                    strcpy(main_ctx->notch1,(const char *)uri);
+            else if (xmlStrcmp(gchild->name, (const xmlChar *)"xmlnotch")) {
+                if((uri =  xmlGetProp(gchild,(const xmlChar *)"name"))) {
+                    strcpy(&main_ctx->notch1[5],(const char *)uri);
+                    printf("%s\n",uri);
                     xmlFree(uri);
                 }
             }
-            cur = cur->next;
-        //}
+        gchild = gchild->next->next;
     }
     xmlFreeDoc(doc);
 }
