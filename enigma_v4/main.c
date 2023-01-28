@@ -1613,7 +1613,7 @@ void *reader(void *arg) {
   //Delay in starting the reading from the pipe
     int     result;
     
-    while(1) {
+    while(true) {
         result = read (fds[0],&count,sizeof(count));
         if (result == -1) {
             perror("read");
