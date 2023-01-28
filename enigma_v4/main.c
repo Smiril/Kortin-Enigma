@@ -1649,7 +1649,7 @@ void *permuteAX(void *arg)
     int result;
     pthread_t t = pthread_self();
     printf("created: %d\n", fds[1]);
-    pthread_detach(pthread_self());
+    //pthread_detach(pthread_self());
     //while(1){
         
         result = write (fds[1], &t,sizeof(t));
@@ -1657,7 +1657,10 @@ void *permuteAX(void *arg)
             perror ("write");
             exit (2);
         }
-        permuteAll(&main_ctx,main_ctx.cyph);
+        
+    if(!permuteAll(&main_ctx,main_ctx.cyph)){
+        perror("main");
+    }
     //}
     pthread_mutex_unlock(&lock);            //release lock
     pthread_exit(NULL);                     //exit from child thread
@@ -1678,7 +1681,7 @@ void *permuteOX(void *arg)
     int result;
     pthread_t t = pthread_self();
     printf("created: %d\n", fds[1]);
-    pthread_detach(pthread_self());
+    //pthread_detach(pthread_self());
     //while(1){
         
         result = write (fds[1], &t,sizeof(t));
@@ -1686,7 +1689,10 @@ void *permuteOX(void *arg)
             perror ("write");
             exit (2);
         }
-        permuteOnce(&main_ctx,main_ctx.order[0], main_ctx.order[1],main_ctx.order[2], main_ctx.order[3], main_ctx.order[4],main_ctx.cyph);
+        
+    if(!permuteOnce(&main_ctx,main_ctx.order[0], main_ctx.order[1],main_ctx.order[2], main_ctx.order[3], main_ctx.order[4],main_ctx.cyph)) {
+        perror("main");
+    }
     //}
     pthread_mutex_unlock(&lock);            //release lock
     pthread_exit(NULL);                     //exit from child thread
