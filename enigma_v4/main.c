@@ -1595,8 +1595,12 @@ int permute(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, 
 }
 
 void *reader(void *arg) {
- int *count = (int *)arg;
- //sleep (25);
+    main_ctx_t main_ctx;
+    pthread_mutex_lock(&lock);
+    int result;
+    pthread_t t = pthread_self();
+    int *count = (int *)arg;
+    printf("created: %d\n", count); //sleep (25);
   //Delay in starting the reading from the pipe
     int     result;
     
@@ -1607,8 +1611,9 @@ void *reader(void *arg) {
             exit(3);
         }
     }
+    pthread_mutex_unlock(&lock);            //release lock
+    pthread_exit(NULL);                     //exit from child thread
 }
-
 /*all combinations of five possible wheels*/
 int permuteAll(main_ctx_t *main_ctx,char *cyph,void *tid)
 {
