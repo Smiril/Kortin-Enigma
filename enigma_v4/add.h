@@ -114,15 +114,15 @@ int fds[2];
 typedef struct main_ctx
 {
         /* Rotor wirings */
-        char rotor[5][27];
-        char ref1[27];
-        char notch1[6];
-        char order[6];/*={ 1, 3, 5, 7, 9 };*/
-        char rings[6];/*={ 'A','A','A','A','A'};*/
-        char pos[6];/*={ 'A','A','A','A','A'};*/
-        char cyph[161];
-        char crib[161];
-        char plug[11];/*=\"ASKINGLOPE\";*/
+        char    rotor[5][MSGC];
+        char    ref1[MSGC];
+        char    notch1[MSGG];
+        int     order[MSGG];/*={ 1, 3, 5, 7, 9 };*/
+        char    rings[MSGG];/*={ 'A','A','A','A','A'};*/
+        char    pos[MSGG];/*={ 'A','A','A','A','A'};*/
+        char    cyph[MSGLEN];
+        char    crib[MSGLEN];
+        char    plug[MSGP];/*=\"ASKINGLOPE\";*/
 } main_ctx_t;
 
 #endif /* add_h */
