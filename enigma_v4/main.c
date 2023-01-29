@@ -1887,14 +1887,14 @@ void sbfParams(main_ctx_t *main_ctx)
     int core = atoi(chad);
     srand(time(0));
     int result;
-    void *status;
-    
+    int status;
+
     result = pipe (fds);
     if (result < 0){
         perror("pipe");
         exit(1);
     }
-
+    
     for (int i = 0; i < core; i++) {
         pthread_t tid = malloc(core + 1 * sizeof(pthread_t));
         //pthread_create(*(pthread_t**)&tid[i], NULL, reader, (void*)&fds[i]);
@@ -1906,7 +1906,7 @@ void sbfParams(main_ctx_t *main_ctx)
         pthread_t tid = malloc(core + 1 * sizeof(pthread_t));
         read(fds[0], &tid[i], sizeof(tid[i]));
         printf("joining: %llu\n", (unsigned long long)&tid[i]);
-        pthread_join(&tid[i], &status);
+        pthread_join(&tid[i], (void*)&status);
         printf("Return Thread: %d Value: %d\n",(int)&tid[i],(int)status);
     }
     //pthread_exit(0);
@@ -2006,14 +2006,14 @@ void bfParams(main_ctx_t *main_ctx)
     int core = atoi(chad);
     srand(time(0));
     int result;
-    void *status;
-    
+    int status;
+
     result = pipe (fds);
     if (result < 0){
         perror("pipe");
         exit(1);
     }
-
+    
     for (int i = 0; i < core; i++) {
         pthread_t tid = malloc(core + 1 * sizeof(pthread_t));
         //pthread_create(*(pthread_t**)&tid[i], NULL, reader, (void*)&fds[i]);
@@ -2025,11 +2025,12 @@ void bfParams(main_ctx_t *main_ctx)
         pthread_t tid = malloc(core + 1 * sizeof(pthread_t));
         read(fds[0], &tid[i], sizeof(tid[i]));
         printf("joining: %llu\n", (unsigned long long)&tid[i]);
-        pthread_join(&tid[i], &status);
+        pthread_join(&tid[i], (void*)&status);
         printf("Return Thread: %d Value: %d\n",(int)&tid[i],(int)status);
     }
     //pthread_exit(0);
 }
+
 
 /********************************************MAIN*********************************************/
 int main(int argc, char **argv) {
