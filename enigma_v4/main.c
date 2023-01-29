@@ -1814,7 +1814,7 @@ void sbfParams(main_ctx_t *main_ctx)
         }
         framex[l] = '\0';
         
-        printf("Threads (1-10): ");
+        printf("Threads (1-100): ");
         m = 0;
         while((h = getchar()) != '\n')
         {
@@ -1866,7 +1866,7 @@ void sbfParams(main_ctx_t *main_ctx)
         }
         framex[l] = '\0';
         
-        printf("Threads (1-10): ");
+        printf("Threads (1-100): ");
         m = 0;
         while((h = getchar()) != '\n')
         {
@@ -1938,7 +1938,7 @@ void bfParams(main_ctx_t *main_ctx)
         }
         framex[l] = '\0';
         
-        printf("Threads (1-10): ");
+        printf("Threads (1-100): ");
         m = 0;
         while((h = getchar()) != '\n')
         {
@@ -1985,7 +1985,7 @@ void bfParams(main_ctx_t *main_ctx)
         }
         framex[l] = '\0';
         
-        printf("Threads (1-10): ");
+        printf("Threads (1-100): ");
         m = 0;
         while((h = getchar()) != '\n')
         {
