@@ -2031,7 +2031,6 @@ void bfParams(main_ctx_t *main_ctx)
     //pthread_exit(0);
 }
 
-
 /********************************************MAIN*********************************************/
 int main(int argc, char **argv) {
     main_ctx_t main_ctx;
