@@ -1595,16 +1595,15 @@ int permute(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, 
 }
 
 void *reader(void *arg) {
-    main_ctx_t main_ctx;
     pthread_mutex_lock(&lock);
     pthread_t t = pthread_self();
-    int *count = (int *)arg;
-    printf("created: %d\n", count); //sleep (25);
+    int *fds = (int *)arg;
+    printf("created: %d\n", fds[0]); //sleep (25);
   //Delay in starting the reading from the pipe
     int     result;
     
     while(1) {
-        result = read (fds[0],&count,sizeof(count));
+        result = read (fds[0],&t,sizeof(t));
         if (result == -1) {
             perror("read");
             exit(3);
