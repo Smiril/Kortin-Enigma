@@ -1890,7 +1890,7 @@ void sbfParams(main_ctx_t *main_ctx)
     int status;
 
     result = pipe (fds);
-    if (result < 0){
+    if (result == -1){
         perror("pipe");
         exit(1);
     }
@@ -2009,7 +2009,7 @@ void bfParams(main_ctx_t *main_ctx)
     int status;
 
     result = pipe (fds);
-    if (result < 0){
+    if (result == -1){
         perror("pipe");
         exit(1);
     }
