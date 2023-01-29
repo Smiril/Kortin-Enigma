@@ -1418,7 +1418,7 @@ int rotate(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, c
                                             const time_t proc_stop = time (NULL);
                                             printf("Time elapsed : begin %ld - end %ld \n",proc_start,proc_stop);
                                             
-                                            return 1;
+                                            break;
                                         } else continue;
                                     }
                                 }
@@ -1907,7 +1907,7 @@ void sbfParams(main_ctx_t *main_ctx)
         read(fds[0], &tid[i], sizeof(tid[i]));
         printf("joining: %llu\n", (unsigned long long)&tid[i]);
         pthread_join(&tid[i], (void*)&status);
-        printf("Return Thread: %d Value: %d\n",(int)&tid[i],(int)status);
+        printf("Return Thread: %llu Value: %d\n",(unsigned long long)&tid[i],(int)status);
     }
     //pthread_exit(0);
 }
@@ -2026,7 +2026,7 @@ void bfParams(main_ctx_t *main_ctx)
         read(fds[0], &tid[i], sizeof(tid[i]));
         printf("joining: %llu\n", (unsigned long long)&tid[i]);
         pthread_join(&tid[i], (void*)&status);
-        printf("Return Thread: %d Value: %d\n",(int)&tid[i],(int)status);
+        printf("Return Thread: %llu Value: %d\n",(unsigned long long)&tid[i],(int)status);
     }
     //pthread_exit(0);
 }
