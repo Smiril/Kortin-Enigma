@@ -1597,7 +1597,6 @@ int permute(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, 
 void *reader(void *arg) {
     main_ctx_t main_ctx;
     pthread_mutex_lock(&lock);
-    int result;
     pthread_t t = pthread_self();
     int *count = (int *)arg;
     printf("created: %d\n", count); //sleep (25);
