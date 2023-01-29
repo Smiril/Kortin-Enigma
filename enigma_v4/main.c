@@ -1326,7 +1326,7 @@ int cypher(main_ctx_t main_ctx)
     return 0;
 }
 
-int rotate(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, char *plug, int *ct)
+int rotate(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, char *plug, int *ct,void *tid)
 {
     int rank = IN_RANK;
     
@@ -1417,8 +1417,7 @@ int rotate(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, c
                                             printf("%s decoded -> %s\n",cyph,enigma(cyph, main_ctx));
                                             const time_t proc_stop = time (NULL);
                                             printf("Time elapsed : begin %ld - end %ld \n",proc_start,proc_stop);
-                                            
-                                            break;
+                                            pthread_join(tid, NULL);
                                         } else continue;
                                     }
                                 }
@@ -1434,7 +1433,7 @@ int rotate(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, c
   return 0;
 }
 
-int test(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, int *ct) {
+int test(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, int *ct,void *tid) {
    
     printf("... calculating\n");
     const time_t proc_start = time (NULL);
@@ -1532,30 +1531,30 @@ int test(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, int
                                                               s[9] = J;
                                                               s[10] = '\0';
                                     
-                                                              rotate(main_ctx,a, b, c, d, e, cyph, s, ct);
+                                                              rotate(main_ctx,a, b, c, d, e, cyph, s, ct,tid);
                                                           }
                                                       }
                                                   }
                                                   else{
-                                                      rotate(main_ctx,a, b, c, d, e, cyph, s, ct);
+                                                      rotate(main_ctx,a, b, c, d, e, cyph, s, ct,tid);
                                                   }
                                               }
                                           }
                                       }
                                       else{
-                                          rotate(main_ctx,a, b, c, d, e, cyph, s, ct);
+                                          rotate(main_ctx,a, b, c, d, e, cyph, s, ct,tid);
                                       }
                                   }
                               }
                           }
                           else{
-                              rotate(main_ctx,a, b, c, d, e, cyph, s,  ct);
+                              rotate(main_ctx,a, b, c, d, e, cyph, s,  ct,tid);
                           }
                       }
                   }
               }
               else{
-                  rotate(main_ctx,a, b, c, d, e, cyph, s, ct);
+                  rotate(main_ctx,a, b, c, d, e, cyph, s, ct,tid);
                     }
                 }
             }
@@ -1567,31 +1566,31 @@ int test(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, int
 }
 
 /*run on all permutations of wheels a, b, c, d, e*/
-int permute(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, int *ct)
+int permute(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, int *ct,void *tid)
 {
     printf("... testing\n");
-    test(main_ctx,a, b, c, d, e, cyph, ct);
-    test(main_ctx,b, a, c, d, e, cyph, ct);
-    test(main_ctx,b, c, a, d, e, cyph, ct);
-    test(main_ctx,b, c, d, a, e, cyph, ct);
-    test(main_ctx,b, c, d, e, a, cyph, ct);
-    test(main_ctx,b, c, d, e, a, cyph, ct);
-    test(main_ctx,c, b, d, e, a, cyph, ct);
-    test(main_ctx,c, d, b, e, a, cyph, ct);
-    test(main_ctx,c, d, e, b, a, cyph, ct);
-    test(main_ctx,c, d, e, a, b, cyph, ct);
-    test(main_ctx,c, d, e, a, b, cyph, ct);
-    test(main_ctx,d, c, e, a, b, cyph, ct);
-    test(main_ctx,d, e, c, a, b, cyph, ct);
-    test(main_ctx,d, e, a, c, b, cyph, ct);
-    test(main_ctx,d, e, a, b, c, cyph, ct);
-    test(main_ctx,e, d, a, b, c, cyph, ct);
-    test(main_ctx,e, a, d, b, c, cyph, ct);
-    test(main_ctx,e, a, b, d, c, cyph, ct);
-    test(main_ctx,e, a, b, c, d, cyph, ct);
-    test(main_ctx,a, e, b, c, d, cyph, ct);
-    test(main_ctx,a, b, e, c, d, cyph, ct);
-    test(main_ctx,a, b, c, e, d, cyph, ct);
+    test(main_ctx,a, b, c, d, e, cyph, ct,tid);
+    test(main_ctx,b, a, c, d, e, cyph, ct,tid);
+    test(main_ctx,b, c, a, d, e, cyph, ct,tid);
+    test(main_ctx,b, c, d, a, e, cyph, ct,tid);
+    test(main_ctx,b, c, d, e, a, cyph, ct,tid);
+    test(main_ctx,b, c, d, e, a, cyph, ct,tid);
+    test(main_ctx,c, b, d, e, a, cyph, ct,tid);
+    test(main_ctx,c, d, b, e, a, cyph, ct,tid);
+    test(main_ctx,c, d, e, b, a, cyph, ct,tid);
+    test(main_ctx,c, d, e, a, b, cyph, ct,tid);
+    test(main_ctx,c, d, e, a, b, cyph, ct,tid);
+    test(main_ctx,d, c, e, a, b, cyph, ct,tid);
+    test(main_ctx,d, e, c, a, b, cyph, ct,tid);
+    test(main_ctx,d, e, a, c, b, cyph, ct,tid);
+    test(main_ctx,d, e, a, b, c, cyph, ct,tid);
+    test(main_ctx,e, d, a, b, c, cyph, ct,tid);
+    test(main_ctx,e, a, d, b, c, cyph, ct,tid);
+    test(main_ctx,e, a, b, d, c, cyph, ct,tid);
+    test(main_ctx,e, a, b, c, d, cyph, ct,tid);
+    test(main_ctx,a, e, b, c, d, cyph, ct,tid);
+    test(main_ctx,a, b, e, c, d, cyph, ct,tid);
+    test(main_ctx,a, b, c, e, d, cyph, ct,tid);
     return 0;
 }
 
@@ -1611,7 +1610,7 @@ void *reader(void *arg) {
 }
 
 /*all combinations of five possible wheels*/
-int permuteAll(main_ctx_t *main_ctx,char *cyph)
+int permuteAll(main_ctx_t *main_ctx,char *cyph,void *tid)
 {
     int ct = 0;
     for(int d = 1;d<=9;d++){
@@ -1619,7 +1618,7 @@ int permuteAll(main_ctx_t *main_ctx,char *cyph)
             for(int f = 1;f<=9;f++){
                 for(int g = 1;g<=9;g++){
                     for(int h = 1;h<=9;h++){
-                        permute(main_ctx,d,e,f,g,h, cyph, &ct);
+                        permute(main_ctx,d,e,f,g,h, cyph, &ct,tid);
                     }
                 }
             }
@@ -1636,7 +1635,7 @@ void *permuteAX(void *arg)
     int *fds = (int *)arg;
     int result;
     pthread_t t = pthread_self();
-    //printf("created: %d\n", fds[1]);
+    printf("created: %d\n", fds[1]);
     //pthread_detach(pthread_self());
     while(1) {
         result = write (fds[1], &t,sizeof(t));
@@ -1645,7 +1644,7 @@ void *permuteAX(void *arg)
             exit (2);
         }
         
-        if(!permuteAll(&main_ctx,main_ctx.cyph)){
+        if(!permuteAll(&main_ctx,main_ctx.cyph,t)){
             perror("main");
         }
     }
@@ -1653,10 +1652,10 @@ void *permuteAX(void *arg)
     pthread_exit(NULL);                     //exit from child thread
 }
 /*once combination of five possible wheels*/
-int permuteOnce(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph)
+int permuteOnce(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph,void *tid)
 {
     int ct = 0;
-    permute(main_ctx,a, b, c, d, e, cyph, &ct);
+    permute(main_ctx,a, b, c, d, e, cyph, &ct,tid);
     printf("\n... Found %d solutions.\n", ct);
     return 0;
 }
@@ -1667,7 +1666,7 @@ void *permuteOX(void *arg)
     int *fds = (int *)arg;
     int result;
     pthread_t t = pthread_self();
-    //printf("created: %d\n", fds[1]);
+    printf("created: %d\n", fds[1]);
     //pthread_detach(pthread_self());
     while(1) {
         result = write (fds[1], &t,sizeof(t));
@@ -1676,7 +1675,7 @@ void *permuteOX(void *arg)
             exit (2);
         }
         
-        if(!permuteOnce(&main_ctx,main_ctx.order[0], main_ctx.order[1],main_ctx.order[2], main_ctx.order[3], main_ctx.order[4],main_ctx.cyph)) {
+        if(!permuteOnce(&main_ctx,main_ctx.order[0], main_ctx.order[1],main_ctx.order[2], main_ctx.order[3], main_ctx.order[4],main_ctx.cyph,t)) {
             perror("main");
         }
     }
@@ -1887,7 +1886,7 @@ void sbfParams(main_ctx_t *main_ctx)
     int core = atoi(chad);
     srand(time(0));
     int result;
-    int status;
+    //int status;
 
     result = pipe (fds);
     if (result == -1){
@@ -1897,17 +1896,13 @@ void sbfParams(main_ctx_t *main_ctx)
     
     for (int i = 0; i < core; i++) {
         pthread_t tid = malloc(core + 1 * sizeof(pthread_t));
-        //pthread_create(*(pthread_t**)&tid[i], NULL, reader, (void*)&fds[i]);
+        pthread_create(*(pthread_t**)&tid[i], NULL, reader, (void*)&fds[i]);
         pthread_create(*(pthread_t**)&tid[i], NULL, permuteOX, (void*)&fds[i]);
         printf("created: %llu\n", (unsigned long long)&tid[i]);
-    }
-   
-    for (int i = 0; i < core; i++) {
-        pthread_t tid = malloc(core + 1 * sizeof(pthread_t));
-        read(fds[0], &tid[i], sizeof(tid[i]));
-        printf("joining: %llu\n", (unsigned long long)&tid[i]);
-        pthread_join(&tid[i], (void*)&status);
-        printf("Return Thread: %llu Value: %d\n",(unsigned long long)&tid[i],(int)status);
+        //read(fds[0], &tid[i], sizeof(tid[i]));
+        //printf("joining: %llu\n", (unsigned long long)&tid[i]);
+        //pthread_join(&tid[i], (void*)&status);
+        //printf("Thread: %llu Status: %d\n",(unsigned long long)&tid[i],(int)status);
     }
     //pthread_exit(0);
 }
@@ -2006,7 +2001,7 @@ void bfParams(main_ctx_t *main_ctx)
     int core = atoi(chad);
     srand(time(0));
     int result;
-    int status;
+    //int status;
 
     result = pipe (fds);
     if (result == -1){
@@ -2016,17 +2011,13 @@ void bfParams(main_ctx_t *main_ctx)
     
     for (int i = 0; i < core; i++) {
         pthread_t tid = malloc(core + 1 * sizeof(pthread_t));
-        //pthread_create(*(pthread_t**)&tid[i], NULL, reader, (void*)&fds[i]);
+        pthread_create(*(pthread_t**)&tid[i], NULL, reader, (void*)&fds[i]);
         pthread_create(*(pthread_t**)&tid[i], NULL, permuteAX, (void*)&fds[i]);
         printf("created: %llu\n", (unsigned long long)&tid[i]);
-    }
-   
-    for (int i = 0; i < core; i++) {
-        pthread_t tid = malloc(core + 1 * sizeof(pthread_t));
-        read(fds[0], &tid[i], sizeof(tid[i]));
-        printf("joining: %llu\n", (unsigned long long)&tid[i]);
-        pthread_join(&tid[i], (void*)&status);
-        printf("Return Thread: %llu Value: %d\n",(unsigned long long)&tid[i],(int)status);
+        //read(fds[0], &tid[i], sizeof(tid[i]));
+        //printf("joining: %llu\n", (unsigned long long)&tid[i]);
+        //pthread_join(&tid[i], (void*)&status);
+        //printf("Thread: %llu Status: %d\n",(unsigned long long)&tid[i],(int)status);
     }
     //pthread_exit(0);
 }
