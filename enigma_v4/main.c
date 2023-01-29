@@ -1613,7 +1613,7 @@ void *reader(void *arg) {
   //Delay in starting the reading from the pipe
     int     result;
     
-    while(true) {
+    while(1) {
         result = read (fds[0],&count,sizeof(count));
         if (result == -1) {
             perror("read");
@@ -1650,7 +1650,7 @@ void *permuteAX(void *arg)
     pthread_t t = pthread_self();
     //printf("created: %d\n", fds[1]);
     //pthread_detach(pthread_self());
-    while(true) {
+    while(1) {
         result = write (fds[1], &t,sizeof(t));
         if (result == -1){
             perror ("write");
@@ -1681,7 +1681,7 @@ void *permuteOX(void *arg)
     pthread_t t = pthread_self();
     //printf("created: %d\n", fds[1]);
     //pthread_detach(pthread_self());
-    while(true) {
+    while(1) {
         result = write (fds[1], &t,sizeof(t));
         if (result == -1){
             perror ("write");
@@ -1878,7 +1878,7 @@ void sbfParams(main_ctx_t *main_ctx)
     printf("Wheels%d %d %d %d %d Message %s Dict %s \nReflector %s NOTch %s \n",
            main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4], main_ctx->cyph, framex,main_ctx->ref1,main_ctx->notch1);
 #endif
-    int core = 10;
+    int core = 8;
     srand(time(0));
     int result;
 
@@ -1889,19 +1889,18 @@ void sbfParams(main_ctx_t *main_ctx)
     }
     
     for (int i = 0; i < core; i++) {
-        pthread_t tid[i];
-        pthread_create(&tid[i], NULL, reader, (void*)&fds[i]);
-        pthread_create(&tid[i], NULL, permuteOX, (void*)&fds[i]);
-        printf("created: %llu\n", (unsigned long long)tid[i]);
+        pthread_t tid = malloc(core + 1 * sizeof(pthread_t));
+        //pthread_create(*(pthread_t**)&tid[i], NULL, reader, (void*)&fds[i]);
+        pthread_create(*(pthread_t**)&tid[i], NULL, permuteOX, (void*)&fds[i]);
+        printf("created: %llu\n", (unsigned long long)&tid[i]);
     }
    
     for (int i = 0; i < core; i++) {
-        pthread_t tid[i];
-        //read(fds[0], &tid[i], sizeof(tid[i]));
-        printf("joining: %llu\n", (unsigned long long)tid[i]);
-        pthread_join(tid[i], 0);
+        pthread_t tid = malloc(core + 1 * sizeof(pthread_t));
+        read(fds[0], &tid[i], sizeof(tid[i]));
+        printf("joining: %llu\n", (unsigned long long)&tid[i]);
+        pthread_join(&tid[i], 0);
     }
-    
     //pthread_exit(0);
 }
 
@@ -1978,7 +1977,7 @@ void bfParams(main_ctx_t *main_ctx)
     printf("Message %s Dict %s \nReflector %s NOTch %s \n",
            main_ctx->cyph, framex,main_ctx->ref1,main_ctx->notch1);
 #endif
-    int core = 10;
+    int core = 8;
     srand(time(0));
     int result;
 
@@ -1989,17 +1988,17 @@ void bfParams(main_ctx_t *main_ctx)
     }
 
     for (int i = 0; i < core; i++) {
-        pthread_t tid[i];
-        pthread_create(&tid[i], NULL, reader, (void*)&fds[i]);
-        pthread_create(&tid[i], NULL, permuteAX, (void*)&fds[i]);
-        printf("created: %llu\n", (unsigned long long)tid[i]);
+        pthread_t tid = malloc(core + 1 * sizeof(pthread_t));
+        //pthread_create(*(pthread_t**)&tid[i], NULL, reader, (void*)&fds[i]);
+        pthread_create(*(pthread_t**)&tid[i], NULL, permuteAX, (void*)&fds[i]);
+        printf("created: %llu\n", (unsigned long long)&tid[i]);
     }
-    
+   
     for (int i = 0; i < core; i++) {
-        pthread_t tid[i];
-        //read(fds[0], &tid[i], sizeof(tid[i]));
-        printf("joining: %llu\n", (unsigned long long)tid[i]);
-        pthread_join(tid[i], 0);
+        pthread_t tid = malloc(core + 1 * sizeof(pthread_t));
+        read(fds[0], &tid[i], sizeof(tid[i]));
+        printf("joining: %llu\n", (unsigned long long)&tid[i]);
+        pthread_join(&tid[i], 0);
     }
     //pthread_exit(0);
 }
