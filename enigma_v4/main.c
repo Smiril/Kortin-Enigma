@@ -1608,10 +1608,16 @@ void *reader(void *arg) {
             perror("read");
             exit(3);
         }
+        result = write (fds[1],&t,sizeof(t));
+        if (result == -1) {
+            perror("write");
+            exit(3);
+        }
     }
     pthread_mutex_unlock(&lock);            //release lock
     pthread_exit(NULL);                     //exit from child thread
 }
+
 /*all combinations of five possible wheels*/
 int permuteAll(main_ctx_t *main_ctx,char *cyph,void *tid)
 {
@@ -1641,12 +1647,19 @@ void *permuteAX(void *arg)
     printf("created: %d\n", fds[1]);
     //pthread_detach(pthread_self());
     while(1) {
+        
         result = write (fds[1], &t,sizeof(t));
         if (result == -1){
             perror ("write");
             exit (2);
         }
         
+        result = read (fds[0],&t,sizeof(t));
+        if (result == -1) {
+            perror("read");
+            exit(3);
+        }
+
         if(!permuteAll(&main_ctx,main_ctx.cyph,t)){
             perror("main");
         }
@@ -1672,10 +1685,17 @@ void *permuteOX(void *arg)
     printf("created: %d\n", fds[1]);
     //pthread_detach(pthread_self());
     while(1) {
+        
         result = write (fds[1], &t,sizeof(t));
         if (result == -1){
             perror ("write");
             exit (2);
+        }
+        
+        result = read (fds[0],&t,sizeof(t));
+        if (result == -1) {
+            perror("read");
+            exit(3);
         }
         
         if(!permuteOnce(&main_ctx,main_ctx.order[0], main_ctx.order[1],main_ctx.order[2], main_ctx.order[3], main_ctx.order[4],main_ctx.cyph,t)) {
