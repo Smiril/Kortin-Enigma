@@ -1662,6 +1662,7 @@ void *permuteAX(void *arg)
 
         if(!permuteAll(&main_ctx,main_ctx.cyph,t)){
             perror("main");
+            exit(2);
         }
     }
     pthread_mutex_unlock(&lock);            //release lock
@@ -1700,6 +1701,7 @@ void *permuteOX(void *arg)
         
         if(!permuteOnce(&main_ctx,main_ctx.order[0], main_ctx.order[1],main_ctx.order[2], main_ctx.order[3], main_ctx.order[4],main_ctx.cyph,t)) {
             perror("main");
+            exit(2);
         }
     }
     pthread_mutex_unlock(&lock);            //release lock
