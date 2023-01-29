@@ -41,6 +41,7 @@
 #include <libxml/xmlreader.h>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
+#include <libxml/tree.h>
 #include <signal.h>
 // on troubles openssl see: https://stackoverflow.com/questions/69002453/how-to-build-openssl-for-m1-and-for-intel
 #include <openssl/rsa.h>
@@ -50,16 +51,6 @@
 #include <openssl/pem.h>
 #include <openssl/ssl.h>
 #include <openssl/err.h>
-
-#define SERVICE "https" // possible http https
-#define PROTO "tcp" // possible tcp udp icmp igmp raw
-#define USERAGENT "Enigma/0.0.4 (iPad;CPU OS 13_1_2 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Version/13.0 Mobile/14B100 SafaRI/602."
-#define DELIM "."
-#define BUFSIZE 1400
-#define BUFSIZ2 4096
-#define HOME "/usr/local/share/enigma/"
-#define CERTF HOME "valid-root-ca.pem"
-#define KEYF HOME "valid-root-cakey.pem"
 
 int flag;
 int tempres = BUFSIZ2;
@@ -78,11 +69,6 @@ char* str;
 char *jessy0,*jessy1,*jessy2,*jessy3;
 char *cora;
 const SSL_METHOD *meth;
-
-#define CHK_NULL(x) if ((x)==NULL) exit (1)
-#define CHK_ERR(err,s) if ((err)==-1) {perror(s);exit (1);}
-#define CHK_SSL(err) if ((err)==-1) { ERR_print_errors_fp(stderr); exit (2); }
-
 struct sockaddr_in *remote;
 int tmpresx;
 unsigned long int tmpres;
@@ -103,6 +89,7 @@ char *x = "A";
 char *s = "A";
 char *fff = "A";
 char nerd[MSGX];
+char chad[MSGX];
 char framex[MSGY];
 char flames[MSGY];
 char *ukw;
