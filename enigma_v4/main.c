@@ -1657,7 +1657,7 @@ void *permuteAX(void *arg)
         result = read (fds[0],&t,sizeof(t));
         if (result == -1) {
             perror("read");
-            exit(3);
+            exit(2);
         }
 
         if(!permuteAll(&main_ctx,main_ctx.cyph,t)){
@@ -1695,7 +1695,7 @@ void *permuteOX(void *arg)
         result = read (fds[0],&t,sizeof(t));
         if (result == -1) {
             perror("read");
-            exit(3);
+            exit(2);
         }
         
         if(!permuteOnce(&main_ctx,main_ctx.order[0], main_ctx.order[1],main_ctx.order[2], main_ctx.order[3], main_ctx.order[4],main_ctx.cyph,t)) {
