@@ -1907,7 +1907,7 @@ void sbfParams(main_ctx_t *main_ctx)
         printf("joining: %llu\n", (unsigned long long)&tid[i]);
         pthread_join(&tid[i], 0);
     }
-    pthread_exit(0);
+    //pthread_exit(0);
 }
 
 void bfParams(main_ctx_t *main_ctx)
@@ -2024,7 +2024,7 @@ void bfParams(main_ctx_t *main_ctx)
         printf("joining: %llu\n", (unsigned long long)&tid[i]);
         pthread_join(&tid[i], 0);
     }
-    pthread_exit(0);
+    //pthread_exit(0);
 }
 
 /********************************************MAIN*********************************************/
