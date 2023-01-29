@@ -1784,8 +1784,8 @@ void initParams(main_ctx_t *main_ctx)
 
 void sbfParams(main_ctx_t *main_ctx)
 {
-    int i,j,k,l;
-    char f,a,b,d,g;
+    int i,j,k,l,m;
+    char f,a,b,d,g,h;
     printf("d)efault or u)ser: ");
     f = readCh();
     if(f != 'u')
@@ -1813,6 +1813,15 @@ void sbfParams(main_ctx_t *main_ctx)
         l++;
         }
         framex[l] = '\0';
+        
+        printf("Threads (1-10): ");
+        m = 0;
+        while((h = getchar()) != '\n')
+        {
+        chad[m] = h;
+        l++;
+        }
+        chad[m] = '\0';
         
         //strcpy(framex,"/usr/local/share/enigma/german.txt");
     }
@@ -1857,6 +1866,15 @@ void sbfParams(main_ctx_t *main_ctx)
         }
         framex[l] = '\0';
         
+        printf("Threads (1-10): ");
+        m = 0;
+        while((h = getchar()) != '\n')
+        {
+        chad[m] = h;
+        l++;
+        }
+        chad[m] = '\0';
+        
         //strcpy(framex,"/usr/local/share/enigma/german.txt");
     }
 #if !defined(__WIN32__) && !defined(__WIN64__)
@@ -1866,7 +1884,7 @@ void sbfParams(main_ctx_t *main_ctx)
     printf("Wheels%d %d %d %d %d Message %s Dict %s \nReflector %s NOTch %s \n",
            main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4], main_ctx->cyph, framex,main_ctx->ref1,main_ctx->notch1);
 #endif
-    int core = 8;
+    int core = atoi(chad);
     srand(time(0));
     int result;
 
@@ -1894,8 +1912,8 @@ void sbfParams(main_ctx_t *main_ctx)
 
 void bfParams(main_ctx_t *main_ctx)
 {
-    int i,j,k,l;
-    char c,a,b,d,g;
+    int i,j,k,l,m;
+    char c,a,b,d,g,h;
     printf("d)efault or u)ser: ");
     c = readCh();
     if(c != 'u')
@@ -1917,6 +1935,15 @@ void bfParams(main_ctx_t *main_ctx)
         l++;
         }
         framex[l] = '\0';
+        
+        printf("Threads (1-10): ");
+        m = 0;
+        while((h = getchar()) != '\n')
+        {
+        chad[m] = h;
+        l++;
+        }
+        chad[m] = '\0';
         
         //strcpy(framex,"/usr/local/share/enigma/german.txt");
     }
@@ -1956,6 +1983,15 @@ void bfParams(main_ctx_t *main_ctx)
         }
         framex[l] = '\0';
         
+        printf("Threads (1-10): ");
+        m = 0;
+        while((h = getchar()) != '\n')
+        {
+        chad[m] = h;
+        l++;
+        }
+        chad[m] = '\0';
+
         //strcpy(framex,"/usr/local/share/enigma/german.txt");
     }
 #if !defined(__WIN32__) && !defined(__WIN64__)
@@ -1965,7 +2001,7 @@ void bfParams(main_ctx_t *main_ctx)
     printf("Message %s Dict %s \nReflector %s NOTch %s \n",
            main_ctx->cyph, framex,main_ctx->ref1,main_ctx->notch1);
 #endif
-    int core = 8;
+    int core = atoi(chad);
     srand(time(0));
     int result;
 
