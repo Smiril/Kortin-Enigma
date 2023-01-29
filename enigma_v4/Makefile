@@ -36,13 +36,13 @@ CFLAGSY := -Wall -Wextra -pedantic \
         -Wno-variadic-macros \
         -DVERSION="\"$(VERSION) - KOENIG MARTIN\""
 ifeq ($(UNAME),Linux)
-LIBS0 := -L/usr/local/lib -L/usr/lib -L/usr/lib/iconv_hook
-INCLUDES0 := -I/usr/local/include -I/usr/include/libxml2 -I/usr/lib/iconv_hook
+LIBS0 := -L/usr/lib -L/usr/lib/iconv_hook
+INCLUDES0 := -I/usr/include/libxml2 -I/usr/lib/iconv_hook
 BER := -lc++ -ldl -lxml2 -liconv_hook -lssl -lcrypto -lpthread
 endif
 ifeq ($(UNAME),Darwin)
-LIBS0 := -L/usr/local/lib -L/usr/lib
-INCLUDES0 := -I/usr/local/include -I/usr/include/libxml2
+LIBS0 := -L/usr/lib
+INCLUDES0 :=
 BER := -lc++ -ldl -lxml2 -liconv -lssl -lcrypto -lpthread
 endif
 ifeq ($(UNAME),Linux)
