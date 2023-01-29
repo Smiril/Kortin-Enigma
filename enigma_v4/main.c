@@ -17,37 +17,36 @@
 #define CA_PRIVATE_IMPLEMENTATION
 
 void configmain(main_ctx_t *main_ctx,char *docname) {
-    
-     xmlDocPtr       doc;
-     xmlNodePtr      cur;
-     xmlChar         *uri;
-     int count = 0;
-     int count1 = 0;
-     //int count2 = 0;
-     char *config[4][7] = { {"rotor1", "rotor2", "rotor3", "rotor4", "rotor5"} };
-     
-     printf("Loading config file: %s\n",docname);
-     FILE *fp;
-     fp = fopen(docname,"r");
-     struct stat st;
-     fstat(fileno(fp), &st);
-     size_t size = st.st_size;
    
-     if (522 != size) {
-         printf("config file is corrupt\n");
-         exit(1);
-     }
-     
-     fclose(fp);
-
-     
-     doc = xmlParseFile(docname);
-     cur = xmlDocGetRootElement(doc);
-     
-     if(xmlStrcmp(cur->name, (const xmlChar *) "um-configuration")) {
-         printf("error wrong file!\n");
-         exit(1);
-     }
+    xmlDocPtr       doc;
+    xmlNodePtr      cur;
+    xmlChar         *uri;
+    int count = 0;
+    int count1 = 0;
+    //int count2 = 0;
+    char *config[4][7] = { {"rotor1", "rotor2", "rotor3", "rotor4", "rotor5"} };
+    
+    printf("Loading config file: %s\n",docname);
+    FILE *fp;
+    fp = fopen(docname,"r");
+    struct stat st;
+    fstat(fileno(fp), &st);
+    size_t size = st.st_size;
+  
+    if (522 != size) {
+        printf("config file is corrupt\n");
+        exit(1);
+    }
+    
+    fclose(fp);
+    
+    doc = xmlParseFile(docname);
+    cur = xmlDocGetRootElement(doc);
+    
+    if((xmlStrcmp(cur->name, (const xmlChar *) "um-configuration")) != 0) {
+        printf("error wrong file!\n");
+        exit(1);
+    }
     
     xmlNode* child = cur->children->next;
     
@@ -64,18 +63,21 @@ void configmain(main_ctx_t *main_ctx,char *docname) {
             if (xmlStrcmp(gchild->name, (const xmlChar *)config[count++])) {
                 if((uri =  xmlGetProp(gchild,(const xmlChar *)"name"))) {
                     strcpy(main_ctx->rotor[count1++],(const char *)uri);
+                    //printf("%s\n",uri);
                     xmlFree(uri);
                 }
             }
             else if (xmlStrcmp(gchild->name, (const xmlChar *)"xmlref")) {
                 if((uri =  xmlGetProp(gchild,(const xmlChar *)"name"))) {
                     strcpy(main_ctx->ref1,(const char *)uri);
+                    //printf("%s\n",uri);
                     xmlFree(uri);
                 }
             }
             else if (xmlStrcmp(gchild->name, (const xmlChar *)"xmlnotch")) {
                 if((uri =  xmlGetProp(gchild,(const xmlChar *)"name"))) {
                     strcpy(main_ctx->notch1,(const char *)uri);
+                    //printf("%s\n",uri);
                     xmlFree(uri);
                 }
             }
@@ -1305,22 +1307,23 @@ char *enigma(char *in, main_ctx_t *main_ctx)
 }
 
 /*read in a string, and pass it through enigma*/
-void cypher(main_ctx_t main_ctx)
+int cypher(main_ctx_t main_ctx)
 {
     char inx[MSGLEN], o[MSGLEN];
     char c;
     int i = 0;
-  while((c = getchar()) != '\n')
-  {
-      if(isspace(c)) {
-        c = '-';
-      }
-    inx[i] = toupper(c);
-    i++;
-  }
-  inx[i] = '\0';
+    while((c = getchar()) != '\n')
+    {
+        if(isspace(c)) {
+            c = '-';
+        }
+        inx[i] = toupper(c);
+        i++;
+    }
+    inx[i] = '\0';
     strcpy(o, enigma(inx, &main_ctx));
     printf("%s\n%s\n", o, inx);
+    return 0;
 }
 
 int rotate(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, char *plug, int *ct)
@@ -1431,7 +1434,7 @@ int rotate(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, c
   return 0;
 }
 
-void test(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, int *ct) {
+int test(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, int *ct) {
    
     printf("... calculating\n");
     const time_t proc_start = time (NULL);
@@ -1560,10 +1563,11 @@ void test(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, in
     }
     const time_t proc_stop = time (NULL);
     printf("Time elapsed Test: begin %ld - end %ld \n",proc_start,proc_stop);
+    return 0;
 }
 
 /*run on all permutations of wheels a, b, c, d, e*/
-void permute(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, int *ct)
+int permute(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, int *ct)
 {
     printf("... testing\n");
     test(main_ctx,a, b, c, d, e, cyph, ct);
@@ -1588,23 +1592,7 @@ void permute(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph,
     test(main_ctx,a, e, b, c, d, cyph, ct);
     test(main_ctx,a, b, e, c, d, cyph, ct);
     test(main_ctx,a, b, c, e, d, cyph, ct);
-}
-/*all combinations of five possible wheels*/
-void permuteAll(main_ctx_t *main_ctx,char *cyph)
-{
-    int ct = 0;
-  for(int d = 1;d<=9;d++){
-      for(int e = 1;e<=9;e++){
-          for(int f = 1;f<=9;f++){
-             for(int g = 1;g<=9;g++){
-                for(int h = 1;h<=9;h++){
-                    permute(main_ctx,d,e,f,g,h, cyph, &ct);
-                }
-             }
-          }
-      }
-  }
-    printf("\n... Found %d solutions.\n", ct);
+    return 0;
 }
 
 void *reader(void *arg) {
@@ -1901,7 +1889,7 @@ void sbfParams(main_ctx_t *main_ctx)
         printf("joining: %llu\n", (unsigned long long)&tid[i]);
         pthread_join(&tid[i], 0);
     }
-    //pthread_exit(0);
+    pthread_exit(0);
 }
 
 void bfParams(main_ctx_t *main_ctx)
@@ -2000,7 +1988,7 @@ void bfParams(main_ctx_t *main_ctx)
         printf("joining: %llu\n", (unsigned long long)&tid[i]);
         pthread_join(&tid[i], 0);
     }
-    //pthread_exit(0);
+    pthread_exit(0);
 }
 
 /********************************************MAIN*********************************************/
