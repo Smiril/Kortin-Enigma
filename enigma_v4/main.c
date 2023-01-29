@@ -1909,6 +1909,10 @@ void sbfParams(main_ctx_t *main_ctx)
            main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4], main_ctx->cyph, framex,main_ctx->ref1,main_ctx->notch1);
 #endif
     int core = atoi(chad);
+    if(core < 0 || core > 101) {
+        perror(chad);
+        exit(0);
+    }
     srand(time(0));
     int result;
     //int status;
@@ -2024,6 +2028,10 @@ void bfParams(main_ctx_t *main_ctx)
            main_ctx->cyph, framex,main_ctx->ref1,main_ctx->notch1);
 #endif
     int core = atoi(chad);
+    if(core < 0 || core > 101) {
+        perror(chad);
+        exit(0);
+    }
     srand(time(0));
     int result;
     //int status;
