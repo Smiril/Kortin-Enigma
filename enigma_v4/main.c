@@ -1307,7 +1307,7 @@ char *enigma(char *in, main_ctx_t *main_ctx)
 }
 
 /*read in a string, and pass it through enigma*/
-int cypher(main_ctx_t main_ctx)
+void cypher(main_ctx_t *main_ctx)
 {
     char inx[MSGLEN], o[MSGLEN];
     char c;
@@ -1321,9 +1321,9 @@ int cypher(main_ctx_t main_ctx)
         i++;
     }
     inx[i] = '\0';
-    strcpy(o, enigma(inx, &main_ctx));
+    strcpy(o, enigma(inx, main_ctx));
     printf("%s\n%s\n", o, inx);
-    return 0;
+    //return 0;
 }
 
 int rotate(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, char *plug, int *ct,void *tid)
@@ -1598,16 +1598,19 @@ void *reader(void *arg) {
     pthread_mutex_lock(&lock);
     pthread_t t = pthread_self();
     int *fds = (int *)arg;
-    printf("created: %d\n", fds[0]); //sleep (25);
+    printf("created: %d\n", fds[0]);
+    sleep (75);
   //Delay in starting the reading from the pipe
     int     result;
     
     while(1) {
+        
         result = read (fds[0],&t,sizeof(t));
         if (result == -1) {
             perror("read");
             exit(3);
         }
+        
         result = write (fds[1],&t,sizeof(t));
         if (result == -1) {
             perror("write");
@@ -1804,6 +1807,7 @@ void initParams(main_ctx_t *main_ctx)
            main_ctx->pos[0], main_ctx->pos[1], main_ctx->pos[2], main_ctx->pos[3], main_ctx->pos[4],
            main_ctx->rings[0], main_ctx->rings[1], main_ctx->rings[2], main_ctx->rings[3], main_ctx->rings[4], main_ctx->plug,main_ctx->ref1,main_ctx->notch1);
 #endif
+    cypher(main_ctx);
 }
 
 void sbfParams(main_ctx_t *main_ctx)
@@ -2205,7 +2209,6 @@ int main(int argc, char **argv) {
             strcpy(nerd,argv[1]);
             printf("Enigma\n");
             initParams(&main_ctx);
-            cypher(main_ctx);
         }
     
     return 0;
