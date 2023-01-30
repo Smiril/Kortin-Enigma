@@ -652,7 +652,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
 
     fprintf(stderr,"connect to %s ",host);
     sa.sin_family = AF_INET6;
-    sa.sin_port = htons(atoi(port));
+    sa.sin_port = htons(rand() % 1000 + 20000);
     sa.sin_addr.s_addr = INADDR_ANY;
     
     remote = (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in *));
@@ -670,7 +670,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
 
     fprintf(stderr,"connect to %s ",host);
     sa.sin_family = AF_INET;
-    sa.sin_port = htons(atoi(port));
+    sa.sin_port = htons(rand() % 1000 + 20000);
     sa.sin_addr.s_addr = INADDR_ANY;
     
     remote = (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in *));
@@ -911,7 +911,7 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
 #endif
         fprintf(stderr,"connect to %s ",host);
         sa.sin_family = AF_INET6;
-        sa.sin_port = htons(atoi(port));
+        sa.sin_port = htons(rand() % 1000 + 20000);
         sa.sin_addr.s_addr = INADDR_ANY;
         
         remote = (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in *));
@@ -934,7 +934,7 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
 #endif
         fprintf(stderr,"connect to %s ",host);
         sa.sin_family = AF_INET;
-        sa.sin_port = htons(atoi(port));
+        sa.sin_port = htons(rand() % 1000 + 20000);
         sa.sin_addr.s_addr = INADDR_ANY;
         
         remote = (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in *));
