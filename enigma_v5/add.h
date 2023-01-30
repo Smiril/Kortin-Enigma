@@ -83,7 +83,8 @@ char port[MSGY];
 char proxy[MSGY];
 char proxyport[MSGY];
 
-pthread_mutex_t lock;
+static pthread_once_t once = PTHREAD_ONCE_INIT;
+static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 
 char *x = "A";
 char *s = "A";
