@@ -177,7 +177,7 @@ const char *inet_ntop(int af, const void *src, char *dst, socklen_t size)
 #endif
 
 static int ip_version(const char *src) {
-    char buf[16] = src;
+    char buf[16];
     if (inet_pton(AF_INET, src, buf)) {
         return 4;
     } else if (inet_pton(AF_INET6, src, buf)) {
