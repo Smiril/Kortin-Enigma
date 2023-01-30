@@ -692,7 +692,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     
     int res;
     
-    if( ( res = connect(sock2,(struct sockaddr *)remote,sizeof(struct sockaddr)) ) < 0 | errno != EINPROGRESS){
+    if( ( res = connect(sock2,(struct sockaddr *)remote,sizeof(struct sockaddr)) ) != 0){
         perror("could not connect");
         exit(1);
     }
@@ -961,7 +961,7 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
     
     int res;
     
-    if( ( res = connect(sock2,(struct sockaddr *)remote,sizeof(struct sockaddr)) ) < 0 | errno != EINPROGRESS){
+    if( ( res = connect(sock2,(struct sockaddr *)remote,sizeof(struct sockaddr)) ) != 0){
         perror("could not connect");
         exit(1);
     }
