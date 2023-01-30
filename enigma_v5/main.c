@@ -391,9 +391,9 @@ int create_raw_socket(){
 
 char *get_ip(char *host){
     struct hostent *hent;
-    int iplen = 15;
-    char *ipx = (char *)malloc(iplen+1);
-    memset(ipx,0,iplen+1);
+    int iplen = 16;
+    char *ipx = (char *)malloc(iplen);
+    memset(ipx,0,iplen);
     
     if((hent = gethostbyname(host)) != 0){
         perror("can not get ip");
