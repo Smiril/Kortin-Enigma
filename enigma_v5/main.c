@@ -177,13 +177,31 @@ const char *inet_ntop(int af, const void *src, char *dst, socklen_t size)
 #endif
 
 static int ip_version(const char *src) {
-    char buf[16];
-    if (inet_pton(AF_INET, src, buf)) {
-        return 4;
-    } else if (inet_pton(AF_INET6, src, buf)) {
-        return 6;
+    struct addrinfo hint, *res = NULL;
+    int ret;
+
+    memset(&hint, '\0', sizeof hint);
+
+    hint.ai_family = PF_UNSPEC;
+    hint.ai_flags = AI_NUMERICHOST;
+
+    ret = getaddrinfo(src, NULL, &hint, &res);
+    if (ret) {
+        puts("Invalid address");
+        puts(gai_strerror(ret));
+        return 1;
     }
-    return -1;
+    if(res->ai_family == AF_INET) {
+        return 4;
+    } else if (res->ai_family == AF_INET6) {
+        return 6;
+    } else {
+        printf("%s is an is unknown address format %d\n",src,res->ai_family);
+        exit(0);
+    }
+
+   freeaddrinfo(res);
+   return 0
 }
 
 int valid_digit(char *ip_str)
