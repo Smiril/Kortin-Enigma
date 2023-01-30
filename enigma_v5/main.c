@@ -402,6 +402,9 @@ char *get_ip(char *host){
     if((inet_ntop(AF_INET,(void *)hent->h_addr_list[0],ipx,iplen)) != 0){
         perror("can not reslove host");
     }
+    else if((inet_ntop(AF_INET6,(void *)hent->h_addr_list[0],ipx,iplen)) != 0){
+        perror("can not reslove host");
+    }
     
     return ipx;
 }
