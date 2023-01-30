@@ -187,8 +187,8 @@ static int ip_version(const char *src) {
 
     ret = getaddrinfo(src, NULL, &hint, &res);
     if (ret) {
-        puts("Invalid address");
-        puts(gai_strerror(ret));
+        printf("Invalid address");
+        perror(ret);
         return 1;
     }
     if(res->ai_family == AF_INET) {
