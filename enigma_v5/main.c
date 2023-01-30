@@ -2208,13 +2208,13 @@ int main(int argc, char **argv) {
         if(strcmp(argv[1], "--option-1a") == 0)
         {
             strcpy(nerd,argv[1]);
-            printf("Option 1\n");
+            printf("Option A\n");
             bfParams(&main_ctx);
         }
         if(strcmp(argv[1], "--option-1b") == 0)
         {
             strcpy(nerd,argv[1]);
-            printf("Option 1\n");
+            printf("Option B\n");
             sbfParams(&main_ctx);
         }
         if(strcmp(argv[1], "--option-1") == 0)
