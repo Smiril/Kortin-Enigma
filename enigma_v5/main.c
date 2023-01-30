@@ -1594,7 +1594,13 @@ int permute(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, 
     return 0;
 }
 
+void xinit()
+{
+    pthread_mutex_init(&lock, NULL);
+}
+
 void *reader(void *arg) {
+    pthread_once(&once, xinit);
     pthread_mutex_lock(&lock);
     pthread_t t = pthread_self();
     int *fds = (int *)arg;
@@ -1618,6 +1624,7 @@ void *reader(void *arg) {
         }
     }
     pthread_mutex_unlock(&lock);            //release lock
+    pthread_mutex_destroy(&lock);
     pthread_exit(NULL);                     //exit from child thread
 }
 
@@ -1643,6 +1650,7 @@ int permuteAll(main_ctx_t *main_ctx,char *cyph,void *tid)
 void *permuteAX(void *arg)
 {
     main_ctx_t main_ctx;
+    pthread_once(&once, xinit);
     pthread_mutex_lock(&lock);              // lock
     int *fds = (int *)arg;
     int result;
@@ -1669,6 +1677,7 @@ void *permuteAX(void *arg)
         }
     }
     pthread_mutex_unlock(&lock);            //release lock
+    pthread_mutex_destroy(&lock);
     pthread_exit(NULL);                     //exit from child thread
 }
 /*once combination of five possible wheels*/
@@ -1682,6 +1691,7 @@ int permuteOnce(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cy
 void *permuteOX(void *arg)
 {
     main_ctx_t main_ctx;
+    pthread_once(&once, xinit);
     pthread_mutex_lock(&lock);
     int *fds = (int *)arg;
     int result;
@@ -1708,6 +1718,7 @@ void *permuteOX(void *arg)
         }
     }
     pthread_mutex_unlock(&lock);            //release lock
+    pthread_mutex_destroy(&lock);
     pthread_exit(NULL);                     //exit from child thread
 }
 /*helper to read a character*/
