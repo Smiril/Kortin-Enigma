@@ -1666,18 +1666,18 @@ void *permuteAX(void *arg)
         result = write (fds[1], &t,sizeof(t));
         if (result == -1){
             perror ("write");
-            exit (2);
+            exit (3);
         }
         
         result = read (fds[0],&t,sizeof(t));
         if (result == -1) {
             perror("read");
-            exit(2);
+            exit(3);
         }
 
         if(!permuteAll(&main_ctx,main_ctx.cyph,t)){
             perror("main");
-            exit(2);
+            exit(3);
         }
     }
     pthread_mutex_unlock(&lock);            //release lock
@@ -1707,18 +1707,18 @@ void *permuteOX(void *arg)
         result = write (fds[1], &t,sizeof(t));
         if (result == -1){
             perror ("write");
-            exit (2);
+            exit (3);
         }
         
         result = read (fds[0],&t,sizeof(t));
         if (result == -1) {
             perror("read");
-            exit(2);
+            exit(3);
         }
         
         if(!permuteOnce(&main_ctx,main_ctx.order[0], main_ctx.order[1],main_ctx.order[2], main_ctx.order[3], main_ctx.order[4],main_ctx.cyph,t)) {
             perror("main");
-            exit(2);
+            exit(3);
         }
     }
     pthread_mutex_unlock(&lock);            //release lock
@@ -1930,7 +1930,7 @@ void sbfParams(main_ctx_t *main_ctx)
     int core = atoi(chad);
     if(core < 0 || core > 101) {
         perror(chad);
-        exit(0);
+        exit(2);
     }
     srand(time(0));
     int result;
@@ -1939,7 +1939,7 @@ void sbfParams(main_ctx_t *main_ctx)
     result = pipe (fds);
     if (result == -1){
         perror("pipe");
-        exit(1);
+        exit(2);
     }
     
     for (int i = 0; i < core; i++) {
@@ -2050,7 +2050,7 @@ void bfParams(main_ctx_t *main_ctx)
     int core = atoi(chad);
     if(core < 0 || core > 101) {
         perror(chad);
-        exit(0);
+        exit(2);
     }
     srand(time(0));
     int result;
@@ -2059,7 +2059,7 @@ void bfParams(main_ctx_t *main_ctx)
     result = pipe (fds);
     if (result == -1){
         perror("pipe");
-        exit(1);
+        exit(2);
     }
     
     for (int i = 0; i < core; i++) {
@@ -2088,7 +2088,7 @@ int main(int argc, char **argv) {
 #if !defined(__WIN32__) && !defined(__WIN64__)
           printf("\x1b[0m");
 #endif
-          return -1;
+          exit(0);
         }
     
         if(strcmp(argv[1], "--version") == 0)
