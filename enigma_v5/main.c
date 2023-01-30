@@ -128,6 +128,16 @@ const char *felix(size_t fex)
     return picked;
 }
 
+static int ip_version(const char *src) {
+    char buf[16];
+    if (inet_pton(AF_INET, src, buf)) {
+        return 4;
+    } else if (inet_pton(AF_INET6, src, buf)) {
+        return 6;
+    }
+    return -1;
+}
+
 #if defined(__WIN32__) && defined(__WIN64__)
 int inet_pton(int af, const char *src, void *dst)
 {
@@ -187,7 +197,7 @@ int valid_digit(char *ip_str)
     return 1;
 }
 
-int is_valid_ip(char *ip_str)
+int is_valid_ip6(char *ip_str)
 {
     int num, dots = 0;
     char *ptr;
@@ -195,7 +205,39 @@ int is_valid_ip(char *ip_str)
     if (ip_str == NULL)
         return 0;
  
-    ptr = strtok(ip_str, DELIM);
+    ptr = strtok(ip_str, DELIM2);
+ 
+    if (ptr == NULL)
+        return 0;
+ 
+    while (ptr) {
+ 
+        num = atoi(ptr);
+ 
+        /* check for valid IP */
+        if(int(num,16) < 0 || int(num,16)>65535){
+            ptr = strtok(NULL, DELIM2);
+            if (ptr != NULL)
+                ++dots;
+        } else
+            return 0;
+    }
+ 
+    /* valid IP string must contain 3 dots */
+    if (dots != 7)
+        return 0;
+    return 1;
+}
+
+int is_valid_ip4(char *ip_str)
+{
+    int num, dots = 0;
+    char *ptr;
+ 
+    if (ip_str == NULL)
+        return 0;
+ 
+    ptr = strtok(ip_str, DELIM1);
  
     if (ptr == NULL)
         return 0;
@@ -203,7 +245,7 @@ int is_valid_ip(char *ip_str)
     while (ptr) {
  
         /* after parsing string, it must contain only digits */
-        if (!valid_digit(ptr))
+        if (!valid_digits(ptr))
             return 0;
  
         num = atoi(ptr);
@@ -211,7 +253,7 @@ int is_valid_ip(char *ip_str)
         /* check for valid IP */
         if (num >= 0 && num <= 255) {
             /* parse remaining string */
-            ptr = strtok(NULL, DELIM);
+            ptr = strtok(NULL, DELIM1);
             if (ptr != NULL)
                 ++dots;
         } else
@@ -581,11 +623,34 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     }
     
     ip = get_ip(host);
+    if(strcmp(6,ip_version(ip))) {
+#if !defined(__WIN32__) && !defined(__WIN64__)
+    is_valid_ip6(ip)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
+#elif !defined(__APPLE__) && !defined(__LINUX__)
+    is_valid_ip6(ip)? printf("Valid\n"): printf("Not valid\n");
+#endif
+
+    fprintf(stderr,"connect to %s ",ip);
+    sa.sin_family = AF_INET6;
+    sa.sin_port = htons(atoi(port));
+    sa.sin_addr.s_addr = INADDR_ANY;
+    
+    remote = (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in *));
+    remote->sin_family = AF_INET6;
+    remote->sin_port = htons(atoi(port));
+    tmpresx = inet_pton(AF_INET6, host, (void *)(&(remote->sin_addr.s_addr)));
     
 #if !defined(__WIN32__) && !defined(__WIN64__)
-    is_valid_ip(ip)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
+    is_valid_ip6(ip)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
 #elif !defined(__APPLE__) && !defined(__LINUX__)
-    is_valid_ip(ip)? printf("Valid\n"): printf("Not valid\n");
+    is_valid_ip6(ip)? printf("Valid\n"): printf("Not valid\n");
+#endif
+    }
+    else if(strcmp(4,ip_version(ip))) {
+#if !defined(__WIN32__) && !defined(__WIN64__)
+    is_valid_ip4(ip)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
+#elif !defined(__APPLE__) && !defined(__LINUX__)
+    is_valid_ip4(ip)? printf("Valid\n"): printf("Not valid\n");
 #endif
 
     fprintf(stderr,"connect to %s ",ip);
@@ -603,7 +668,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
 #elif !defined(__APPLE__) && !defined(__LINUX__)
     is_valid_ip(ip)? printf("Valid\n"): printf("Not valid\n");
 #endif
-    
+    }
     int res;
     
     if( ( res = connect(sock2,(struct sockaddr *)remote,sizeof(struct sockaddr)) ) < 0 | errno != EINPROGRESS){
