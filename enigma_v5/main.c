@@ -215,7 +215,7 @@ int is_valid_ip6(char *ip_str)
         num = atoi(ptr);
  
         /* check for valid IP */
-        if(int(num,16) < 0 || int(num,16)>65535){
+        if(num < 0 || num >65535){
             ptr = strtok(NULL, DELIM2);
             if (ptr != NULL)
                 ++dots;
@@ -245,7 +245,7 @@ int is_valid_ip4(char *ip_str)
     while (ptr) {
  
         /* after parsing string, it must contain only digits */
-        if (!valid_digits(ptr))
+        if (!valid_digit(ptr))
             return 0;
  
         num = atoi(ptr);
@@ -623,7 +623,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     }
     
     ip = get_ip(host);
-    if(strcmp(6,ip_version(ip))) {
+    if(6 == ip_version(ip)) {
 #if !defined(__WIN32__) && !defined(__WIN64__)
     is_valid_ip6(ip)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
 #elif !defined(__APPLE__) && !defined(__LINUX__)
@@ -646,7 +646,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     is_valid_ip6(ip)? printf("Valid\n"): printf("Not valid\n");
 #endif
     }
-    else if(strcmp(4,ip_version(ip))) {
+    else if(4 == ip_version(ip)) {
 #if !defined(__WIN32__) && !defined(__WIN64__)
     is_valid_ip4(ip)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
 #elif !defined(__APPLE__) && !defined(__LINUX__)
@@ -664,9 +664,9 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     tmpresx = inet_pton(AF_INET, host, (void *)(&(remote->sin_addr.s_addr)));
     
 #if !defined(__WIN32__) && !defined(__WIN64__)
-    is_valid_ip(ip)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
+    is_valid_ip4(ip)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
 #elif !defined(__APPLE__) && !defined(__LINUX__)
-    is_valid_ip(ip)? printf("Valid\n"): printf("Not valid\n");
+    is_valid_ip4(ip)? printf("Valid\n"): printf("Not valid\n");
 #endif
     }
     int res;
@@ -888,28 +888,53 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
     
     ip = get_ip(host);
     ipp = get_ip(proxy);
-    fprintf(stderr,"go from %s ",ipp);
+    if(6 == ip_version(ipp)) {
+        fprintf(stderr,"go from %s ",ipp);
 #if !defined(__WIN32__) && !defined(__WIN64__)
-    is_valid_ip(ipp)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
+        is_valid_ip6(ipp)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
 #elif !defined(__APPLE__) && !defined(__LINUX__)
-    is_valid_ip(ipp)? printf("Valid\n"): printf("Not valid\n");
+        is_valid_ip6(ipp)? printf("Valid\n"): printf("Not valid\n");
 #endif
-    fprintf(stderr,"connect to %s ",ip);
-    sa.sin_family = AF_INET;
-    sa.sin_port = htons(atoi(port));
-    sa.sin_addr.s_addr = INADDR_ANY;
-    
-    remote = (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in *));
-    remote->sin_family = AF_INET;
-    remote->sin_port = htons(atoi(proxyport));
-    tmpresx = inet_pton(AF_INET, proxy, (void *)(&(remote->sin_addr.s_addr)));
-    
+        fprintf(stderr,"connect to %s ",ip);
+        sa.sin_family = AF_INET6;
+        sa.sin_port = htons(atoi(port));
+        sa.sin_addr.s_addr = INADDR_ANY;
+        
+        remote = (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in *));
+        remote->sin_family = AF_INET6;
+        remote->sin_port = htons(atoi(proxyport));
+        tmpresx = inet_pton(AF_INET6, proxy, (void *)(&(remote->sin_addr.s_addr)));
+        
 #if !defined(__WIN32__) && !defined(__WIN64__)
-    is_valid_ip(ip)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
+        is_valid_ip6(ip)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
 #elif !defined(__APPLE__) && !defined(__LINUX__)
-    is_valid_ip(ip)? printf("Valid\n"): printf("Not valid\n");
+        is_valid_ip6(ip)? printf("Valid\n"): printf("Not valid\n");
 #endif
-    
+    }
+    else if(4 == ip_version(ipp)) {
+        fprintf(stderr,"go from %s ",ipp);
+#if !defined(__WIN32__) && !defined(__WIN64__)
+        is_valid_ip4(ipp)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
+#elif !defined(__APPLE__) && !defined(__LINUX__)
+        is_valid_ip4(ipp)? printf("Valid\n"): printf("Not valid\n");
+#endif
+        fprintf(stderr,"connect to %s ",ip);
+        sa.sin_family = AF_INET;
+        sa.sin_port = htons(atoi(port));
+        sa.sin_addr.s_addr = INADDR_ANY;
+        
+        remote = (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in *));
+        remote->sin_family = AF_INET;
+        remote->sin_port = htons(atoi(proxyport));
+        tmpresx = inet_pton(AF_INET, proxy, (void *)(&(remote->sin_addr.s_addr)));
+        
+#if !defined(__WIN32__) && !defined(__WIN64__)
+        is_valid_ip4(ip)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
+#elif !defined(__APPLE__) && !defined(__LINUX__)
+        is_valid_ip4(ip)? printf("Valid\n"): printf("Not valid\n");
+#endif
+    }
+
     int res;
     
     if( ( res = connect(sock2,(struct sockaddr *)remote,sizeof(struct sockaddr)) ) < 0 | errno != EINPROGRESS){
