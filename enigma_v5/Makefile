@@ -1,6 +1,6 @@
 NAME := \x1B[35mEnigma\x1B[39m
 MAJOR := 0
-MINOR := 0.4
+MINOR := 0.5
 CODENAME := T.E.D. - The Enemy Dail
 CODENAME1 := \x1B[32mT.E.D.\x1B[39m - \x1B[33mThe Enemy Dail\x1B[39m
 LIBNAME := $(NAME)
