@@ -65,21 +65,21 @@ void configmain(main_ctx_t *main_ctx,char *docname) {
     xmlNode* gchild = child->children->next;
     while (gchild != NULL) {
             if (xmlStrcmp(gchild->name, (const xmlChar *)config[count++])) {
-                if((uri =  xmlGetProp(gchild,(const xmlChar *)"name"))) {
+                if((uri =  xmlGetProp(gchild,(const xmlChar *)"name")) != NULL) {
                     strcpy(main_ctx->rotor[count1++],(const char *)uri);
                     //printf("%s\n",uri);
                     xmlFree(uri);
                 }
             }
             else if (xmlStrcmp(gchild->name, (const xmlChar *)"xmlref")) {
-                if((uri =  xmlGetProp(gchild,(const xmlChar *)"name"))) {
+                if((uri =  xmlGetProp(gchild,(const xmlChar *)"name")) != NULL) {
                     strcpy(main_ctx->ref1,(const char *)uri);
                     //printf("%s\n",uri);
                     xmlFree(uri);
                 }
             }
             else if (xmlStrcmp(gchild->name, (const xmlChar *)"xmlnotch")) {
-                if((uri =  xmlGetProp(gchild,(const xmlChar *)"name"))) {
+                if((uri =  xmlGetProp(gchild,(const xmlChar *)"name")) != NULL) {
                     strcpy(main_ctx->notch1,(const char *)uri);
                     //printf("%s\n",uri);
                     xmlFree(uri);
