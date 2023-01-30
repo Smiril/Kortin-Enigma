@@ -1944,6 +1944,7 @@ void sbfParams(main_ctx_t *main_ctx)
         pthread_create(*(pthread_t**)&tid[i], NULL, permuteOX, (void*)&fds[i]);
         printf("created: %llu\n", (unsigned long long)&tid[i]);
         //read(fds[0], &tid[i], sizeof(tid[i]));
+        //write(fds[1], &tid[i], sizeof(tid[i]));
         //printf("joining: %llu\n", (unsigned long long)&tid[i]);
         //pthread_join(&tid[i], (void*)&status);
         //printf("Thread: %llu Status: %d\n",(unsigned long long)&tid[i],(int)status);
@@ -2063,6 +2064,7 @@ void bfParams(main_ctx_t *main_ctx)
         pthread_create(*(pthread_t**)&tid[i], NULL, permuteAX, (void*)&fds[i]);
         printf("created: %llu\n", (unsigned long long)&tid[i]);
         //read(fds[0], &tid[i], sizeof(tid[i]));
+        //write(fds[1], &tid[i], sizeof(tid[i]));
         //printf("joining: %llu\n", (unsigned long long)&tid[i]);
         //pthread_join(&tid[i], (void*)&status);
         //printf("Thread: %llu Status: %d\n",(unsigned long long)&tid[i],(int)status);
