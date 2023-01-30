@@ -416,11 +416,18 @@ char *get_ip(char *host){
         perror("can not get ip");
     }
     
-    if((inet_ntop(AF_INET,(void *)hent->h_addr_list[0],ipx,iplen)) != 0){
-        perror("can not reslove ipv4 host");
+    if(6 == ip_version(host)){
+        if((inet_ntop(AF_INET6,(void *)hent->h_addr_list[0],ipx,iplen)) != 0){
+            perror("can not reslove ipv6 host");
+        }
     }
-    else if((inet_ntop(AF_INET6,(void *)hent->h_addr_list[0],ipx,iplen)) != 0){
-        perror("can not reslove ipv6 host");
+    else if(4 == ip_version(host)){
+        if((inet_ntop(AF_INET,(void *)hent->h_addr_list[0],ipx,iplen)) != 0){
+            perror("can not reslove ipv6 host");
+        }
+    }
+    else {
+        perror("host");
     }
     
     return ipx;
