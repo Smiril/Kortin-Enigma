@@ -1,6 +1,6 @@
 # Kortin-Enigma
  Enigma Simulation and Turing Machine (Bombe)
-### Enigma 0.0.4 - T.E.D - The Enemy Dail - "KOENIG MARTIN"
+### Enigma 0.0.5 - T.E.D - The Enemy Dail - "KOENIG MARTIN"
 
 <p align="center">
   <a href="//github.com/Smiril/Kortin-Enigma"><img src="https://img.shields.io/github/repo-size/Smiril/Kortin-Enigma"></a>
