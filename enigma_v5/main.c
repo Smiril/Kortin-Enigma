@@ -197,7 +197,7 @@ static int ip_version(const char *src) {
         return 6;
     } else {
         printf("%s is an is unknown address format %d\n",src,res->ai_family);
-        exit(0);
+        return 1;
     }
 
    freeaddrinfo(res);
