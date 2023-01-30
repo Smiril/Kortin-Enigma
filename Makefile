@@ -1,4 +1,4 @@
-SUBDIRS := $(wildcard enigma_v4/.)
+SUBDIRS := $(wildcard enigma_v5/.)
 
 all: $(SUBDIRS)
 $(SUBDIRS):
