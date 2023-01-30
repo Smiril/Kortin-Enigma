@@ -240,7 +240,7 @@ int is_valid_ip6(char *ip_str)
             return 0;
     }
  
-    /* valid IP string must contain 3 dots */
+    /* valid IP string must contain 7 dots */
     if (dots != 7)
         return 0;
     return 1;
@@ -844,7 +844,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     return 0;
 }
 
-void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *host,char *port,char *page){
+void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *host,char *page){
     if( strcmp (SERVICE,"https") == 0){
         SSL_load_error_strings();
         OpenSSL_add_ssl_algorithms();
@@ -2295,7 +2295,7 @@ int main(int argc, char **argv) {
                 c++;
             }
             host[c] = '\0';
-            d = 0;
+            /*d = 0;
             printf("Config Host Port (443): ");
             while((d4 = getchar()) != '\n')
             {
@@ -2303,6 +2303,7 @@ int main(int argc, char **argv) {
                 d++;
             }
             port[d] = '\0';
+            */
             e = 0;
             printf("Config Page (/gordon.php): ");
             while((e5 = getchar()) != '\n')
@@ -2312,7 +2313,7 @@ int main(int argc, char **argv) {
             }
             page[e] = '\0';
             
-            connection_handler(&main_ctx,proxy,proxyport,host,port,page);
+            connection_handler(&main_ctx,proxy,proxyport,host,page);
             }
         }
     
