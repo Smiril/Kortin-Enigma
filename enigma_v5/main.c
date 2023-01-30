@@ -53,6 +53,10 @@ void configmain(main_ctx_t *main_ctx,char *docname) {
     // get the child's attributes
     xmlAttr* attr = child->properties;
     while (attr != NULL) {
+        if((xmlStrcmp(attr->name, (const xmlChar *) "config")) != 0) {
+        printf("error wrong file!\n");
+        exit(1);
+    }
       // move to the next attribute
       attr = attr->next;
     }
