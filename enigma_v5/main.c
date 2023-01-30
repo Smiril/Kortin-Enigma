@@ -187,7 +187,6 @@ static int ip_version(const char *src) {
 
     ret = getaddrinfo(src, NULL, &hint, &res);
     if (ret) {
-        printf("Invalid address");
         perror("addr");
         return 1;
     }
