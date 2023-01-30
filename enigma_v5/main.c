@@ -232,7 +232,7 @@ int is_valid_ip6(char *ip_str)
         num = atoi(ptr);
  
         /* check for valid IP */
-        if(num < 0 || num > 65535){
+        if(!(num < 0) || !(num > 65535)){
             ptr = strtok(NULL, DELIM2);
             if (ptr != NULL)
                 ++dots;
