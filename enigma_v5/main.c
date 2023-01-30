@@ -128,16 +128,6 @@ const char *felix(size_t fex)
     return picked;
 }
 
-static int ip_version(const char *src) {
-    char buf[16];
-    if (inet_pton(AF_INET, src, buf)) {
-        return 4;
-    } else if (inet_pton(AF_INET6, src, buf)) {
-        return 6;
-    }
-    return -1;
-}
-
 #if defined(__WIN32__) && defined(__WIN64__)
 int inet_pton(int af, const char *src, void *dst)
 {
@@ -185,6 +175,16 @@ const char *inet_ntop(int af, const void *src, char *dst, socklen_t size)
   return (WSAAddressToString((struct sockaddr *)&ss, sizeof(ss), NULL, dst & s) == 0)?dst : NULL;
 }
 #endif
+
+static int ip_version(const char *src) {
+    char buf[16];
+    if (inet_pton(AF_INET, src, buf)) {
+        return 4;
+    } else if (inet_pton(AF_INET6, src, buf)) {
+        return 6;
+    }
+    return -1;
+}
 
 int valid_digit(char *ip_str)
 {
