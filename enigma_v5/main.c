@@ -679,6 +679,10 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     tmpresx = inet_pton(AF_INET, host, (void *)(&(remote->sin_addr.s_addr)));
     
     }
+    else if(1 == ip_version(ipp)) {
+        perror("host");
+    }
+    
     int res;
     
     if( ( res = connect(sock2,(struct sockaddr *)remote,sizeof(struct sockaddr)) ) < 0 | errno != EINPROGRESS){
@@ -944,7 +948,10 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
         is_valid_ip4(ip)? printf("Valid\n"): printf("Not valid\n");
 #endif
     }
-
+    else if(1 == ip_version(ipp)) {
+        perror("proxy");
+    }
+    
     int res;
     
     if( ( res = connect(sock2,(struct sockaddr *)remote,sizeof(struct sockaddr)) ) < 0 | errno != EINPROGRESS){
