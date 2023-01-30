@@ -650,7 +650,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     is_valid_ip6(ip)? printf("Valid\n"): printf("Not valid\n");
 #endif
 
-    fprintf(stderr,"connect to %s ",ip);
+    fprintf(stderr,"connect to %s ",host);
     sa.sin_family = AF_INET6;
     sa.sin_port = htons(atoi(port));
     sa.sin_addr.s_addr = INADDR_ANY;
@@ -660,11 +660,6 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     remote->sin_port = htons(atoi(port));
     tmpresx = inet_pton(AF_INET6, host, (void *)(&(remote->sin_addr.s_addr)));
     
-#if !defined(__WIN32__) && !defined(__WIN64__)
-    is_valid_ip6(ip)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
-#elif !defined(__APPLE__) && !defined(__LINUX__)
-    is_valid_ip6(ip)? printf("Valid\n"): printf("Not valid\n");
-#endif
     }
     else if(4 == ip_version(ip)) {
 #if !defined(__WIN32__) && !defined(__WIN64__)
@@ -673,7 +668,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     is_valid_ip4(ip)? printf("Valid\n"): printf("Not valid\n");
 #endif
 
-    fprintf(stderr,"connect to %s ",ip);
+    fprintf(stderr,"connect to %s ",host);
     sa.sin_family = AF_INET;
     sa.sin_port = htons(atoi(port));
     sa.sin_addr.s_addr = INADDR_ANY;
@@ -683,11 +678,6 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     remote->sin_port = htons(atoi(port));
     tmpresx = inet_pton(AF_INET, host, (void *)(&(remote->sin_addr.s_addr)));
     
-#if !defined(__WIN32__) && !defined(__WIN64__)
-    is_valid_ip4(ip)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
-#elif !defined(__APPLE__) && !defined(__LINUX__)
-    is_valid_ip4(ip)? printf("Valid\n"): printf("Not valid\n");
-#endif
     }
     int res;
     
@@ -915,7 +905,7 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
 #elif !defined(__APPLE__) && !defined(__LINUX__)
         is_valid_ip6(ipp)? printf("Valid\n"): printf("Not valid\n");
 #endif
-        fprintf(stderr,"connect to %s ",ip);
+        fprintf(stderr,"connect to %s ",host);
         sa.sin_family = AF_INET6;
         sa.sin_port = htons(atoi(port));
         sa.sin_addr.s_addr = INADDR_ANY;
@@ -938,7 +928,7 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
 #elif !defined(__APPLE__) && !defined(__LINUX__)
         is_valid_ip4(ipp)? printf("Valid\n"): printf("Not valid\n");
 #endif
-        fprintf(stderr,"connect to %s ",ip);
+        fprintf(stderr,"connect to %s ",host);
         sa.sin_family = AF_INET;
         sa.sin_port = htons(atoi(port));
         sa.sin_addr.s_addr = INADDR_ANY;
