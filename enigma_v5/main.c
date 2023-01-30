@@ -201,7 +201,7 @@ static int ip_version(const char *src) {
     }
 
    freeaddrinfo(res);
-   return 0
+    return 0;
 }
 
 int valid_digit(char *ip_str)
