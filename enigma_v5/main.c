@@ -24,7 +24,7 @@ void configmain(main_ctx_t *main_ctx,char *docname) {
     int count = 0;
     int count1 = 0;
     //int count2 = 0;
-    char *config[4][7] = { {"rotor1", "rotor2", "rotor3", "rotor4", "rotor5"} };
+    char *config[5][7] = { {"rotor1", "rotor2", "rotor3", "rotor4", "rotor5"} };
     
     printf("Loading config file: %s\n",docname);
     FILE *fp;
@@ -1802,7 +1802,7 @@ void initParams(main_ctx_t *main_ctx)
          main_ctx->pos[0], main_ctx->pos[1], main_ctx->pos[2], main_ctx->pos[3], main_ctx->pos[4],
          main_ctx->rings[0], main_ctx->rings[1], main_ctx->rings[2], main_ctx->rings[3], main_ctx->rings[4], main_ctx->plug,main_ctx->ref1,main_ctx->notch1);
 #elif !defined(__APPLE__) && !defined(__LINUX__)
-    printf("Wheels %d %d %d %d %d Start %c %c %c %c %c Rings %c %c %c %c %c Stecker \"%s"\nReflector %s NOTch %s \n",
+    printf("Wheels %d %d %d %d %d Start %c %c %c %c %c Rings %c %c %c %c %c Stecker \"%s\"\nReflector %s NOTch %s \n",
            main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4],
            main_ctx->pos[0], main_ctx->pos[1], main_ctx->pos[2], main_ctx->pos[3], main_ctx->pos[4],
            main_ctx->rings[0], main_ctx->rings[1], main_ctx->rings[2], main_ctx->rings[3], main_ctx->rings[4], main_ctx->plug,main_ctx->ref1,main_ctx->notch1);
