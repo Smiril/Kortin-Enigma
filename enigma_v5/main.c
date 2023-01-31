@@ -196,7 +196,7 @@ static int ip_version(const char *src) {
         return 6;
     } else {
         printf("%s is an is unknown address format %d\n",src,res->ai_family);
-        return 1;
+        exit(1);
     }
 
    freeaddrinfo(res);
@@ -414,6 +414,7 @@ char *get_ip(char *host){
     
     if((hent = gethostbyname(host)) != 0){
         perror("can not get ip");
+        exit(1);
     }
     
     if(6 == ip_version(host)){
@@ -663,7 +664,6 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     remote->sin_family = AF_INET6;
     remote->sin_port = htons(atoi(port));
     tmpresx = inet_pton(AF_INET6, host, (void *)(&(remote->sin_addr.s_addr)));
-    
     }
     else if(4 == ip_version(ip)) {
 #if !defined(__WIN32__) && !defined(__WIN64__)
@@ -681,9 +681,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     remote->sin_family = AF_INET;
     remote->sin_port = htons(atoi(port));
     tmpresx = inet_pton(AF_INET, host, (void *)(&(remote->sin_addr.s_addr)));
-    
     }
-
     
     int res;
     
@@ -949,9 +947,6 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
 #elif !defined(__APPLE__) && !defined(__LINUX__)
         is_valid_ip4(ip)? printf("Valid\n"): printf("Not valid\n");
 #endif
-    }
-    else if(1 == ip_version(ipp)) {
-        perror("proxy");
     }
     
     int res;
