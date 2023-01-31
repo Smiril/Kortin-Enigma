@@ -176,7 +176,7 @@ const char *inet_ntop(int af, const void *src, char *dst, socklen_t size)
 }
 #endif
 
-static int ip_version(const char *src) {
+static int ip_version(const char *ip) {
     struct addrinfo hint, *res = NULL;
     int ret;
 
@@ -185,14 +185,14 @@ static int ip_version(const char *src) {
     hint.ai_family = PF_UNSPEC;
     hint.ai_flags = AI_NUMERICHOST;
 
-    if (ret = getaddrinfo(src, NULL, &hint, &res)) {
+    if ((ret = getaddrinfo(ip, NULL, &hint, &res)) == 0) {
         if(res->ai_family == AF_INET) {
             return 4;
         } else if (res->ai_family == AF_INET6) {
             return 6;
         } else {
-            printf("%s is an is unknown address format %d\n",src,res->ai_family);
-            exit(1);
+            printf("%s is an is unknown address format %d\n",ip,res->ai_family);
+            return ret;
         }
         freeaddrinfo(res);
     }
