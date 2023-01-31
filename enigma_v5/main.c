@@ -200,7 +200,7 @@ static int ip_version(const char *src) {
     }
 
    freeaddrinfo(res);
-    return 0;
+   return 0;
 }
 
 int valid_digit(char *ip_str)
@@ -755,7 +755,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     if( strcmp (SERVICE,"https") == 0){
 
             tmpres = SSL_write(ssl,get+sent,strlen(get)-sent);
-            if(tmpres == 0){
+            if(tmpres != 0){
                 perror("can not send query");
                 exit(1);
             }
@@ -765,7 +765,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     if( strcmp (SERVICE,"http") == 0){
         
             tmpres = send(sock2,get+sent,strlen(get)-sent,0);
-            if(tmpres == 0){
+            if(tmpres != 0){
                 perror("can not send query");
                 exit(1);
             }
@@ -795,7 +795,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
             
             memset(buf,0,tmpres);
             
-            if(tmpres == 0){
+            if(tmpres != 0){
                 perror("Error reciving data");
             }
             else {
@@ -826,7 +826,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
                 memset(buf,0,tmpres);
             }
         
-            if(tmpres == 0){
+            if(tmpres != 0){
                 perror("error reciving data");
             }
             else {
@@ -1026,7 +1026,7 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
     if( strcmp (SERVICE,"https") == 0){
 
             tmpres = SSL_write(ssl,get+sent,strlen(get)-sent);
-            if(tmpres == 0){
+            if(tmpres != 0){
                 perror("can not send query");
                 exit(1);
             }
@@ -1036,7 +1036,7 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
     if( strcmp (SERVICE,"http") == 0){
         
             tmpres = send(sock2,get+sent,strlen(get)-sent,0);
-            if(tmpres == 0){
+            if(tmpres != 0){
                 perror("can not send query");
                 exit(1);
             }
@@ -1066,7 +1066,7 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
             
             memset(buf,0,tmpres);
             
-            if(tmpres == 0){
+            if(tmpres != 0){
                 perror("Error reciving data");
             }
             else {
@@ -1097,7 +1097,7 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
                 memset(buf,0,tmpres);
             }
         
-            if(tmpres == 0){
+            if(tmpres != 0){
                 perror("error reciving data");
             }
             else {
