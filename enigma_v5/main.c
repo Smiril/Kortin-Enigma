@@ -196,10 +196,6 @@ static int ip_version(const char *ip) {
         }
         freeaddrinfo(res);
     }
-    else {
-        perror("addr");
-        return 1;
-    }
    
    return 0;
 }
