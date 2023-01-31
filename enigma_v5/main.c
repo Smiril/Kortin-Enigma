@@ -426,9 +426,6 @@ char *get_ip(char *host){
             perror("can not reslove ipv6 host");
         }
     }
-    else {
-        perror("host");
-    }
     
     return ipx;
 }
@@ -686,9 +683,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     tmpresx = inet_pton(AF_INET, host, (void *)(&(remote->sin_addr.s_addr)));
     
     }
-    else if(1 == ip_version(ipp)) {
-        perror("host");
-    }
+
     
     int res;
     
