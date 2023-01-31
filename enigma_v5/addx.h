@@ -15,7 +15,7 @@
 
 #define SERVICE "https" // possible http https
 #define PROTO "tcp" // possible tcp udp icmp igmp raw
-#define USERAGENT "Enigma/0.0.4 (iPad;CPU OS 13_1_2 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Version/13.0 Mobile/14B100 SafaRI/602."
+#define USERAGENT "Enigma/0.0.5 (iPad;CPU OS 13_1_2 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Version/13.0 Mobile/14B100 SafaRI/602."
 #define DELIM1 "."
 #define DELIM2 ":"
 #define BUFSIZE 1400
