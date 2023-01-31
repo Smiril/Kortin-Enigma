@@ -439,12 +439,12 @@ char *get_ip(char *host){
         exit(1);
     }
 
-            if((inet_ntop(AF_INET,(void *)hent->h_addr_list,ipx,iplen)) == 0){
-                perror("getting ipv4 host");
-            }
-            else if((inet_ntop(AF_INET6,(void *)hent->h_addr_list,ipx,iplen)) == 0){
-                perror("getting ipv6 host");
-            }
+    if((inet_ntop(AF_INET,(void *)hent->h_addr_list,ipx,iplen)) == 0){
+        perror("getting ipv4 host");
+    }
+    else if((inet_ntop(AF_INET6,(void *)hent->h_addr_list,ipx,iplen)) == 0){
+        perror("getting ipv6 host");
+    }
     
     return ipx;
 }
@@ -673,7 +673,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     is_valid_ip6(ip)? printf("Valid\n"): printf("Not valid\n");
 #endif
 
-    fprintf(stderr,"connect to %s ",ip);
+    printf("connect to %s \n",ip);
     sa6.sin6_family = AF_INET6;
     sa6.sin6_port = htons(rand() % 1000 + 20000);
     sa6.sin6_addr = in6addr_any;
@@ -690,7 +690,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     is_valid_ip4(ip)? printf("Valid\n"): printf("Not valid\n");
 #endif
 
-    fprintf(stderr,"connect to %s ",ip);
+    printf("connect to %s \n",ip);
     sa.sin_family = AF_INET;
     sa.sin_port = htons(rand() % 1000 + 20000);
     sa.sin_addr.s_addr = INADDR_ANY;
@@ -701,11 +701,19 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     tmpresx = inet_pton(AF_INET, host, (void *)(&(remote->sin_addr.s_addr)));
     }
     
-    int res;
+    int res = 0;
     
-    if( ( res = connect(sock2,(struct sockaddr *)remote,sizeof(struct sockaddr)) ) != 0){
-        perror("could not connect");
-        exit(1);
+    if(6 == ip_version(ip)) {
+        if( ( res = connect(sock2,(struct sockaddr *)remote6,sizeof(struct sockaddr)) ) != 0){
+            perror("could not connect");
+            exit(1);
+        }
+    }
+    else if(4 == ip_version(ip)) {
+        if( ( res = connect(sock2,(struct sockaddr *)remote,sizeof(struct sockaddr)) ) != 0){
+            perror("could not connect");
+            exit(1);
+        }
     }
 
     if (res == 0)
@@ -921,14 +929,13 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
     ip = get_ip(host);
     ipp = get_ip(proxy);
     if(6 == ip_version(ipp)) {
-        fprintf(stderr,"go from %s ",ipp);
+        printf("go from %s ",ipp);
 #if !defined(__WIN32__) && !defined(__WIN64__)
         is_valid_ip6(ipp)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
 #elif !defined(__APPLE__) && !defined(__LINUX__)
         is_valid_ip6(ipp)? printf("Valid\n"): printf("Not valid\n");
 #endif
-        fprintf(stderr,"connect from %s ",ipp);
-        fprintf(stderr,"connect to %s ",ip);
+        printf("connect to %s \n",ip);
         sa6.sin6_family = AF_INET6;
         sa6.sin6_port = htons(rand() % 1000 + 20000);
         sa6.sin6_addr = in6addr_any;
@@ -945,14 +952,13 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
 #endif
     }
     else if(4 == ip_version(ipp)) {
-        fprintf(stderr,"go from %s ",ipp);
+        printf("go from %s ",ipp);
 #if !defined(__WIN32__) && !defined(__WIN64__)
         is_valid_ip4(ipp)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
 #elif !defined(__APPLE__) && !defined(__LINUX__)
         is_valid_ip4(ipp)? printf("Valid\n"): printf("Not valid\n");
 #endif
-        fprintf(stderr,"connect from %s ",ipp);
-        fprintf(stderr,"connect to %s ",ip);
+        printf("connect to %s \n",ip);
         sa.sin_family = AF_INET;
         sa.sin_port = htons(rand() % 1000 + 20000);
         sa.sin_addr.s_addr = INADDR_ANY;
@@ -969,11 +975,19 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
 #endif
     }
     
-    int res;
+    int res = 0;
     
-    if( ( res = connect(sock2,(struct sockaddr *)remote,sizeof(struct sockaddr)) ) != 0){
-        perror("could not connect");
-        exit(1);
+    if(6 == ip_version(ip)) {
+        if( ( res = connect(sock2,(struct sockaddr *)remote6,sizeof(struct sockaddr)) ) != 0){
+            perror("could not connect");
+            exit(1);
+        }
+    }
+    else if(4 == ip_version(ip)) {
+        if( ( res = connect(sock2,(struct sockaddr *)remote,sizeof(struct sockaddr)) ) != 0){
+            perror("could not connect");
+            exit(1);
+        }
     }
 
     if (res == 0)
