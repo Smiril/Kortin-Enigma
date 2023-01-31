@@ -185,21 +185,22 @@ static int ip_version(const char *src) {
     hint.ai_family = PF_UNSPEC;
     hint.ai_flags = AI_NUMERICHOST;
 
-    ret = getaddrinfo(src, NULL, &hint, &res);
-    if (ret) {
+    if (ret = getaddrinfo(src, NULL, &hint, &res)) {
+        if(res->ai_family == AF_INET) {
+            return 4;
+        } else if (res->ai_family == AF_INET6) {
+            return 6;
+        } else {
+            printf("%s is an is unknown address format %d\n",src,res->ai_family);
+            exit(1);
+        }
+        freeaddrinfo(res);
+    }
+    else {
         perror("addr");
         return 1;
     }
-    if(res->ai_family == AF_INET) {
-        return 4;
-    } else if (res->ai_family == AF_INET6) {
-        return 6;
-    } else {
-        printf("%s is an is unknown address format %d\n",src,res->ai_family);
-        exit(1);
-    }
-
-   freeaddrinfo(res);
+   
    return 0;
 }
 
@@ -412,7 +413,8 @@ char *get_ip(char *host){
     char *ipx = (char *)malloc(iplen);
     memset(ipx,0,iplen);
     
-    if((hent = gethostbyname(host)) != 0){
+    if((hent = gethostbyname(host)) == NULL){
+        printf("Error: %d\n",errno);
         perror("can not get ip");
         exit(1);
     }
@@ -1764,7 +1766,7 @@ void *permuteAX(void *arg)
     int result;
     pthread_t t = pthread_self();
     printf("created: %d\n", fds[1]);
-    //pthread_detach(pthread_self());
+    
     while(1) {
         
         result = write (fds[1], &t,sizeof(t));
@@ -1785,6 +1787,7 @@ void *permuteAX(void *arg)
         }
     }
     pthread_mutex_unlock(&lock);            //release lock
+    pthread_detach(pthread_self());
     pthread_mutex_destroy(&lock);
     pthread_exit(NULL);                     //exit from child thread
 }
@@ -1805,7 +1808,7 @@ void *permuteOX(void *arg)
     int result;
     pthread_t t = pthread_self();
     printf("created: %d\n", fds[1]);
-    //pthread_detach(pthread_self());
+    
     while(1) {
         
         result = write (fds[1], &t,sizeof(t));
@@ -1826,6 +1829,7 @@ void *permuteOX(void *arg)
         }
     }
     pthread_mutex_unlock(&lock);            //release lock
+    pthread_detach(pthread_self());
     pthread_mutex_destroy(&lock);
     pthread_exit(NULL);                     //exit from child thread
 }
