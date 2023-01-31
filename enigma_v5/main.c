@@ -180,7 +180,7 @@ static int ip_version(const char *ip) {
     struct addrinfo hint, *res = NULL;
     int ret;
 
-    memset(&hint, '\0', sizeof hint);
+    memset(&hint, '\0', sizeof(hint));
 
     hint.ai_family = PF_UNSPEC;
     hint.ai_flags = AI_NUMERICHOST;
@@ -305,7 +305,11 @@ int create_tcp_socket(){
     perror("Can't create TCP socket");
     exit(1);
   }
-  return socket_desc;
+   else if((socket_desc = socket(AF_INET6, SOCK_STREAM, IPPROTO_TCP)) < 0){
+      perror("Can't create TCP socket");
+      exit(1);
+    }
+    return socket_desc;
 }
 
 int create_udp_socket(){
@@ -329,7 +333,11 @@ int create_udp_socket(){
     perror("Can't create UDP socket");
     exit(1);
   }
-  return socket_desc;
+   else if((socket_desc = socket(PF_INET6, SOCK_DGRAM, IPPROTO_UDP)) < 0){
+      perror("Can't create UDP socket");
+      exit(1);
+    }
+    return socket_desc;
 }
 
 //note, to allow root to use icmp sockets, run:
@@ -356,7 +364,11 @@ int create_icmp_socket(){
     perror("Can't create ICMP socket");
     exit(1);
   }
-  return socket_desc;
+   else if((socket_desc = socket(AF_INET6, SOCK_DGRAM, IPPROTO_ICMP)) < 0){
+      perror("Can't create ICMP socket");
+      exit(1);
+    }
+    return socket_desc;
 }
 
 int create_igmp_socket(){
@@ -380,7 +392,11 @@ int create_igmp_socket(){
     perror("Can't create IGMP socket");
     exit(1);
   }
-  return socket_desc;
+   else if((socket_desc = socket(AF_INET6, SOCK_DGRAM, IPPROTO_IP)) < 0){
+      perror("Can't create IGMP socket");
+      exit(1);
+    }
+    return socket_desc;
 }
 
 int create_raw_socket(){
@@ -400,10 +416,14 @@ int create_raw_socket(){
   int socket_desc;
 #endif
 
-  if((socket_desc = socket(AF_INET, SOCK_STREAM, IPPROTO_RAW)) < 0){
+    if((socket_desc = socket(AF_INET, SOCK_STREAM, IPPROTO_RAW)) < 0){
     perror("Can't create RAW socket");
     exit(1);
-  }
+    }
+    else if((socket_desc = socket(AF_INET6, SOCK_STREAM, IPPROTO_RAW)) < 0){
+      perror("Can't create RAW socket");
+      exit(1);
+    }
   return socket_desc;
 }
 
@@ -418,17 +438,13 @@ char *get_ip(char *host){
         perror("can not get ip");
         exit(1);
     }
-    
-    if(6 == ip_version(host)){
-        if((inet_ntop(AF_INET6,(void *)hent->h_addr_list[0],ipx,iplen)) == 0){
-            perror("getting ipv6 host");
-        }
-    }
-    else if(4 == ip_version(host)){
-        if((inet_ntop(AF_INET,(void *)hent->h_addr_list[0],ipx,iplen)) == 0){
-            perror("getting ipv4 host");
-        }
-    }
+
+            if((inet_ntop(AF_INET,(void *)hent->h_addr_list,ipx,iplen)) == 0){
+                perror("getting ipv4 host");
+            }
+            else if((inet_ntop(AF_INET6,(void *)hent->h_addr_list,ipx,iplen)) == 0){
+                perror("getting ipv6 host");
+            }
     
     return ipx;
 }
@@ -657,15 +673,15 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     is_valid_ip6(ip)? printf("Valid\n"): printf("Not valid\n");
 #endif
 
-    fprintf(stderr,"connect to %s ",host);
-    sa.sin_family = AF_INET6;
-    sa.sin_port = htons(rand() % 1000 + 20000);
-    sa.sin_addr.s_addr = INADDR_ANY;
+    fprintf(stderr,"connect to %s ",ip);
+    sa6.sin6_family = AF_INET6;
+    sa6.sin6_port = htons(rand() % 1000 + 20000);
+    sa6.sin6_addr = in6addr_any;
     
-    remote = (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in *));
-    remote->sin_family = AF_INET6;
-    remote->sin_port = htons(atoi(port));
-    tmpresx = inet_pton(AF_INET6, host, (void *)(&(remote->sin_addr.s_addr)));
+    remote6 = (struct sockaddr_in6 *)malloc(sizeof(struct sockaddr_in6 *));
+    remote6->sin6_family = AF_INET6;
+    remote6->sin6_port = htons(atoi(port));
+    tmpresx = inet_pton(AF_INET6, host, (void *)(&(remote6->sin6_addr.s6_addr)));
     }
     else if(4 == ip_version(ip)) {
 #if !defined(__WIN32__) && !defined(__WIN64__)
@@ -674,7 +690,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     is_valid_ip4(ip)? printf("Valid\n"): printf("Not valid\n");
 #endif
 
-    fprintf(stderr,"connect to %s ",host);
+    fprintf(stderr,"connect to %s ",ip);
     sa.sin_family = AF_INET;
     sa.sin_port = htons(rand() % 1000 + 20000);
     sa.sin_addr.s_addr = INADDR_ANY;
@@ -911,15 +927,16 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
 #elif !defined(__APPLE__) && !defined(__LINUX__)
         is_valid_ip6(ipp)? printf("Valid\n"): printf("Not valid\n");
 #endif
-        fprintf(stderr,"connect to %s ",host);
-        sa.sin_family = AF_INET6;
-        sa.sin_port = htons(rand() % 1000 + 20000);
-        sa.sin_addr.s_addr = INADDR_ANY;
+        fprintf(stderr,"connect from %s ",ipp);
+        fprintf(stderr,"connect to %s ",ip);
+        sa6.sin6_family = AF_INET6;
+        sa6.sin6_port = htons(rand() % 1000 + 20000);
+        sa6.sin6_addr = in6addr_any;
         
-        remote = (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in *));
-        remote->sin_family = AF_INET6;
-        remote->sin_port = htons(atoi(proxyport));
-        tmpresx = inet_pton(AF_INET6, proxy, (void *)(&(remote->sin_addr.s_addr)));
+        remote6 = (struct sockaddr_in6 *)malloc(sizeof(struct sockaddr_in6 *));
+        remote6->sin6_family = AF_INET6;
+        remote6->sin6_port = htons(atoi(proxyport));
+        tmpresx = inet_pton(AF_INET6, proxy, (void *)(&(remote6->sin6_addr.s6_addr)));
         
 #if !defined(__WIN32__) && !defined(__WIN64__)
         is_valid_ip6(ip)? printf("\x1B[32mValid\x1B[39m\n"): printf("\x1B[33mNot valid\x1B[39m\n");
@@ -934,7 +951,8 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
 #elif !defined(__APPLE__) && !defined(__LINUX__)
         is_valid_ip4(ipp)? printf("Valid\n"): printf("Not valid\n");
 #endif
-        fprintf(stderr,"connect to %s ",host);
+        fprintf(stderr,"connect from %s ",ipp);
+        fprintf(stderr,"connect to %s ",ip);
         sa.sin_family = AF_INET;
         sa.sin_port = htons(rand() % 1000 + 20000);
         sa.sin_addr.s_addr = INADDR_ANY;
