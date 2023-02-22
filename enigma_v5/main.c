@@ -862,9 +862,9 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
                 htmlcontent = buf ;
             }
 
-            memset(buf,0,tmpres);
+            memset(buf,0,strlen(htmlcontent));
             
-            if(tmpres != 0){
+            if(htmlcontent == 0){
                 perror("Error reciving data");
             }
             else {
@@ -885,9 +885,9 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
             }else{
                 htmlcontent = buf ;
             }
-                memset(buf,0,tmpres);
+                memset(buf,0,strlen(htmlcontent));
         
-            if(tmpres != 0){
+            if(htmlcontent == 0){
                 perror("error reciving data");
             }
             else {
@@ -1172,9 +1172,9 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
                 htmlcontent = buf ;
             }
             
-            memset(buf,0,tmpres);
+            memset(buf,0,strlen(htmlcontent));
             
-            if(tmpres != 0){
+            if(htmlcontent == 0){
                 perror("Error reciving data");
             }
             else {
@@ -1195,9 +1195,9 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
             }else{
                 htmlcontent = buf ;
             }
-                memset(buf,0,tmpres);
+                memset(buf,0,strlen(htmlcontent));
         
-            if(tmpres != 0){
+            if(htmlcontent == 0){
                 perror("error reciving data");
             }
             else {
