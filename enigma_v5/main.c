@@ -883,14 +883,12 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     if( strcmp (SERVICE,"http") == 0){
         while((tmpres = recv(sock2,buf,BUFSIZ,0)) == 0){
             if(htmlstart == 0){
-                htmlcontent = strstr(buf,"\r\n");
-            
-                if(htmlcontent == 0){
-                    htmlstart = 1;
-                    htmlcontent += 4;
-                }else{
-                    htmlcontent = buf;
-                }
+                htmlcontent = strstr(buf,"\r\n\r\n");
+                htmlstart = 1;
+                htmlcontent += 4;
+            }else{
+                htmlcontent = buf ;
+            }
                 
                 if(htmlstart){
                     strcpy(flex,htmlcontent);
@@ -1205,14 +1203,12 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
     if( strcmp (SERVICE,"http") == 0){
         while((tmpres = recv(sock2,buf,BUFSIZ,0)) == 0){
             if(htmlstart == 0){
-                htmlcontent = strstr(buf,"\r\n");
-            
-                if(htmlcontent == 0){
-                    htmlstart = 1;
-                    htmlcontent += 4;
-                }else{
-                    htmlcontent = buf;
-                }
+                htmlcontent = strstr(buf,"\r\n\r\n");
+                htmlstart = 1;
+                htmlcontent += 4;
+            }else{
+                htmlcontent = buf ;
+            }
                 
                 if(htmlstart){
                     strcpy(flex,htmlcontent);
