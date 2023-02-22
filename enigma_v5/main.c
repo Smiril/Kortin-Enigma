@@ -886,7 +886,8 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
             }else{
                 htmlcontent = buf ;
             }
-                memset(buf,0,strlen(htmlcontent));
+            
+            memset(buf,0,strlen(htmlcontent));
         
             if(htmlcontent == 0){
                 perror("error reciving data");
@@ -1198,7 +1199,8 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
             }else{
                 htmlcontent = buf ;
             }
-                memset(buf,0,strlen(htmlcontent));
+            
+            memset(buf,0,strlen(htmlcontent));
         
             if(htmlcontent == 0){
                 perror("error reciving data");
