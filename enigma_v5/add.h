@@ -84,9 +84,9 @@ char *get_cl;
 char buf[BUFSIZ+1];
 char host[MSGY];
 char page[MSGY];
-char port[MSGY];
+char port[MSGG];
 char proxy[MSGY];
-char proxyport[MSGY];
+char proxyport[MSGG];
 
 static pthread_once_t once = PTHREAD_ONCE_INIT;
 static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
