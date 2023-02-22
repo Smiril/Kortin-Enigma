@@ -774,6 +774,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
                 perror("can not send query");
                 exit(1);
             }
+            sent += tmpres;
         
     }
     
