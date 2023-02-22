@@ -80,6 +80,7 @@ char *ip;
 char *ipp;
 char *ipprox;
 char *get;
+char *get_cl;
 char buf[BUFSIZ+1];
 char host[MSGY];
 char page[MSGY];
