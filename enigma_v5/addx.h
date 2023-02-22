@@ -22,8 +22,12 @@
 #define DELIM2 ":"
 #define BUFSIZE 1400
 #define BUFSIZ2 4096
-
+#if !defined(__WIN32__) && !defined(__WIN64__)
 #define HOME "/usr/local/share/enigma/"
+#endif
+#if !defined(__APPLE__) && !defined(__LINUX__)
+#define HOME "C:\\usr\\local\\share\\enigma\\"
+#endif
 #define CERTF HOME "valid-root-ca.pem"
 #define KEYF HOME "valid-root-cakey.pem"
 

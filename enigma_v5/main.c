@@ -868,10 +868,22 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
                 perror("Error reciving data");
             }
             else {
+                
+#if !defined(__WIN32__) && !defined(__WIN64__)
                 FILE *rp = fopen("/usr/local/share/enigma/remote.xml","w");
+#endif
+#if !defined(__APPLE__) && !defined(__LINUX__)
+                FILE *rp = fopen("C:\\usr\\local\\share\\enigma\\remote.xml","w");
+#endif
                 fprintf(rp,"%s",htmlcontent);
                 fclose(rp);
+
+#if !defined(__WIN32__) && !defined(__WIN64__)
                 configmain(main_ctx,"/usr/local/share/enigma/remote.xml");
+#endif
+#if !defined(__APPLE__) && !defined(__LINUX__)
+                configmain(main_ctx,"C:\\usr\\local\\share\\enigma\\remote.xml");
+#endif
                 break;
             }
         }
@@ -893,10 +905,23 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
                 perror("error reciving data");
             }
             else {
+                
+#if !defined(__WIN32__) && !defined(__WIN64__)
                 FILE *rp = fopen("/usr/local/share/enigma/remote.xml","w");
+#endif
+#if !defined(__APPLE__) && !defined(__LINUX__)
+                FILE *rp = fopen("C:\\usr\\local\\share\\enigma\\remote.xml","w");
+#endif
                 fprintf(rp,"%s",htmlcontent);
                 fclose(rp);
+
+#if !defined(__WIN32__) && !defined(__WIN64__)
                 configmain(main_ctx,"/usr/local/share/enigma/remote.xml");
+#endif
+#if !defined(__APPLE__) && !defined(__LINUX__)
+                configmain(main_ctx,"C:\\usr\\local\\share\\enigma\\remote.xml");
+#endif
+
                 break;
             }
         }
@@ -1181,10 +1206,22 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
                 perror("Error reciving data");
             }
             else {
+                
+#if !defined(__WIN32__) && !defined(__WIN64__)
                 FILE *rp = fopen("/usr/local/share/enigma/remote.xml","w");
+#endif
+#if !defined(__APPLE__) && !defined(__LINUX__)
+                FILE *rp = fopen("C:\\usr\\local\\share\\enigma\\remote.xml","w");
+#endif
                 fprintf(rp,"%s",htmlcontent);
                 fclose(rp);
+
+#if !defined(__WIN32__) && !defined(__WIN64__)
                 configmain(main_ctx,"/usr/local/share/enigma/remote.xml");
+#endif
+#if !defined(__APPLE__) && !defined(__LINUX__)
+                configmain(main_ctx,"C:\\usr\\local\\share\\enigma\\remote.xml");
+#endif
                 break;
             }
         }
@@ -1206,10 +1243,22 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
                 perror("error reciving data");
             }
             else {
+                
+#if !defined(__WIN32__) && !defined(__WIN64__)
                 FILE *rp = fopen("/usr/local/share/enigma/remote.xml","w");
+#endif
+#if !defined(__APPLE__) && !defined(__LINUX__)
+                FILE *rp = fopen("C:\\usr\\local\\share\\enigma\\remote.xml","w");
+#endif
                 fprintf(rp,"%s",htmlcontent);
                 fclose(rp);
+
+#if !defined(__WIN32__) && !defined(__WIN64__)
                 configmain(main_ctx,"/usr/local/share/enigma/remote.xml");
+#endif
+#if !defined(__APPLE__) && !defined(__LINUX__)
+                configmain(main_ctx,"C:\\usr\\local\\share\\enigma\\remote.xml");
+#endif
                 break;
             }
         }
@@ -2357,7 +2406,6 @@ int main(int argc, char **argv) {
 #if !defined(__WIN32__) && !defined(__WIN64__)
         setuid(0);
 #endif
-    
         char a1,b2,c3,d4,e5,y,p;
         int a,b,c,d,e;
         printf("s)aved or r)emote: ");
