@@ -448,7 +448,7 @@ char *get_ip(char *host){
 char *d_build_get_query_igmp(char *host,char *page) {
     char *query;
     char *getpage = page;
-    char *tpl = "GET /%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
+    char *tpl = "GET /%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\n";
 
 
     if(getpage[0] == '/'){
@@ -464,7 +464,7 @@ char *d_build_get_query_igmp(char *host,char *page) {
 char *d_build_get_query_icmp(char *host,char *page) {
     char *query;
     char *getpage = page;
-    char *tpl = "GET /%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
+    char *tpl = "GET /%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\n";
 
 
     if(getpage[0] == '/'){
@@ -480,7 +480,7 @@ char *d_build_get_query_icmp(char *host,char *page) {
 char *d_build_get_query_tcp(char *host,char *page) {
     char *query;
     char *getpage = page;
-    char *tpl = "GET /%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
+    char *tpl = "GET /%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\n";
 
 
     if(getpage[0] == '/'){
@@ -496,7 +496,7 @@ char *d_build_get_query_tcp(char *host,char *page) {
 char *d_build_get_query_udp(char *host,char *page) {
     char *query;
     char *getpage = page;
-    char *tpl = "GET /%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
+    char *tpl = "GET /%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\n";
 
 
     if(getpage[0] == '/'){
@@ -510,6 +510,22 @@ char *d_build_get_query_udp(char *host,char *page) {
 }
 
 char *d_build_get_query_raw(char *host,char *page) {
+    char *query;
+    char *getpage = page;
+    char *tpl = "GET /%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\n";
+
+
+    if(getpage[0] == '/'){
+        getpage = getpage + 1;
+    }
+
+    query = (char *)malloc(strlen(getpage)+strlen(host)+strlen(USERAGENT)+strlen(tpl)-3);
+    sprintf(query,tpl,getpage,host,USERAGENT);
+            
+    return query;
+}
+
+char *d_build_getcl(char *host,char *page) {
     char *query;
     char *getpage = page;
     char *tpl = "GET /%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
@@ -528,7 +544,7 @@ char *d_build_get_query_raw(char *host,char *page) {
 char *build_get_query_igmp(char *host,char *page) {
     char *query;
     char *getpage = page;
-    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
+    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\n";
 
 
     if(getpage[0] == '/'){
@@ -544,7 +560,7 @@ char *build_get_query_igmp(char *host,char *page) {
 char *build_get_query_icmp(char *host,char *page) {
     char *query;
     char *getpage = page;
-    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
+    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\n";
 
 
     if(getpage[0] == '/'){
@@ -560,7 +576,7 @@ char *build_get_query_icmp(char *host,char *page) {
 char *build_get_query_tcp(char *host,char *page) {
     char *query;
     char *getpage = page;
-    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
+    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\n";
 
 
     if(getpage[0] == '/'){
@@ -576,7 +592,7 @@ char *build_get_query_tcp(char *host,char *page) {
 char *build_get_query_udp(char *host,char *page) {
     char *query;
     char *getpage = page;
-    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
+    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\n";
 
 
     if(getpage[0] == '/'){
@@ -590,6 +606,22 @@ char *build_get_query_udp(char *host,char *page) {
 }
 
 char *build_get_query_raw(char *host,char *page) {
+    char *query;
+    char *getpage = page;
+    char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\n";
+
+
+    if(getpage[0] == '/'){
+        getpage = getpage + 1;
+    }
+
+    query = (char *)malloc(strlen(proxy)+strlen((const char *)proxyport)+strlen(getpage)+strlen(host)+strlen(USERAGENT)+strlen(tpl)-6);
+    sprintf(query,tpl,proxy,proxyport,getpage,host,USERAGENT);
+            
+    return query;
+}
+
+char *build_getcl(char *host,char *page) {
     char *query;
     char *getpage = page;
     char *tpl = "CONNECT %s:%s/%s HTTP\\1.1\r\nHost: %s\r\nUser-Agent: %s\r\nContent-type: application/x-www-form-urlencoded\r\nConnection: close:\r\n";
@@ -764,6 +796,26 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
         exit(1);
     }
 
+    if( strcmp (PROTO,"tcp") == 0){
+    getcl = d_build_getcl(host,page);
+    }
+    else if( strcmp (PROTO,"udp") == 0){
+    getcl = d_build_getcl(host,page);
+    }
+    else if( strcmp (PROTO,"icmp") == 0){
+    getcl = d_build_getcl(host,page);
+    }
+    else if( strcmp (PROTO,"igmp") == 0){
+    getcl = d_build_getcl(host,page);
+    }
+    else if( strcmp (PROTO,"raw") == 0){
+    getcl = d_build_getcl(host,page);
+    }
+    else {
+        perror("Wrong Protocol");
+        exit(1);
+    }
+    
     fprintf(stderr,"Query is:\n<<START>>\n%s\n<<END>>\n",get);
 
     int sent = 0;
@@ -853,6 +905,28 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
             }
         }
     }
+
+    if( strcmp (SERVICE,"https") == 0){
+
+            tmpres = SSL_write(ssl,getcl+sent,strlen(getcl)-sent);
+            if(tmpres != 0){
+                perror("can not send query");
+                exit(1);
+            }
+            sent += tmpres;
+        
+    }
+    
+    if( strcmp (SERVICE,"http") == 0){
+        
+            tmpres = send(sock2,getcl+sent,strlen(getcl)-sent,0);
+            if(tmpres != 0){
+                perror("can not send query");
+                exit(1);
+            }
+            sent += tmpres;
+        
+    }
     
     if( strcmp (SERVICE,"https") == 0){
         SSL_shutdown(ssl);
@@ -912,7 +986,7 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
     else if( strcmp (PROTO,"icmp") == 0){
     sock2 = create_icmp_socket();
     }
-    else if( strcmp (PROTO,"ip") == 0){
+    else if( strcmp (PROTO,"igmp") == 0){
     sock2 = create_igmp_socket();
     }
     else if( strcmp (PROTO,"raw") == 0){
@@ -1038,12 +1112,33 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
         perror("Wrong Protocol");
         exit(1);
     }
+    
+    if( strcmp (PROTO,"tcp") == 0){
+    getcl = build_getcl(host,page);
+    }
+    else if( strcmp (PROTO,"udp") == 0){
+    getcl = build_getcl(host,page);
+    }
+    else if( strcmp (PROTO,"icmp") == 0){
+    getcl = build_getcl(host,page);
+    }
+    else if( strcmp (PROTO,"igmp") == 0){
+    getcl = build_getcl(host,page);
+    }
+    else if( strcmp (PROTO,"raw") == 0){
+    getcl = build_getcl(host,page);
+    }
+    else {
+        perror("Wrong Protocol");
+        exit(1);
+    }
 #if !defined(__WIN32__) && !defined(__WIN64__)
     fprintf(stderr,"Query is:\n\x1B[32m<<START>>\x1B[39m\n\x1B[33m%s\x1B[39m\n\x1B[32m<<END>>\x1B[39m\n",get);
 #elif !defined(__APPLE__) && !defined(__LINUX__)
     fprintf(stderr,"Query is:\n<<START>>\n%s\n<<END>>\n",get);
 #endif
     int sent = 0;
+    
     if( strcmp (SERVICE,"https") == 0){
 
             tmpres = SSL_write(ssl,get+sent,strlen(get)-sent);
@@ -1051,6 +1146,7 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
                 perror("can not send query");
                 exit(1);
             }
+            sent += tmpres;
         
     }
     
@@ -1128,6 +1224,28 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
                 configmain(main_ctx,"/usr/local/share/enigma/remote.xml");
             }
         }
+    }
+    
+    if( strcmp (SERVICE,"https") == 0){
+
+            tmpres = SSL_write(ssl,getcl+sent,strlen(getcl)-sent);
+            if(tmpres != 0){
+                perror("can not send query");
+                exit(1);
+            }
+            sent += tmpres;
+        
+    }
+    
+    if( strcmp (SERVICE,"http") == 0){
+        
+            tmpres = send(sock2,getcl+sent,strlen(getcl)-sent,0);
+            if(tmpres != 0){
+                perror("can not send query");
+                exit(1);
+            }
+            sent += tmpres;
+        
     }
     
     if( strcmp (SERVICE,"https") == 0){
