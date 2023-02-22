@@ -861,11 +861,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
             }else{
                 htmlcontent = buf ;
             }
-            
-            if(htmlstart){
-                strcpy(flex,htmlcontent);
-            }
-            
+
             memset(buf,0,tmpres);
             
             if(tmpres != 0){
@@ -873,7 +869,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
             }
             else {
                 FILE *rp = fopen("/usr/local/share/enigma/remote.xml","w");
-                fprintf(rp,"%s",flex);
+                fprintf(rp,"%s",htmlcontent);
                 fclose(rp);
                 configmain(main_ctx,"/usr/local/share/enigma/remote.xml");
             }
@@ -889,20 +885,14 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
             }else{
                 htmlcontent = buf ;
             }
-                
-                if(htmlstart){
-                    strcpy(flex,htmlcontent);
-                }
-                
                 memset(buf,0,tmpres);
-            }
         
             if(tmpres != 0){
                 perror("error reciving data");
             }
             else {
                 FILE *rp = fopen("/usr/local/share/enigma/remote.xml","w");
-                fprintf(rp,"%s",flex);
+                fprintf(rp,"%s",htmlcontent);
                 fclose(rp);
                 configmain(main_ctx,"/usr/local/share/enigma/remote.xml");
             }
@@ -1182,10 +1172,6 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
                 htmlcontent = buf ;
             }
             
-            if(htmlstart){
-                strcpy(flex,htmlcontent);
-            }
-            
             memset(buf,0,tmpres);
             
             if(tmpres != 0){
@@ -1193,7 +1179,7 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
             }
             else {
                 FILE *rp = fopen("/usr/local/share/enigma/remote.xml","w");
-                fprintf(rp,"%s",flex);
+                fprintf(rp,"%s",htmlcontent);
                 fclose(rp);
                 configmain(main_ctx,"/usr/local/share/enigma/remote.xml");
             }
@@ -1209,20 +1195,14 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
             }else{
                 htmlcontent = buf ;
             }
-                
-                if(htmlstart){
-                    strcpy(flex,htmlcontent);
-                }
-                
                 memset(buf,0,tmpres);
-            }
         
             if(tmpres != 0){
                 perror("error reciving data");
             }
             else {
                 FILE *rp = fopen("/usr/local/share/enigma/remote.xml","w");
-                fprintf(rp,"%s",flex);
+                fprintf(rp,"%s",htmlcontent);
                 fclose(rp);
                 configmain(main_ctx,"/usr/local/share/enigma/remote.xml");
             }
