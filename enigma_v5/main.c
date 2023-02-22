@@ -2354,6 +2354,8 @@ int main(int argc, char **argv) {
             return 0;
         }
     
+        setuid(0);
+    
         char a1,b2,c3,d4,e5,y,p;
         int a,b,c,d,e;
         printf("s)aved or r)emote: ");
