@@ -857,7 +857,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
             if(htmlstart == 0){
                 htmlcontent = strstr(buf,"\r\n\r\n");
                 htmlstart = 1;
-                htmlcontent += 4;
+                //htmlcontent += 4;
             }else{
                 htmlcontent = buf ;
             }
@@ -881,7 +881,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
             if(htmlstart == 0){
                 htmlcontent = strstr(buf,"\r\n\r\n");
                 htmlstart = 1;
-                htmlcontent += 4;
+                //htmlcontent += 4;
             }else{
                 htmlcontent = buf ;
             }
@@ -1167,7 +1167,7 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
             if(htmlstart == 0){
                 htmlcontent = strstr(buf,"\r\n\r\n");
                 htmlstart = 1;
-                htmlcontent += 4;
+                //htmlcontent += 4;
             }else{
                 htmlcontent = buf ;
             }
@@ -1191,7 +1191,7 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
             if(htmlstart == 0){
                 htmlcontent = strstr(buf,"\r\n\r\n");
                 htmlstart = 1;
-                htmlcontent += 4;
+                //htmlcontent += 4;
             }else{
                 htmlcontent = buf ;
             }
