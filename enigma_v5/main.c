@@ -816,8 +816,12 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
         exit(1);
     }
     
+#if !defined(__WIN32__) && !defined(__WIN64__)
+    fprintf(stderr,"Query is:\n\x1B[32m<<START>>\x1B[39m\n\x1B[33m%s\x1B[39m\n\x1B[32m<<END>>\x1B[39m\n",get);
+#elif !defined(__APPLE__) && !defined(__LINUX__)
     fprintf(stderr,"Query is:\n<<START>>\n%s\n<<END>>\n",get);
-
+#endif
+    
     int sent = 0;
     if( strcmp (SERVICE,"https") == 0){
 
