@@ -853,7 +853,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
 
 
     if( strcmp (SERVICE,"https") == 0){
-        while((tmpres = SSL_read(ssl,buf,BUFSIZ)) > 0){
+        while((tmpres = SSL_read(ssl,buf,BUFSIZ)) == 0){
             if(htmlstart == 0){
                 htmlcontent = strstr(buf,"\r\n\r\n");
                 htmlstart = 1;
@@ -872,6 +872,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
                 fprintf(rp,"%s",htmlcontent);
                 fclose(rp);
                 configmain(main_ctx,"/usr/local/share/enigma/remote.xml");
+                break;
             }
         }
     }
@@ -895,6 +896,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
                 fprintf(rp,"%s",htmlcontent);
                 fclose(rp);
                 configmain(main_ctx,"/usr/local/share/enigma/remote.xml");
+                break;
             }
         }
     }
@@ -1163,7 +1165,7 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
 
 
     if( strcmp (SERVICE,"https") == 0){
-        while((tmpres = SSL_read(ssl,buf,BUFSIZ)) > 0){
+        while((tmpres = SSL_read(ssl,buf,BUFSIZ)) == 0){
             if(htmlstart == 0){
                 htmlcontent = strstr(buf,"\r\n\r\n");
                 htmlstart = 1;
@@ -1182,6 +1184,7 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
                 fprintf(rp,"%s",htmlcontent);
                 fclose(rp);
                 configmain(main_ctx,"/usr/local/share/enigma/remote.xml");
+                break;
             }
         }
     }
@@ -1205,6 +1208,7 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
                 fprintf(rp,"%s",htmlcontent);
                 fclose(rp);
                 configmain(main_ctx,"/usr/local/share/enigma/remote.xml");
+                break;
             }
         }
     }
