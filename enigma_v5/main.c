@@ -2354,7 +2354,9 @@ int main(int argc, char **argv) {
             return 0;
         }
     
+#if !defined(__WIN32__) && !defined(__WIN64__)
         setuid(0);
+#endif
     
         char a1,b2,c3,d4,e5,y,p;
         int a,b,c,d,e;
