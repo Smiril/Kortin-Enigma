@@ -650,7 +650,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     else if( strcmp (PROTO,"icmp") == 0){
     sock2 = create_icmp_socket();
     }
-    else if( strcmp (PROTO,"ip") == 0){
+    else if( strcmp (PROTO,"igmp") == 0){
     sock2 = create_igmp_socket();
     }
     else if( strcmp (PROTO,"raw") == 0){
