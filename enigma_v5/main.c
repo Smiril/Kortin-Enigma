@@ -823,6 +823,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
 #endif
     
     int sent = 0;
+    
     if( strcmp (SERVICE,"https") == 0){
 
             tmpres = SSL_write(ssl,get+sent,strlen(get)-sent);
