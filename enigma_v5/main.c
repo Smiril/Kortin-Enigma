@@ -846,11 +846,11 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
         
     }
     
-    memset(buf,0,sizeof(buf));
+    memset(buf,0,strlen(buf));
     
     int htmlstart = 0;
     char *htmlcontent;
-
+    FILE *rp;
 
     if( strcmp (SERVICE,"https") == 0){
         while((tmpres = SSL_read(ssl,buf,BUFSIZ)) == 0){
@@ -870,10 +870,10 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
             else {
                 
 #if !defined(__WIN32__) && !defined(__WIN64__)
-                FILE *rp = fopen("/usr/local/share/enigma/remote.xml","w");
+                rp = fopen("/usr/local/share/enigma/remote.xml","w");
 #endif
 #if !defined(__APPLE__) && !defined(__LINUX__)
-                FILE *rp = fopen("C:\\usr\\local\\share\\enigma\\remote.xml","w");
+                rp = fopen("C:\\usr\\local\\share\\enigma\\remote.xml","w");
 #endif
                 fprintf(rp,"%s",htmlcontent);
                 fclose(rp);
@@ -907,10 +907,10 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
             else {
                 
 #if !defined(__WIN32__) && !defined(__WIN64__)
-                FILE *rp = fopen("/usr/local/share/enigma/remote.xml","w");
+                rp = fopen("/usr/local/share/enigma/remote.xml","w");
 #endif
 #if !defined(__APPLE__) && !defined(__LINUX__)
-                FILE *rp = fopen("C:\\usr\\local\\share\\enigma\\remote.xml","w");
+                rp = fopen("C:\\usr\\local\\share\\enigma\\remote.xml","w");
 #endif
                 fprintf(rp,"%s",htmlcontent);
                 fclose(rp);
@@ -1184,11 +1184,11 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
         
     }
     
-    memset(buf,0,sizeof(buf));
+    memset(buf,0,strlen(buf));
     
     int htmlstart = 0;
     char *htmlcontent;
-
+    FILE *rp;
 
     if( strcmp (SERVICE,"https") == 0){
         while((tmpres = SSL_read(ssl,buf,BUFSIZ)) == 0){
@@ -1206,12 +1206,12 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
                 perror("Error reciving data");
             }
             else {
-                
+            
 #if !defined(__WIN32__) && !defined(__WIN64__)
-                FILE *rp = fopen("/usr/local/share/enigma/remote.xml","w");
+                rp = fopen("/usr/local/share/enigma/remote.xml","w");
 #endif
 #if !defined(__APPLE__) && !defined(__LINUX__)
-                FILE *rp = fopen("C:\\usr\\local\\share\\enigma\\remote.xml","w");
+                rp = fopen("C:\\usr\\local\\share\\enigma\\remote.xml","w");
 #endif
                 fprintf(rp,"%s",htmlcontent);
                 fclose(rp);
@@ -1245,10 +1245,10 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
             else {
                 
 #if !defined(__WIN32__) && !defined(__WIN64__)
-                FILE *rp = fopen("/usr/local/share/enigma/remote.xml","w");
+                rp = fopen("/usr/local/share/enigma/remote.xml","w");
 #endif
 #if !defined(__APPLE__) && !defined(__LINUX__)
-                FILE *rp = fopen("C:\\usr\\local\\share\\enigma\\remote.xml","w");
+                rp = fopen("C:\\usr\\local\\share\\enigma\\remote.xml","w");
 #endif
                 fprintf(rp,"%s",htmlcontent);
                 fclose(rp);
@@ -2236,7 +2236,7 @@ void sbfParams(main_ctx_t *main_ctx)
     }
     
     for (int i = 0; i < core; i++) {
-        pthread_t tid = malloc(core + 1 * sizeof(pthread_t));
+        pthread_t tid[i] = malloc(core + 1 * sizeof(pthread_t));
         pthread_create(*(pthread_t**)&tid[i], NULL, reader, (void*)&fds[i]);
         pthread_create(*(pthread_t**)&tid[i], NULL, permuteOX, (void*)&fds[i]);
         printf("created: %llu\n", (unsigned long long)&tid[i]);
@@ -2356,7 +2356,7 @@ void bfParams(main_ctx_t *main_ctx)
     }
     
     for (int i = 0; i < core; i++) {
-        pthread_t tid = malloc(core + 1 * sizeof(pthread_t));
+        pthread_t tid[i] = malloc(core + 1 * sizeof(pthread_t));
         pthread_create(*(pthread_t**)&tid[i], NULL, reader, (void*)&fds[i]);
         pthread_create(*(pthread_t**)&tid[i], NULL, permuteAX, (void*)&fds[i]);
         printf("created: %llu\n", (unsigned long long)&tid[i]);
