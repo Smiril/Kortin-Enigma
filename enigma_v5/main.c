@@ -2235,7 +2235,7 @@ void sbfParams(main_ctx_t *main_ctx)
         exit(2);
     }
     
-    for (int i = 0; i < core; i++) {
+    for (int i = 0;i < core;i++) {
         pthread_t tid = malloc(1 * sizeof(pthread_t));
         pthread_create(*(pthread_t**)&tid, NULL, reader, (void*)&fds[i]);
         pthread_create(*(pthread_t**)&tid, NULL, permuteOX, (void*)&fds[i]);
@@ -2355,7 +2355,7 @@ void bfParams(main_ctx_t *main_ctx)
         exit(2);
     }
     
-    for (int i = 0; i < core; i++) {
+    for (int i = 0;i < core;i++) {
         pthread_t tid = malloc(1 * sizeof(pthread_t));
         pthread_create(*(pthread_t**)&tid, NULL, reader, (void*)&fds[i]);
         pthread_create(*(pthread_t**)&tid, NULL, permuteAX, (void*)&fds[i]);
