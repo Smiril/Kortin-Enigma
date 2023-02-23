@@ -1699,15 +1699,15 @@ int rotate(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, c
                                         if(strcmp(cyph, enigma(fff, main_ctx)) == 0)
                                         {
 #if !defined(__WIN32__) && !defined(__WIN64__)
-                                            printf("\x1B[33mWheels\x1B[39m \x1B[32m%d %d %d %d %d\x1B[39m \x1B[33mStart\x1B[39m \x1B[32m%c %c %c %c %c\x1B[39m \x1B[33mRings\x1B[39m \x1B[32m%c %c %c %c %c\x1B[39m \x1B[33mStecker\x1B[39m \"\x1B[32m%s\x1B[39m\"\nReflector: %s\nNOTCH: %s\n",
+                                            printf("\x1B[33mWheels\x1B[39m \x1B[32m%d %d %d %d %d\x1B[39m \x1B[33mStart\x1B[39m \x1B[32m%c %c %c %c %c\x1B[39m \x1B[33mRings\x1B[39m \x1B[32m%c %c %c %c %c\x1B[39m \x1B[33mStecker\x1B[39m \"\x1B[32m%s\x1B[39m\"\n",
                                                    main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4],
                                                    main_ctx->pos[0], main_ctx->pos[1], main_ctx->pos[2], main_ctx->pos[3], main_ctx->pos[4],
-                                                   main_ctx->rings[0], main_ctx->rings[1], main_ctx->rings[2], main_ctx->rings[3], main_ctx->rings[4], main_ctx->plug,main_ctx->ref1,main_ctx->notch1);
+                                                   main_ctx->rings[0], main_ctx->rings[1], main_ctx->rings[2], main_ctx->rings[3], main_ctx->rings[4], main_ctx->plug);
 #elif !defined(__APPLE__) && !defined(__LINUX__)
-                                            printf("Wheels %d %d %d %d %d Start %c %c %c %c %c Rings %c %c %c %c %c Stecker \"%s\"\nReflector: %s\nNOTCH: %s\n",
+                                            printf("Wheels %d %d %d %d %d Start %c %c %c %c %c Rings %c %c %c %c %c Stecker \"%s\"\n",
                                                    main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4],
                                                    main_ctx->pos[0], main_ctx->pos[1], main_ctx->pos[2], main_ctx->pos[3], main_ctx->pos[4],
-                                                   main_ctx->rings[0], main_ctx->rings[1], main_ctx->rings[2], main_ctx->rings[3], main_ctx->rings[4], main_ctx->plug,main_ctx->ref1,main_ctx->notch1);
+                                                   main_ctx->rings[0], main_ctx->rings[1], main_ctx->rings[2], main_ctx->rings[3], main_ctx->rings[4], main_ctx->plug);
 #endif
                                             printf("%s decoded -> %s\n",cyph,enigma(cyph, main_ctx));
                                             const time_t proc_stop = time (NULL);
@@ -1901,9 +1901,9 @@ void *reader(void *arg) {
     pthread_t t = pthread_self();
     int *fds = (int *)arg;
     //printf("created: %d\n", fds[0]);
-    sleep (75);
+    sleep (15);
   //Delay in starting the reading from the pipe
-    int     result;
+    int result;
     
     while(1) {
         
@@ -1919,6 +1919,7 @@ void *reader(void *arg) {
             exit(3);
         }
     }
+    
     pthread_mutex_unlock(&lock);            //release lock
     pthread_mutex_destroy(&lock);
     pthread_exit(NULL);                     //exit from child thread
@@ -1972,6 +1973,7 @@ void *permuteAX(void *arg)
             exit(3);
         }
     }
+    
     pthread_mutex_unlock(&lock);            //release lock
     pthread_detach(pthread_self());
     pthread_mutex_destroy(&lock);
@@ -2014,6 +2016,7 @@ void *permuteOX(void *arg)
             exit(3);
         }
     }
+    
     pthread_mutex_unlock(&lock);            //release lock
     pthread_detach(pthread_self());
     pthread_mutex_destroy(&lock);
