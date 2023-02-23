@@ -2235,11 +2235,13 @@ void sbfParams(main_ctx_t *main_ctx)
         exit(2);
     }
     
+    pthread_t tid = malloc(1 * sizeof(pthread_t));
+    
     for (int i = 0;i < core;i++) {
-        pthread_t tid = malloc(1 * sizeof(pthread_t));
-        pthread_create(*(pthread_t**)&tid, NULL, reader, (void*)&fds[i]);
-        pthread_create(*(pthread_t**)&tid, NULL, permuteOX, (void*)&fds[i]);
-        printf("created: %llu\n", (unsigned long long)&tid);
+        //pthread_t tid = malloc(1 * sizeof(pthread_t));
+        pthread_create(*(pthread_t**)&tid[i], NULL, reader, (void*)&fds[i]);
+        pthread_create(*(pthread_t**)&tid[i], NULL, permuteOX, (void*)&fds[i]);
+        printf("created: %llu\n", (unsigned long long)&tid[i]);
         //read(fds[0], &tid[i], sizeof(tid[i]));
         //write(fds[1], &tid[i], sizeof(tid[i]));
         //printf("joining: %llu\n", (unsigned long long)&tid[i]);
@@ -2355,11 +2357,13 @@ void bfParams(main_ctx_t *main_ctx)
         exit(2);
     }
     
+    pthread_t tid = malloc(1 * sizeof(pthread_t));
+    
     for (int i = 0;i < core;i++) {
-        pthread_t tid = malloc(1 * sizeof(pthread_t));
-        pthread_create(*(pthread_t**)&tid, NULL, reader, (void*)&fds[i]);
-        pthread_create(*(pthread_t**)&tid, NULL, permuteAX, (void*)&fds[i]);
-        printf("created: %llu\n", (unsigned long long)&tid);
+        //pthread_t tid = malloc(1 * sizeof(pthread_t));
+        pthread_create(*(pthread_t**)&tid[i], NULL, reader, (void*)&fds[i]);
+        pthread_create(*(pthread_t**)&tid[i], NULL, permuteAX, (void*)&fds[i]);
+        printf("created: %llu\n", (unsigned long long)&tid[i]);
         //read(fds[0], &tid[i], sizeof(tid[i]));
         //write(fds[1], &tid[i], sizeof(tid[i]));
         //printf("joining: %llu\n", (unsigned long long)&tid[i]);
