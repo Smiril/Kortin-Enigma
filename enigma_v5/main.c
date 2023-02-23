@@ -1621,7 +1621,7 @@ void cypher(main_ctx_t *main_ctx)
     //return 0;
 }
 
-int rotate(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, char *plug, int *ct,void *tid)
+int rotate(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, char *plug, int ct,void *tid)
 {
     int rank = IN_RANK;
     
@@ -1714,6 +1714,7 @@ int rotate(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, c
                                             printf("Time elapsed : begin %ld - end %ld \n",proc_start,proc_stop);
                                             pthread_join(tid, NULL);
                                         } else continue;
+                                        printf("\n... Found %d solutions.\n",ct);
                                     }
                                 }
                             }
@@ -1728,7 +1729,7 @@ int rotate(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, c
   return 0;
 }
 
-int test(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, int *ct,void *tid) {
+int test(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, int ct,void *tid) {
    
     printf("... calculating\n");
     const time_t proc_start = time (NULL);
@@ -1861,7 +1862,7 @@ int test(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, int
 }
 
 /*run on all permutations of wheels a, b, c, d, e*/
-int permute(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, int *ct,void *tid)
+int permute(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, int ct,void *tid)
 {
     printf("... testing\n");
     test(main_ctx,a, b, c, d, e, cyph, ct,tid);
@@ -1899,7 +1900,7 @@ void *reader(void *arg) {
     pthread_mutex_lock(&lock);
     pthread_t t = pthread_self();
     int *fds = (int *)arg;
-    printf("created: %d\n", fds[0]);
+    //printf("created: %d\n", fds[0]);
     sleep (75);
   //Delay in starting the reading from the pipe
     int     result;
@@ -1932,13 +1933,13 @@ int permuteAll(main_ctx_t *main_ctx,char *cyph,void *tid)
             for(int f = 1;f<=9;f++){
                 for(int g = 1;g<=9;g++){
                     for(int h = 1;h<=9;h++){
-                        permute(main_ctx,d,e,f,g,h, cyph, &ct,tid);
+                        permute(main_ctx,d,e,f,g,h, cyph, ct,tid);
                     }
                 }
             }
         }
     }
-    printf("\n... Found %d solutions.\n", ct);
+    //printf("\n... Found %d solutions.\n", ct);
     return 0;
 }
 
@@ -1950,7 +1951,7 @@ void *permuteAX(void *arg)
     int *fds = (int *)arg;
     int result;
     pthread_t t = pthread_self();
-    printf("created: %d\n", fds[1]);
+    //printf("created: %d\n", fds[1]);
     
     while(1) {
         
@@ -1980,8 +1981,8 @@ void *permuteAX(void *arg)
 int permuteOnce(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph,void *tid)
 {
     int ct = 0;
-    permute(main_ctx,a, b, c, d, e, cyph, &ct,tid);
-    printf("\n... Found %d solutions.\n", ct);
+    permute(main_ctx,a, b, c, d, e, cyph, ct,tid);
+    //printf("\n... Found %d solutions.\n", ct);
     return 0;
 }
 void *permuteOX(void *arg)
@@ -1992,7 +1993,7 @@ void *permuteOX(void *arg)
     int *fds = (int *)arg;
     int result;
     pthread_t t = pthread_self();
-    printf("created: %d\n", fds[1]);
+    //printf("created: %d\n", fds[1]);
     
     while(1) {
         
