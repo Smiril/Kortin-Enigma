@@ -2236,7 +2236,7 @@ void sbfParams(main_ctx_t *main_ctx)
     }
     
     for (int i = 0; i < core; i++) {
-        pthread_t tid[i] = malloc(core + 1 * sizeof(pthread_t));
+        pthread_t tid = malloc(core + 1 * sizeof(pthread_t));
         pthread_create(*(pthread_t**)&tid[i], NULL, reader, (void*)&fds[i]);
         pthread_create(*(pthread_t**)&tid[i], NULL, permuteOX, (void*)&fds[i]);
         printf("created: %llu\n", (unsigned long long)&tid[i]);
@@ -2356,7 +2356,7 @@ void bfParams(main_ctx_t *main_ctx)
     }
     
     for (int i = 0; i < core; i++) {
-        pthread_t tid[i] = malloc(core + 1 * sizeof(pthread_t));
+        pthread_t tid = malloc(core + 1 * sizeof(pthread_t));
         pthread_create(*(pthread_t**)&tid[i], NULL, reader, (void*)&fds[i]);
         pthread_create(*(pthread_t**)&tid[i], NULL, permuteAX, (void*)&fds[i]);
         printf("created: %llu\n", (unsigned long long)&tid[i]);
