@@ -20,7 +20,7 @@ wget -O openssl.cnf 'https://jamielinux.com/docs/openssl-certificate-authority/_
 echo "Creating root key..."
 cd ~/root/ca
 openssl genrsa -aes256 -out private/valid-root-cakey.pem 4096
-chmod 400 private/ca.key.pem
+chmod 400 private/valid-root-cakey.pem
 
 # Create the root certificate
 echo "Creating root certificate..."
