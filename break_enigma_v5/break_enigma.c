@@ -15,7 +15,8 @@ this code is from http://www.practicalcryptography.com/cryptanalysis/breaking-ma
 
 EnigmaKey *break_enigma(char* ctext);
 float entropy_score(char *text);
-
+char *ctext = "N";
+char *otext = "N";
 /******************************************************************
 main - cracks the enigma ciphertext stored in ctext, prints the result.
 This version assumes no plugboard is used.
@@ -23,14 +24,13 @@ This version assumes no plugboard is used.
 int main(int argc, char *argv[]){
     // cipher text variable must be all capitals, with no spacing or punctuation, use e.g. http://practicalcryptography.com/ciphers/mechanical-era/enigma/
     // to generate messages. This version can not break enigma messages with plugs.
-    if(argc < 3 || argc > 3) {
+    if(argc < 3) {
         printf("usage: %s \"FTMW\" \"TEST\"\n",argv[0]);
         exit(0);
     }
     
-    char *ctext = "N";
+
     sprintf(ctext,"\"%s\"",argv[1]);
-    char *otext = "N";
     sprintf(otext,"\"%s\"",argv[2]);
     char *ptext = malloc(sizeof(char *)*(strlen(ctext)+1));
     EnigmaKey *ref;
