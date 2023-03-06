@@ -34,7 +34,7 @@
 #define IN_RANK 0
 #define MAXLINEX 1000000
 #define MSGY 1320
-#define MSGLEN 161
+#define MSGLEN 1643
 #define MSGX 14
 #define MSGXX 1
 #define MSGC 27
