@@ -1307,12 +1307,14 @@ double scoreTextQgram(char *text,int len){
     int i;
     char temp[4];
     double score = 0;
-    for (i=0;i<len-3;i++){
+    for (i=0;i<len-5;i++){
         temp[0]=text[i]-'A';
         temp[1]=text[i+1]-'A';
         temp[2]=text[i+2]-'A';
         temp[3]=text[i+3]-'A';
-        score += qgram[17576*temp[0] + 676*temp[1] + 26*temp[2] + temp[3]];
+        temp[4]=text[i+4]-'A';
+        temp[5]=text[i+5]-'A';
+        score += qgram[954290000000000000000*temp[0] + 308915776*temp[1] + 17576*temp[2] + 676*temp[3] + 26*temp[4] + temp[5]];
     }
     return score;
 }
