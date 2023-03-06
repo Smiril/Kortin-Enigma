@@ -68,7 +68,7 @@ https://github.com/kkrypt0nn/wordlists.git
 
 * for education 
 * train my C skills 
-* made my holiday more effort and komfortabel 
+* made my holiday more effort and comfortabel 
 
 ## for Copyright of this codes see credits.txt or source code headers 
 ## This repository is under MIT License for freedom 
