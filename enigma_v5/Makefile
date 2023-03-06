@@ -38,7 +38,7 @@ CFLAGSY := -Wall -Wextra -pedantic \
 ifeq ($(UNAME),Linux)
 LIBS0 := -L/usr/lib -L/usr/lib/iconv_hook
 INCLUDES0 := -I/usr/include/libxml2 -I/usr/lib/iconv_hook
-BER := -lc++ -ldl -lxml2 -liconv_hook -lssl -lcrypto -lpthread
+BER := -ldl -lxml2 -liconv_hook -lssl -lcrypto -lpthread
 endif
 ifeq ($(UNAME),Darwin)
 LIBS0 := -L/usr/lib
