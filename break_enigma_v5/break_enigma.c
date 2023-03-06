@@ -24,14 +24,13 @@ This version assumes no plugboard is used.
 int main(int argc, char *argv[]){
     // cipher text variable must be all capitals, with no spacing or punctuation, use e.g. http://practicalcryptography.com/ciphers/mechanical-era/enigma/
     // to generate messages. This version can not break enigma messages with plugs.
-    if(argc < 3) {
+    if(argc < 3 || argc > 3) {
         printf("usage: %s \"FTMW\" \"TEST\"\n",argv[0]);
         exit(0);
     }
     
-
-    sprintf(ctext,"\"%s\"",argv[1]);
-    sprintf(otext,"\"%s\"",argv[2]);
+    sprintf(ctext,"%s",argv[1]);
+    sprintf(otext,"%s",argv[2]);
     char *ptext = malloc(sizeof(char *)*(strlen(ctext)+1));
     EnigmaKey *ref;
     ref = break_enigma(ctext);
