@@ -12,6 +12,7 @@
 ```
 * Author: Smiril <sonar@gmx.com>
 * Based in the code of:
+*  James Lyons http://practicalcryptography.com
 *  capi_x <capi_x@haibane.org>
 *  Harald Schmidl <hjschmidl@acm.org>
 *  Fauzan Mirza's <fauzan@dcs.rhbnc.ac.uk>
