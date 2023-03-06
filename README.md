@@ -63,3 +63,12 @@ make clean
 https://github.com/kkrypt0nn/wordlists.git
 
 ```
+
+# why i write this!
+
+* for education 
+* train my C skills 
+* made my holiday more effort and komfortabel 
+
+## for Copyright of this codes see credits.txt or source code headers 
+## This repository is under MIT License for freedom 
