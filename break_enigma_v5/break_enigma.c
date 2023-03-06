@@ -24,13 +24,13 @@ This version assumes no plugboard is used.
 int main(int argc, char *argv[]){
     // cipher text variable must be all capitals, with no spacing or punctuation, use e.g. http://practicalcryptography.com/ciphers/mechanical-era/enigma/
     // to generate messages. This version can not break enigma messages with plugs.
-    if(argc < 3 || argc > 3) {
-        printf("usage: %s \"FTMW\" \"TEST\"\n",argv[0]);
+    if(argc < 2 || argc > 2) {
+        printf("usage: %s \"FTMW\" \n",argv[0]);
         exit(0);
     }
     
     sprintf(ctext,"%s",argv[1]);
-    sprintf(otext,"%s",argv[2]);
+    //sprintf(otext,"%s",argv[2]);
     char *ptext = malloc(sizeof(char *)*(strlen(ctext)+1));
     EnigmaKey *ref;
     ref = break_enigma(ctext);
@@ -78,7 +78,7 @@ EnigmaKey *break_enigma(char* ctext){
                             key.indicator[3] = ind4;
                             key.indicator[4] = ind5;
                             store = key; enigma(&store,ctext,ptext);
-                            score = -scoreTextQgram(ptext,strlen(ptext)) && -scoreTextKP(ptext,otext,strlen(ptext));
+                            score = -scoreTextQgram(ptext,strlen(ptext));
                             base = nbest_add(base,&key,score);
                         }
                     }
@@ -113,7 +113,7 @@ EnigmaKey *break_enigma(char* ctext){
                         key.indicator[3] = (set4+ind4)%26;
                         key.indicator[4] = (set5+ind5)%26;
                         store = key; enigma(&store,ctext,ptext);
-                        score = -scoreTextQgram(ptext,strlen(ptext)) && -scoreTextKP(ptext,otext,strlen(ptext));
+                        score = -scoreTextQgram(ptext,strlen(ptext));
                         if(score < bestscore){
                             bestscore = score;
                             *bestkey = key;
@@ -134,7 +134,7 @@ EnigmaKey *break_enigma(char* ctext){
             store = *bestkey;
             appendToPlugboard(&store,first,rest[j]);
             enigma(&store,ctext,ptext);
-            score = -scoreTextKP(ptext,otext,strlen(ptext));
+            score = -scoreTextQgram(ptext,strlen(ptext));
             if(score < bestscore){
                 bestscore = score;
                 appendToPlugboard(bestkey,first,rest[j]);
