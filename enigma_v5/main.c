@@ -1305,7 +1305,7 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
 
 double scoreTextQgram(char *text,int len){
     int i;
-    char temp[4];
+    char temp[6];
     double score = 0;
     for (i=0;i<len-5;i++){
         temp[0]=text[i]-'A';
