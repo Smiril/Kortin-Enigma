@@ -50,7 +50,7 @@ cd Kortin-Enigma/enigma_v5
 make
 sudo make install
 make clean
-
+cd ..
 cd Kortin-Enigma/break_enigma_v5
 make
 sudo make install
