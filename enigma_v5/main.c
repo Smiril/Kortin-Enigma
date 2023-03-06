@@ -16,6 +16,10 @@
 
 #define CA_PRIVATE_IMPLEMENTATION
 
+#include "qgr.h"
+
+extern float qgram[];
+
 void configmain(main_ctx_t *main_ctx,char *docname) {
    
     xmlDocPtr       doc;
@@ -1299,6 +1303,20 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
     return 0;
 }
 
+double scoreTextQgram(char *text,int len){
+    int i;
+    char temp[4];
+    double score = 0;
+    for (i=0;i<len-3;i++){
+        temp[0]=text[i]-'A';
+        temp[1]=text[i+1]-'A';
+        temp[2]=text[i+2]-'A';
+        temp[3]=text[i+3]-'A';
+        score += qgram[17576*temp[0] + 676*temp[1] + 26*temp[2] + temp[3]];
+    }
+    return score;
+}
+
 int getRank(char *cyph) {
 
     char str[40];
@@ -1310,6 +1328,7 @@ int getRank(char *cyph) {
     while(fgets(str,sizeof(str),dict) != NULL) {
         str[strlen(str)-1] = '\0';
         if(strstr(cyph, str) != NULL) rank++;
+        rank = -scoreTextQgram(str,strlen(str));
     }
 
     fclose(dict);
