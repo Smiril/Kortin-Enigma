@@ -24,3 +24,12 @@ unsigned long long int scoreTextQgram(char *text,int len){
     }
     return score;
 }
+// scoreText with known plaintext, counts number of identical characters
+unsigned long long int scoreTextKP(char *text1,char *text2,int len){
+    int i;
+    unsigned long long int score = 0;
+    for (i=0;i<len;i++){
+        if (text1[i] == text2[i]) score += 1;
+    }
+    return score;
+}
