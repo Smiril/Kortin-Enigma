@@ -167,6 +167,30 @@ void increment_indicator_settings(int settings[5], Rotor r[5]){
 }
 
 /****************************************************************************
+find an empty spot in the plugboard and add (c1,c2) as an entry
+returns -1 if no room to add, 0 on success
+*****************************************************************************/
+int appendToPlugboard(EnigmaKey *key,char c1, char c2){
+    int i;
+    // if either of the chars is already connected, don't add it
+    for(i=0;i<13;i++){
+        if((key->plugboard[i][0]==c1) || (key->plugboard[i][0]==c2)){
+            return -1;
+        }else if((key->plugboard[i][1]==c1) || (key->plugboard[i][1]==c2)){
+            return -1;
+        }
+    }
+    for(i=0;i<13;i++){
+        if((key->plugboard[i][0]<0) && (key->plugboard[i][1]<0)){
+            key->plugboard[i][0] = c1;
+            key->plugboard[i][1] = c2;
+            return 0;
+        }
+    }
+    return -1;
+}
+
+/****************************************************************************
 print a given key, useful for debugging
 *****************************************************************************/
 void printEnigmaKey(EnigmaKey *key){

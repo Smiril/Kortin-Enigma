@@ -33,3 +33,4 @@ unsigned long long int scoreTextKP(char *text1,char *text2,int len){
     }
     return score;
 }
+

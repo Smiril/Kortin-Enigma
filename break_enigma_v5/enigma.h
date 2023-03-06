@@ -29,7 +29,7 @@ void increment_indicator_settings(int settings[3], Rotor r[3]);
 char apply_steckers(char in, char steckers[13][2]);
 char enigma(EnigmaKey *key, char* ctext, char* ptext);
 char enigma_encipher(char ch, EnigmaKey *key);
-
+int appendToPlugboard(EnigmaKey *key,char c1, char c2);
 void initEnigmaKey(EnigmaKey *key);
 void printEnigmaKey(EnigmaKey *key);
 /*******************************************************************************/

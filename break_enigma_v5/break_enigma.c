@@ -23,13 +23,15 @@ This version assumes no plugboard is used.
 int main(int argc, char *argv[]){
     // cipher text variable must be all capitals, with no spacing or punctuation, use e.g. http://practicalcryptography.com/ciphers/mechanical-era/enigma/
     // to generate messages. This version can not break enigma messages with plugs.
-    if(argc < 2 || argc > 2) {
-        printf("usage: %s \"NPNKANVHWKPXORCDDTRJRXSJFLCIUAIIBUNQIUQFTHLOZOIMENDNGPCB\"\n",argv[0]);
+    if(argc < 3 || argc > 3) {
+        printf("usage: %s \"FTMW\" \"TEST\"\n",argv[0]);
         exit(0);
     }
     
-    char *ctext = NULL;
+    char *ctext = "N";
     sprintf(ctext,"\"%s\"",argv[1]);
+    char *otext = "N";
+    sprintf(otext,"\"%s\"",argv[2]);
     char *ptext = malloc(sizeof(char *)*(strlen(ctext)+1));
     EnigmaKey *ref;
     ref = break_enigma(ctext);
@@ -50,7 +52,7 @@ Given a piece of ciphertext 'ctext', return the enigma decryption key
 - assumes enigma M3 with unchangeable reflector, 3 rotors from 5 to choose from
 ******************************************************************/
 EnigmaKey *break_enigma(char* ctext){
-    int i;
+    int i,j;
     char *ptext = malloc(sizeof(char)*(strlen(ctext)+1));
     EnigmaKey key;
     EnigmaKey *bestkey = malloc(sizeof(EnigmaKey));
@@ -77,7 +79,7 @@ EnigmaKey *break_enigma(char* ctext){
                             key.indicator[3] = ind4;
                             key.indicator[4] = ind5;
                             store = key; enigma(&store,ctext,ptext);
-                            score = -scoreTextQgram(ptext,strlen(ptext)) && -scoreTextKP(ptext,ctext,strlen(ptext));
+                            score = -scoreTextQgram(ptext,strlen(ptext)) && -scoreTextKP(ptext,otext,strlen(ptext));
                             base = nbest_add(base,&key,score);
                         }
                     }
@@ -112,13 +114,31 @@ EnigmaKey *break_enigma(char* ctext){
                         key.indicator[3] = (set4+ind4)%26;
                         key.indicator[4] = (set5+ind5)%26;
                         store = key; enigma(&store,ctext,ptext);
-                        score = -scoreTextQgram(ptext,strlen(ptext)) && -scoreTextKP(ptext,ctext,strlen(ptext));
+                        score = -scoreTextQgram(ptext,strlen(ptext)) && -scoreTextKP(ptext,otext,strlen(ptext));
                         if(score < bestscore){
                             bestscore = score;
                             *bestkey = key;
                         }
                     }
                 }
+            }
+        }
+    }
+    // we have the indicators, rotors and ringsettings. Solve for the plugboard
+    char alphabet[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    char first;
+    char *rest;
+    for(i=0;i<25;i++){
+        first = alphabet[i];
+        rest = &alphabet[i+1];
+        for(j=0;j<25-i;j++){
+            store = *bestkey;
+            appendToPlugboard(&store,first,rest[j]);
+            enigma(&store,ctext,ptext);
+            score = -scoreTextKP(ptext,otext,strlen(ptext));
+            if(score < bestscore){
+                bestscore = score;
+                appendToPlugboard(bestkey,first,rest[j]);
             }
         }
     }
