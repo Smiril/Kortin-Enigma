@@ -83,7 +83,7 @@ EnigmaKey *break_enigma(char* ctext){
                 }
             }
         }
-        printf("."); fflush(stdout);
+        printf("."); //fflush(stdout);
     }
     // we have the optimal indicators and rotors, search for the optimal ringsettings
     printf("\nsearching ring settings: .");
