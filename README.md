@@ -51,6 +51,11 @@ make
 sudo make install
 make clean
 
+cd Kortin-Enigma/break_enigma_v5
+make
+sudo make install
+make clean
+
 ```
 ## Wordlists (Dictonary)
 
