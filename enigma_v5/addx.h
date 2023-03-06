@@ -34,11 +34,11 @@
 #define IN_RANK 0
 #define MAXLINEX 1000000
 #define MSGY 1320
-#define MSGLEN 1643
+#define MSGLEN 4096
 #define MSGX 14
 #define MSGXX 1
 #define MSGC 27
-#define MSGP 11
+#define MSGP 27
 #define MSGG 6
 #define TO 'Z'
 
