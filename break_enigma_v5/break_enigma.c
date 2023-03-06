@@ -94,6 +94,8 @@ EnigmaKey *break_enigma(char* ctext){
         currentkey = &(elem->key);
         ind2 = currentkey->indicator[1];
         ind3 = currentkey->indicator[2];
+        ind4 = currentkey->indicator[3];
+        ind5 = currentkey->indicator[4];
         for(set2=0; set2<26;set2++){
             for(set3=0; set3<26;set3++){
                 for(set4=0; set4<26;set4++){
