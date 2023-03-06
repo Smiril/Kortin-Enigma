@@ -1303,18 +1303,17 @@ void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *
     return 0;
 }
 
-double scoreTextQgram(char *text,int len){
+unsigned long long int scoreTextQgram(char *text,int len){
     int i;
     char temp[6];
-    double score = 0;
+    unsigned long long int score = 0;
     for (i=0;i<len-5;i++){
         temp[0]=text[i]-'A';
         temp[1]=text[i+1]-'A';
         temp[2]=text[i+2]-'A';
         temp[3]=text[i+3]-'A';
         temp[4]=text[i+4]-'A';
-        temp[5]=text[i+5]-'A';
-        score += qgram[954290000000000000000*temp[0] + 308915776*temp[1] + 17576*temp[2] + 676*temp[3] + 26*temp[4] + temp[5]];
+        score += qgram[308915776U*temp[0] + 17576U*temp[1] + 676U*temp[2] + 26U*temp[3] + temp[4]];
     }
     return score;
 }
