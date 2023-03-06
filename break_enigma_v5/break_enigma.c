@@ -24,12 +24,13 @@ int main(int argc, char *argv[]){
     // cipher text variable must be all capitals, with no spacing or punctuation, use e.g. http://practicalcryptography.com/ciphers/mechanical-era/enigma/
     // to generate messages. This version can not break enigma messages with plugs.
     if(argc < 2) {
-        printf("usage: %s \"\\\"NPNKANVHWKPXORCDDTRJRXSJFLCIUAIIBUNQIUQFTHLOZOIMENDNGPCB\\\"\"\n",argv[0]);
+        printf("usage: %s \"NPNKANVHWKPXORCDDTRJRXSJFLCIUAIIBUNQIUQFTHLOZOIMENDNGPCB\"\n",argv[0]);
         exit(0);
     }
     
-    char *ctext = argv[1];
-    char *ptext = malloc(sizeof(char)*(strlen(ctext)+1));
+    char *ctext = NULL;
+    sprintf(ctext,"\"%s\"",argv[1]);
+    char *ptext = malloc(sizeof(char *)*(strlen(ctext)+1));
     EnigmaKey *ref;
     ref = break_enigma(ctext);
     printf("final key: \n");
