@@ -2259,7 +2259,7 @@ void sbfParams(main_ctx_t *main_ctx)
         exit(2);
     }
     
-    pthread_t tid = malloc(1 * sizeof(pthread_t));
+    pthread_t tid = malloc(1U * sizeof(pthread_t));
     
     for (int i = 0;i < core;i++) {
         //pthread_t tid = malloc(1 * sizeof(pthread_t));
@@ -2381,7 +2381,7 @@ void bfParams(main_ctx_t *main_ctx)
         exit(2);
     }
     
-    pthread_t tid = malloc(1 * sizeof(pthread_t));
+    pthread_t tid = malloc(1U * sizeof(pthread_t));
     
     for (int i = 0;i < core;i++) {
         //pthread_t tid = malloc(1 * sizeof(pthread_t));
