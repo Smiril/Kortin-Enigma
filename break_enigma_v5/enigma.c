@@ -197,7 +197,7 @@ ROTOR - from ENIGMA I - http://en.wikipedia.org/wiki/Enigma_rotor_details
 - assumes char in is an uppercase char A-Z
 **********************************************************/
 char rotor(Rotor rotor, char in, int offset){
-    return (key[rotor][(in-'A'+26+offset)%26] -offset+26-'A') %26+'A';
+    return (((key[rotor][(in-'A'+26+offset)%26] -offset+26-'A') -offset+26-'A') -offset+26-'A') %26+'A';
 }
 /*********************************************************
 REFLECTOR - from ENIGMA I - http://en.wikipedia.org/wiki/Enigma_rotor_details
