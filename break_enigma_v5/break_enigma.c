@@ -25,7 +25,7 @@ int main(int argc, char **argv){
     // to generate messages. This version can not break enigma messages with plugs.
     
     if(argc < 2 || argc > 2) {
-        printf("usage: %s \"config.xml\" \n",argv[0]);
+        printf("usage: %s config.xml \n",argv[0]);
         exit(0);
     }
     
