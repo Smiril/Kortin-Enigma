@@ -108,7 +108,7 @@ endif
 uninstall:
 	rm $(PREFIX)/bin/enigma
 	rm $(PREFIX)/share/enigma/norway*.xml
-	rm $PREFIX)/share/enigma/*.txt
+	rm $(PREFIX)/share/enigma/*.txt
 	
 ifeq ($(UNAME),Linux)
 clean:
