@@ -15,7 +15,7 @@ this code is from http://www.practicalcryptography.com/cryptanalysis/breaking-ma
 
 EnigmaKey *break_enigma(char* ctext);
 float entropy_score(char *text);
-char *ctext = "F";
+char ctext[];
 /******************************************************************
 main - cracks the enigma ciphertext stored in ctext, prints the result.
 This version assumes no plugboard is used.
