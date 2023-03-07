@@ -10,7 +10,7 @@ typedef enum rotor__{ROTOR_I, ROTOR_II, ROTOR_III, ROTOR_IV,
                      ROTOR_I_INV, ROTOR_II_INV, ROTOR_III_INV, ROTOR_IV_INV,
                      ROTOR_V_INV, ROTOR_VI_INV, ROTOR_VII_INV, ROTOR_VIII_INV} Rotor;
 
-typedef enum reflector__{REFLECTOR_A, REFLECTOR_B, REFLECTOR_C, REFLECTOR_D, REFLECTOR_E, REFLECTOR_F, REFLECTOR_G, REFLECTOR_H, REFLECTOR_I, REFLECTOR_J, REFLECTOR_K} Reflector;
+typedef enum reflector__{REFLECTOR_A, REFLECTOR_B, REFLECTOR_C} Reflector;
 
 // a structure for storing enigma key information
 typedef struct key__{
@@ -21,7 +21,8 @@ typedef struct key__{
     char plugboard[13][2];
 } EnigmaKey;    
 
-/*******************************************************************************/                     
+/*******************************************************************************/
+void configmain(char *docname);
 char reflector(Reflector r, char in);
 char rotor(Rotor rotor, char in, int offset);
 Rotor inverse(Rotor r);

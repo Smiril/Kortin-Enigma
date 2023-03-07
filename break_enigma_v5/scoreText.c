@@ -5,7 +5,7 @@ this code is from http://www.practicalcryptography.com/cryptanalysis/breaking-ma
   Mar 2023
 */
 #include "scoreText.h"
-#include "de_qgr.h"
+#include "qgr.h"
 
 extern float qgram[];
 

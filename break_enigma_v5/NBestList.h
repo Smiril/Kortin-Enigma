@@ -7,7 +7,7 @@ this code is from http://www.practicalcryptography.com/cryptanalysis/breaking-ma
 #ifndef NBESTLISTH
 #define NBESTLISTH
 
-#define MAXLEN 308915776
+#define MAXLEN 2000
 #define TRUE 1
 #define FALSE 0
 

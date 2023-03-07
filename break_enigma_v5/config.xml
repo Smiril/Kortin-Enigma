@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<um-configuration version="1.0">
+    <config>
+        <rotor1 name="EKMFLGDQVZNTOWYHXUSPAIBRCJ"></rotor1>
+        <rotor2 name="AJDKSIRUXBLHWTMCQGZNPYFVOE"></rotor2>
+        <rotor3 name="BDFHJLCPRTXVZNYEIWGAKMUSQO"></rotor3>
+        <rotor4 name="ESOVPZJAYQUIRHXLNFTGKDCMWB"></rotor4>
+        <rotor5 name="VZBRGITYUPSDNHLXAWMJQOFECK"></rotor5>
+        <rotor6 name="JPGVOUMFYQBENHZRDKASXLICTW"></rotor6>
+        <rotor7 name="NZJHGRCXMYSWBOUFAIVLPEKQDT"></rotor7>
+        <rotor8 name="FKQHTLXOCBJSPDZRAMEWNIUYGV"></rotor8>
+        <rotora name="UWYGADFPVZBECKMTHXSLRINQOJ"></rotora>
+        <rotorb name="AJPCZWRLFBDKOTYUQGENHXMIVS"></rotorb>
+        <rotorc name="TAGBPCSDQEUFVNZHYIXJWLRKOM"></rotorc>
+        <rotord name="HZWVARTNLGUPXQCEJMBSKDYOIF"></rotord>
+        <rotore name="QCYLXWENFTZOSMVJUDKGIARPHB"></rotore>
+        <rotorf name="SKXQLHCNWARVGMEBJPTYFDZUIO"></rotorf>
+        <rotorg name="QMGYVPEDRCWTIANUXFKZOSLHJB"></rotorg>
+        <rotorh name="QJINSAYDVKBFRUHMCPLEWZTGXO"></rotorh>
+        <refle1 name="EJMZALYXVBWFCRQUONTSPIKHGD"></refle1>
+        <refle2 name="YRUHQSLDPXNGOKMIEBFZCWVJAT"></refle2>
+        <refle3 name="FVPJIAOYEDRZXWGCTKUQSBNMHL"></refle3>
+    </config>
+</um-configuration>

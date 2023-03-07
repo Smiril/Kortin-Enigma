@@ -15,22 +15,22 @@ this code is from http://www.practicalcryptography.com/cryptanalysis/breaking-ma
 
 EnigmaKey *break_enigma(char* ctext);
 float entropy_score(char *text);
-char *ctext = "FTMW";
+char *ctext = "F";
 /******************************************************************
 main - cracks the enigma ciphertext stored in ctext, prints the result.
 This version assumes no plugboard is used.
 *******************************************************************/
-int main(int argc, char *argv[]){
+int main(int argc, char **argv){
     // cipher text variable must be all capitals, with no spacing or punctuation, use e.g. http://practicalcryptography.com/ciphers/mechanical-era/enigma/
     // to generate messages. This version can not break enigma messages with plugs.
-    /*
-    if(argc < 2 || argc > 2) {
-        printf("usage: %s \"FTMW\" \n",argv[0]);
+    
+    if(argc < 3 || argc > 3) {
+        printf("usage: %s \"config.xml\" \"MSG\"\n",argv[0]);
         exit(0);
     }
     
-    sprintf(ctext,"%s",argv[1]);
-    //sprintf(otext,"%s",argv[2]);*/
+    configmain(argv[1]);
+    strcpy(ctext,argv[2]);
     char *ptext = malloc(sizeof(char *)*(strlen(ctext)+1));
     EnigmaKey *ref;
     ref = break_enigma(ctext);
@@ -86,7 +86,10 @@ EnigmaKey *break_enigma(char* ctext){
                 }
             }
         }
-        printf("."); //fflush(stdout);
+        printf(".");
+#if !defined(__WIN32__) && !defined(__WIN64__)
+        fflush(stdout);
+#endif
     }
     // we have the optimal indicators and rotors, search for the optimal ringsettings
     printf("\nsearching ring settings: .");
