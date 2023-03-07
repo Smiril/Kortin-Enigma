@@ -37,9 +37,9 @@
 #define MSGLEN 4096
 #define MSGX 14
 #define MSGXX 1
-#define MSGC 27
-#define MSGP 27
-#define MSGG 6
+#define MSGC 26
+#define MSGP 26
+#define MSGG 5
 #define TO 'Z'
 
 #define PROGNAME "Enigma"

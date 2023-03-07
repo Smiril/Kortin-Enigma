@@ -28,7 +28,7 @@ void configmain(main_ctx_t *main_ctx,char *docname) {
     int count = 0;
     int count1 = 0;
     //int count2 = 0;
-    char *config[5][7] = { {"rotor1", "rotor2", "rotor3", "rotor4", "rotor5"} };
+    char *config[5][6] = { {"rotor1", "rotor2", "rotor3", "rotor4", "rotor5"} };
     
     printf("Loading config file: %s\n",docname);
     FILE *fp;
