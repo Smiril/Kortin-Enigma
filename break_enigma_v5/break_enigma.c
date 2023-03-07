@@ -7,16 +7,108 @@ this code is from http://www.practicalcryptography.com/cryptanalysis/breaking-ma
 */
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <stdarg.h>
+#include <errno.h>
 #include <math.h>
 #include <string.h>
+#include <pthread.h>
+#include <semaphore.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/time.h>
+#include <math.h>
+#include <unistd.h>
+#include <string.h>
+#include <ctype.h>
+#include <memory.h>
 #include "NBestList.h"
 #include "scoreText.h"
 
-
+static pthread_once_t once = PTHREAD_ONCE_INIT;
+static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 EnigmaKey *break_enigma(char* ctext);
 float entropy_score(char *text);
 char ctext[];
-/******************************************************************
+char chad[4096];
+int fds[2];
+
+
+void xinit()
+{
+    pthread_mutex_init(&lock, NULL);
+}
+
+void *reader(void *arg) {
+    pthread_once(&once, xinit);
+    pthread_mutex_lock(&lock);
+    pthread_t t = pthread_self();
+    int *fds = (int *)arg;
+    //printf("created: %d\n", fds[0]);
+    sleep (15);
+  //Delay in starting the reading from the pipe
+    int result;
+    
+    while(1) {
+        
+        result = read (fds[0],&t,sizeof(t));
+        if (result == -1) {
+            perror("read");
+            exit(3);
+        }
+        
+        result = write (fds[1],&t,sizeof(t));
+        if (result == -1) {
+            perror("write");
+            exit(3);
+        }
+    }
+    
+    pthread_mutex_unlock(&lock);            //release lock
+    pthread_mutex_destroy(&lock);
+    pthread_exit(NULL);                     //exit from child thread
+}
+
+void *writer(void *arg)
+{
+    pthread_once(&once, xinit);
+    pthread_mutex_lock(&lock);              // lock
+    int *fds = (int *)arg;
+    int result;
+    pthread_t t = pthread_self();
+    //printf("created: %d\n", fds[1]);
+    
+    while(1) {
+        
+        result = write (fds[1], &t,sizeof(t));
+        if (result == -1){
+            perror ("write");
+            exit (3);
+        }
+        
+        result = read (fds[0],&t,sizeof(t));
+        if (result == -1) {
+            perror("read");
+            exit(3);
+        }
+
+        char *ptext = malloc(sizeof(char *)*(strlen(ctext)+1));
+        EnigmaKey *ref;
+        ref = break_enigma(ctext);
+        printf("final key: \n");
+        printEnigmaKey(ref);
+        enigma(ref,ctext,ptext);
+        printf("decryption: %s\n",ptext);
+        free(ptext);
+        free(ref);
+    }
+    
+    pthread_mutex_unlock(&lock);            //release lock
+    pthread_detach(pthread_self());
+    pthread_mutex_destroy(&lock);
+    pthread_exit(NULL);                     //exit from child thread
+}/******************************************************************
 main - cracks the enigma ciphertext stored in ctext, prints the result.
 This version assumes no plugboard is used.
 *******************************************************************/
@@ -40,8 +132,8 @@ int main(int argc, char **argv){
     }
     
     configmain(argv[1]);
-    char a1;
-    int a;
+    char a1,h;
+    int a,m;
     printf("Crypted Message: ");
     a = 0;
     while((a1 = getchar()) != '\n')
@@ -50,16 +142,46 @@ int main(int argc, char **argv){
         a++;
     }
     ctext[a] = '\0';
-    //strcpy(ctext,argv[2]);
-    char *ptext = malloc(sizeof(char *)*(strlen(ctext)+1));
-    EnigmaKey *ref;
-    ref = break_enigma(ctext);
-    printf("final key: \n");
-    printEnigmaKey(ref);
-    enigma(ref,ctext,ptext);        
-    printf("decryption: %s\n",ptext);
-    free(ptext); 
-    free(ref);
+    printf("Threads (1-100): ");
+    m = 0;
+    while((h = getchar()) != '\n')
+    {
+    chad[m] = h;
+    m++;
+    }
+    chad[m] = '\0';
+    
+    int core = atoi(chad);
+    if(core < 0 || core > 101) {
+        perror(chad);
+        exit(2);
+    }
+    srand(time(0));
+    int result;
+    //int status;
+
+    result = pipe (fds);
+    if (result == -1){
+        perror("pipe");
+        exit(2);
+    }
+    
+    pthread_t tid = malloc(1U * sizeof(pthread_t));
+    
+    for (int i = 0;i < core;i++) {
+        //pthread_t tid = malloc(1 * sizeof(pthread_t));
+        //pthread_create(*(pthread_t**)&tid, NULL, reader, (void*)&fds[i]);
+        pthread_create(*(pthread_t**)&tid, NULL, writer, (void*)&fds[i]);
+        printf("created: %llu\n", (unsigned long long)&tid);
+    }
+        read(fds[0], &tid, sizeof(tid));
+        write(fds[1], &tid, sizeof(tid));
+        //printf("joining: %llu\n", (unsigned long long)&tid[i]);
+        //pthread_join(&tid[i], (void*)&status);
+        //printf("Thread: %llu Status: %d\n",(unsigned long long)&tid[i],(int)status);
+    
+    //pthread_exit(0);
+    return 0;
 }
 
 // All possible permutations of 5 rotors, there are 59050 total

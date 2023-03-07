@@ -46,11 +46,9 @@ void configmain(char *docname) {
     int count2 = 0;
     int count3 = 0;
     //int count2 = 0;
-    char *config1[16][7] = { {
-        "rotor1", "rotor2", "rotor3", "rotor4", "rotor5", "rotor6", "rotor7", "rotor8","rotora", "rotorb", "rotorc", "rotord", "rotore", "rotorf", "rotorg", "rotorh"} };
-    char *config2[3][7] = { {"refle1", "refle2", "refle3"} };
-    char *config3[8][7] = { {
-        "notch1", "notch2", "notch3", "notch4", "notch5", "notch6", "notch7", "notch8"} };
+    char *config1[16][6] = { {"rotor1", "rotor2", "rotor3", "rotor4", "rotor5", "rotor6", "rotor7", "rotor8","rotora", "rotorb", "rotorc", "rotord", "rotore", "rotorf", "rotorg", "rotorh"} };
+    char *config2[3][6] = { {"refle1", "refle2", "refle3"} };
+    char *config3[8][6] = { {"notch1", "notch2", "notch3", "notch4", "notch5", "notch6", "notch7", "notch8"} };
     printf("Loading config file: %s\n",docname);
     FILE *fp;
     fp = fopen(docname,"r");
@@ -133,7 +131,7 @@ enigma_encipher - encipher (or decipher) a single character
 - note that the settings array will be modified by this function
 **********************************************************/
 char enigma_encipher(char ch, EnigmaKey *key){
-//int settings[3], char ringstellung[3], Reflector r, Rotor rotors[3], char steckers[13][2])
+//int settings[5], char ringstellung[5], Reflector r, Rotor rotors[5], char steckers[13][2])
     ch = toupper(ch);
     // increment the settings before the current letter is enciphered
     increment_indicator_settings(key->indicator, key->rotors);
@@ -284,7 +282,7 @@ void initEnigmaKey(EnigmaKey *key){
     key->indicator[2] = 0;
     key->indicator[3] = 0;
     key->indicator[4] = 0;
-    key->reflector=REFLECTOR_A;
+    key->reflector=REFLECTOR_B;
     key->ringsettings[0]=0;
     key->ringsettings[1]=0;
     key->ringsettings[2]=0;
@@ -295,8 +293,8 @@ void initEnigmaKey(EnigmaKey *key){
         key->plugboard[i][1] = -1;
     }
     key->rotors[0] = 0;
-    key->rotors[1] = 1;
-    key->rotors[2] = 2;
-    key->rotors[3] = 3;
-    key->rotors[4] = 4;
+    key->rotors[1] = 0;
+    key->rotors[2] = 0;
+    key->rotors[3] = 0;
+    key->rotors[4] = 0;
 }
