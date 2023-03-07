@@ -173,9 +173,10 @@ int main(int argc, char **argv){
         //pthread_create(*(pthread_t**)&tid, NULL, reader, (void*)&fds[i]);
         pthread_create(*(pthread_t**)&tid[i], NULL, writer, (void*)&fds[i]);
         printf("created: %llu\n", (unsigned long long)&tid[i]);
+        
+        read(fds[0], &tid[i], sizeof(tid[i]));
+        write(fds[1], &tid[i], sizeof(tid[i]));
     }
-        read(fds[0], &tid, sizeof(tid));
-        write(fds[1], &tid, sizeof(tid));
         //printf("joining: %llu\n", (unsigned long long)&tid[i]);
         //pthread_join(&tid[i], (void*)&status);
         //printf("Thread: %llu Status: %d\n",(unsigned long long)&tid[i],(int)status);
