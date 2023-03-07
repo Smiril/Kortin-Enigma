@@ -29,6 +29,16 @@ int main(int argc, char **argv){
         exit(0);
     }
     
+    if(strcmp(argv[1], "--version") == 0)
+    {
+#if !defined(__WIN32__) && !defined(__WIN64__)
+        printf("Version\n\n\t\x1B[35m%s\x1B[39m -  \x1B[32mT.E.D.\x1B[39m - \x1B[33mThe Enemy Dail\x1B[39m - Koenig Martin\n","break_enigma");
+#elif !defined(__APPLE__) && !defined(__LINUX__)
+        printf("Version\n\n\t%s -  T.E.D. - The Enemy Dail - Koenig Martin\n","break_enigma");
+#endif
+        return 0;
+    }
+    
     configmain(argv[1]);
     char a1;
     int a;
