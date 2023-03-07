@@ -24,13 +24,23 @@ int main(int argc, char **argv){
     // cipher text variable must be all capitals, with no spacing or punctuation, use e.g. http://practicalcryptography.com/ciphers/mechanical-era/enigma/
     // to generate messages. This version can not break enigma messages with plugs.
     
-    if(argc < 3 || argc > 3) {
-        printf("usage: %s \"config.xml\" \"MSG\"\n",argv[0]);
+    if(argc < 2 || argc > 2) {
+        printf("usage: %s \"config.xml\" \n",argv[0]);
         exit(0);
     }
     
     configmain(argv[1]);
-    strcpy(ctext,argv[2]);
+    char a1;
+    int a;
+    printf("Crypted Message: ");
+    a = 0;
+    while((a1 = getchar()) != '\n')
+    {
+        ctext[a] = a1;
+        a++;
+    }
+    ctext[a] = '\0';
+    //strcpy(ctext,argv[2]);
     char *ptext = malloc(sizeof(char *)*(strlen(ctext)+1));
     EnigmaKey *ref;
     ref = break_enigma(ctext);
