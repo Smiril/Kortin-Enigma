@@ -90,15 +90,23 @@ ifeq ($(UNAME),Linux)
 install:
 	cp ./enigma $(PREFIX)/bin/break_enigma
 	chmod u+x $(PREFIX)/bin/break_enigma
+	mkdir -p $(PREFIX)/share/
+	mkdir -p $(PREFIX)/share/enigma/
+	cp ./config.xml $(PREFIX)/share/enigma/config.xml
 endif
 ifeq ($(UNAME),Darwin)
 install:
 	cp ./universal_app $(PREFIX)/bin/break_enigma
 	chmod u+x $(PREFIX)/bin/break_enigma
+	mkdir -p $(PREFIX)/share/
+	mkdir -p $(PREFIX)/share/enigma/
+	cp ./config.xml $(PREFIX)/share/enigma/config.xml
 endif
 
 uninstall:
 	rm $(PREFIX)/bin/break_enigma
+	rm $(PREFIX)/share/enigma/config.xml
+	
 ifeq ($(UNAME),Linux)
 clean:
 	rm -rf break_enigma
