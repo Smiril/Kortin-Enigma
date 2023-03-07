@@ -27,23 +27,30 @@ Modifications author: Smiril
 #include <libxml/tree.h>
 #include "enigma.h"
 // Rotors
-char *key[16];
+char key[16][26];
 // Reflectors, M3 enigma always uses second reflector
-char *refl[3];
+char refl[3][26];
+// notches indicate where the rotors increment. rotors 6-8 have two notches
+//  to make the first 5 rotors the same, we assume both notches are at the same spot
+char notch[8][2];
 
 void configmain(char *docname) {
    
     xmlDocPtr       doc;
     xmlNodePtr      cur;
     xmlChar         *uri;
+    int countz = 0;
     int county = 0;
     int countx = 0;
     int count1 = 0;
     int count2 = 0;
+    int count3 = 0;
     //int count2 = 0;
     char *config1[16][7] = { {
         "rotor1", "rotor2", "rotor3", "rotor4", "rotor5", "rotor6", "rotor7", "rotor8","rotora", "rotorb", "rotorc", "rotord", "rotore", "rotorf", "rotorg", "rotorh"} };
     char *config2[3][7] = { {"refle1", "refle2", "refle3"} };
+    char *config3[8][7] = { {
+        "notch1", "notch2", "notch3", "notch4", "notch5", "notch6", "notch7", "notch8"} };
     printf("Loading config file: %s\n",docname);
     FILE *fp;
     fp = fopen(docname,"r");
@@ -51,7 +58,7 @@ void configmain(char *docname) {
     fstat(fileno(fp), &st);
     size_t size = st.st_size;
     
-    if (1259 != size) {
+    if (1547 != size) {
         printf("config file is corrupt\n");
         exit(1);
     }
@@ -96,14 +103,17 @@ void configmain(char *docname) {
                     xmlFree(uri);
                 }
             }
+            else if (xmlStrcmp(gchild->name, (const xmlChar *)config3[countz++])) {
+                if((uri =  xmlGetProp(gchild,(const xmlChar *)"name")) != NULL) {
+                    strcpy(notch[count3++],(const char *)uri);
+                    //printf("%s\n",uri);
+                    xmlFree(uri);
+                }
+            }
         gchild = gchild->next->next;
     }
     xmlFreeDoc(doc);
 }
-     
-// notches indicate where the rotors increment. rotors 6-8 have two notches
-//  to make the first 5 rotors the same, we assume both notches are at the same spot
-char notch[8][2] = {{'Q','Q'},{'E','E'},{'V','V'},{'J','J'},{'Z','Z'},{'Z','M'},{'Z','M'},{'Z','M'}};
 
 /*********************************************************
 enigma - encipher (or decipher) a string 'from', put the result in 'to'
