@@ -88,7 +88,7 @@ sign:
 endif
 ifeq ($(UNAME),Linux)
 install:
-	cp ./enigma $(PREFIX)/bin/break_enigma
+	cp ./break_enigma $(PREFIX)/bin/break_enigma
 	chmod u+x $(PREFIX)/bin/break_enigma
 	mkdir -p $(PREFIX)/share/
 	mkdir -p $(PREFIX)/share/enigma/
