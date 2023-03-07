@@ -32,9 +32,9 @@ int main(int argc, char **argv){
     if(strcmp(argv[1], "--version") == 0)
     {
 #if !defined(__WIN32__) && !defined(__WIN64__)
-        printf("Version\n\n\t\x1B[35m%s\x1B[39m -  \x1B[32mT.E.D.\x1B[39m - \x1B[33mThe Enemy Dail\x1B[39m - Koenig Martin\n","break_enigma");
+        printf("Version\n\n\t\x1B[35m%s\x1B[39m -  \x1B[32mT.E.D.\x1B[39m - \x1B[33mThe Enemy Dail\x1B[39m - Koenig Martin\n",argv[0]);
 #elif !defined(__APPLE__) && !defined(__LINUX__)
-        printf("Version\n\n\t%s -  T.E.D. - The Enemy Dail - Koenig Martin\n","break_enigma");
+        printf("Version\n\n\t%s -  T.E.D. - The Enemy Dail - Koenig Martin\n",argv[0]);
 #endif
         return 0;
     }
