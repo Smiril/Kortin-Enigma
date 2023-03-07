@@ -77,14 +77,14 @@ void configmain(main_ctx_t *main_ctx,char *docname) {
             }
             else if (xmlStrcmp(gchild->name, (const xmlChar *)"refle1")) {
                 if((uri =  xmlGetProp(gchild,(const xmlChar *)"name")) != NULL) {
-                    strcpy(main_ctx->ref1,(const char *)uri);
+                    strcpy(main_ctx->ref1[0],(const char *)uri);
                     //printf("%s\n",uri);
                     xmlFree(uri);
                 }
             }
             else if (xmlStrcmp(gchild->name, (const xmlChar *)"xmlnotch")) {
                 if((uri =  xmlGetProp(gchild,(const xmlChar *)"name")) != NULL) {
-                    strcpy(main_ctx->notch1,(const char *)uri);
+                    strcpy(main_ctx->notch1[0],(const char *)uri);
                     //printf("%s\n",uri);
                     xmlFree(uri);
                 }
@@ -1356,120 +1356,120 @@ char scramble(char c, main_ctx_t *main_ctx)
         if (main_ctx->pos[0]>'Z')
             main_ctx->pos[0] -= 26;
         /*  Step up second rotor if first rotor reached notch */
-        if (main_ctx->pos[0]==main_ctx->notch1[main_ctx->order[0]-1])
+        if (main_ctx->pos[0]==main_ctx->notch1[0][main_ctx->order[0]-1])
         {
             main_ctx->pos[1]++;
             if (main_ctx->pos[1]>'Z')
                 main_ctx->pos[1] -= 26;
-            if (main_ctx->pos[0]==main_ctx->notch1[main_ctx->order[1]-1])
+            if (main_ctx->pos[0]==main_ctx->notch1[0][main_ctx->order[1]-1])
             {
                 main_ctx->pos[1]++;
                 if (main_ctx->pos[1]>'Z')
                     main_ctx->pos[1] -= 26;
-                if (main_ctx->pos[0]==main_ctx->notch1[main_ctx->order[2]-1])
+                if (main_ctx->pos[0]==main_ctx->notch1[0][main_ctx->order[2]-1])
                 {
                     main_ctx->pos[1]++;
                     if (main_ctx->pos[1]>'Z')
                         main_ctx->pos[1] -= 26;
-                    if (main_ctx->pos[0]==main_ctx->notch1[main_ctx->order[3]-1])
+                    if (main_ctx->pos[0]==main_ctx->notch1[0][main_ctx->order[3]-1])
                     {
                         main_ctx->pos[1]++;
                         if (main_ctx->pos[1]>'Z')
                             main_ctx->pos[1] -= 26;
-                        if (main_ctx->pos[0]==main_ctx->notch1[main_ctx->order[4]-1])
+                        if (main_ctx->pos[0]==main_ctx->notch1[0][main_ctx->order[4]-1])
                         {
                             main_ctx->pos[1]++;
                             if (main_ctx->pos[1]>'Z')
                                 main_ctx->pos[1] -= 26;
                             flag=f;
             /* Set flag if second rotor reached notch */
-                            if (main_ctx->pos[1]==main_ctx->notch1[main_ctx->order[0]-1])
+                            if (main_ctx->pos[1]==main_ctx->notch1[0][main_ctx->order[0]-1])
                             {
                                 main_ctx->pos[2]++;
                                 if (main_ctx->pos[2]>'Z')
                                     main_ctx->pos[2] -= 26;
-                                if (main_ctx->pos[1]==main_ctx->notch1[main_ctx->order[1]-1])
+                                if (main_ctx->pos[1]==main_ctx->notch1[0][main_ctx->order[1]-1])
                                 {
                                     main_ctx->pos[2]++;
                                     if (main_ctx->pos[2]>'Z')
                                         main_ctx->pos[2] -= 26;
-                                    if (main_ctx->pos[1]==main_ctx->notch1[main_ctx->order[2]-1])
+                                    if (main_ctx->pos[1]==main_ctx->notch1[0][main_ctx->order[2]-1])
                                     {
                                         main_ctx->pos[2]++;
                                         if (main_ctx->pos[2]>'Z')
                                             main_ctx->pos[2] -= 26;
-                                        if (main_ctx->pos[1]==main_ctx->notch1[main_ctx->order[3]-1])
+                                        if (main_ctx->pos[1]==main_ctx->notch1[0][main_ctx->order[3]-1])
                                         {
                                             main_ctx->pos[2]++;
                                             if (main_ctx->pos[2]>'Z')
                                                 main_ctx->pos[2] -= 26;
-                                            if (main_ctx->pos[1]==main_ctx->notch1[main_ctx->order[4]-1])
+                                            if (main_ctx->pos[1]==main_ctx->notch1[0][main_ctx->order[4]-1])
                                             {
                                                 main_ctx->pos[2]++;
                                                 if (main_ctx->pos[2]>'Z')
                                                     main_ctx->pos[2] -= 26;
                                                 flag=f;
-                                                if (main_ctx->pos[2]==main_ctx->notch1[main_ctx->order[0]-1])
+                                                if (main_ctx->pos[2]==main_ctx->notch1[0][main_ctx->order[0]-1])
                                                 {
                                                     main_ctx->pos[3]++;
                                                     if (main_ctx->pos[3]>'Z')
                                                         main_ctx->pos[3] -= 26;
-                                                    if (main_ctx->pos[2]==main_ctx->notch1[main_ctx->order[1]-1])
+                                                    if (main_ctx->pos[2]==main_ctx->notch1[0][main_ctx->order[1]-1])
                                                     {
                                                         main_ctx->pos[3]++;
                                                         if (main_ctx->pos[3]>'Z')
                                                             main_ctx->pos[3] -= 26;
-                                                        if (main_ctx->pos[2]==main_ctx->notch1[main_ctx->order[2]-1])
+                                                        if (main_ctx->pos[2]==main_ctx->notch1[0][main_ctx->order[2]-1])
                                                         {
                                                             main_ctx->pos[3]++;
                                                             if (main_ctx->pos[3]>'Z')
                                                                 main_ctx->pos[3] -= 26;
-                                                            if (main_ctx->pos[2]==main_ctx->notch1[main_ctx->order[3]-1])
+                                                            if (main_ctx->pos[2]==main_ctx->notch1[0][main_ctx->order[3]-1])
                                                             {
                                                                 main_ctx->pos[3]++;
                                                                 if (main_ctx->pos[3]>'Z')
                                                                     main_ctx->pos[3] -= 26;
-                                                                if (main_ctx->pos[2]==main_ctx->notch1[main_ctx->order[4]-1])
+                                                                if (main_ctx->pos[2]==main_ctx->notch1[0][main_ctx->order[4]-1])
                                                                 {
                                                                     main_ctx->pos[3]++;
                                                                     if (main_ctx->pos[3]>'Z')
                                                                         main_ctx->pos[3] -= 26;
                                                                     flag=f;
-                                                                    if (main_ctx->pos[3]==main_ctx->notch1[main_ctx->order[0]-1])
+                                                                    if (main_ctx->pos[3]==main_ctx->notch1[0][main_ctx->order[0]-1])
                                                                     {
                                                                         main_ctx->pos[4]++;
                                                                         if (main_ctx->pos[4]>'Z')
                                                                             main_ctx->pos[4] -= 26;
-                                                                        if (main_ctx->pos[3]==main_ctx->notch1[main_ctx->order[1]-1])
+                                                                        if (main_ctx->pos[3]==main_ctx->notch1[0][main_ctx->order[1]-1])
                                                                         {
                                                                             main_ctx->pos[4]++;
                                                                             if (main_ctx->pos[4]>'Z')
                                                                                 main_ctx->pos[4] -= 26;
-                                                                            if (main_ctx->pos[3]==main_ctx->notch1[main_ctx->order[2]-1])
+                                                                            if (main_ctx->pos[3]==main_ctx->notch1[0][main_ctx->order[2]-1])
                                                                             {
                                                                                 main_ctx->pos[4]++;
                                                                                 if (main_ctx->pos[4]>'Z')
                                                                                     main_ctx->pos[4] -= 26;
-                                                                                if (main_ctx->pos[3]==main_ctx->notch1[main_ctx->order[3]-1])
+                                                                                if (main_ctx->pos[3]==main_ctx->notch1[0][main_ctx->order[3]-1])
                                                                                 {
                                                                                     main_ctx->pos[4]++;
                                                                                     if (main_ctx->pos[4]>'Z')
                                                                                         main_ctx->pos[4] -= 26;
-                                                                                    if (main_ctx->pos[3]==main_ctx->notch1[main_ctx->order[4]-1])
+                                                                                    if (main_ctx->pos[3]==main_ctx->notch1[0][main_ctx->order[4]-1])
                                                                                     {
                                                                                         main_ctx->pos[4]++;
                                                                                         if (main_ctx->pos[4]>'Z')
                                                                                             main_ctx->pos[4] -= 26;
                                                                                         flag=f;
-                                                                                        if (main_ctx->pos[4]==main_ctx->notch1[main_ctx->order[0]-1])
+                                                                                        if (main_ctx->pos[4]==main_ctx->notch1[0][main_ctx->order[0]-1])
                                                                                         {
-                                                                                            if (main_ctx->pos[4]==main_ctx->notch1[main_ctx->order[1]-1])
+                                                                                            if (main_ctx->pos[4]==main_ctx->notch1[0][main_ctx->order[1]-1])
                                                                                             {
-                                                                                                if (main_ctx->pos[4]==main_ctx->notch1[main_ctx->order[2]-1])
+                                                                                                if (main_ctx->pos[4]==main_ctx->notch1[0][main_ctx->order[2]-1])
                                                                                                 {
-                                                                                                    if (main_ctx->pos[4]==main_ctx->notch1[main_ctx->order[3]-1])
+                                                                                                    if (main_ctx->pos[4]==main_ctx->notch1[0][main_ctx->order[3]-1])
                                                                                                     {
-                                                                                                        if (main_ctx->pos[4]==main_ctx->notch1[main_ctx->order[4]-1])
+                                                                                                        if (main_ctx->pos[4]==main_ctx->notch1[0][main_ctx->order[4]-1])
                                                                                                         {
                                                                                                             flag=f;
                                                                                                         }
@@ -1572,7 +1572,7 @@ char scramble(char c, main_ctx_t *main_ctx)
 
         /*  Reflecting rotor */
 
-        c=main_ctx->ref1[c-'A'];
+        c=main_ctx->ref1[0][c-'A'];
     
     /*  Rotors (reverse) */
         for (i=5; i; i--)
@@ -1612,7 +1612,7 @@ char scramble(char c, main_ctx_t *main_ctx)
 }
 
 /*take a string, return encoded string*/
-char *enigma(char *in, main_ctx_t *main_ctx)
+char *enigma(char in[MSGLEN], main_ctx_t *main_ctx)
 {
     unsigned long int j;
     for(j = 0; j < strlen(in); j++)
@@ -2089,19 +2089,19 @@ void initParams(main_ctx_t *main_ctx)
         k = 0;
         while((d = getchar()) != '\n')
         {
-        main_ctx->ref1[k] = d;
+        main_ctx->ref1[0][k] = d;
         k++;
         }
-        main_ctx->ref1[k] = '\0';
+        main_ctx->ref1[0][k] = '\0';
         
         printf("NOTCH: ");
         j = 0;
         while((g = getchar()) != '\n')
         {
-        main_ctx->notch1[j] = g;
+        main_ctx->notch1[0][j] = g;
         j++;
         }
-        main_ctx->notch1[j] = '\0';
+        main_ctx->notch1[0][j] = '\0';
         
         for(i = 0; i < 5; i++)
         {
@@ -2132,12 +2132,12 @@ void initParams(main_ctx_t *main_ctx)
   printf("\x1B[33mWheels\x1B[39m \x1B[32m %d %d %d %d %d \x1B[39m \x1B[33mStart\x1B[39m \x1B[32m %c %c %c %c %c \x1B[39m \x1B[33mRings\x1B[39m \x1B[32m %c %c %c %c %c \x1B[39m Stecker \"\x1B[32m%s\x1B[39m\"\n\x1B[33mReflector\x1B[39m \x1B[32m %s \x1B[39m \x1B[33mNOTch\x1B[39m\x1B[32m %s \x1B[39m\n",
          main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4],
          main_ctx->pos[0], main_ctx->pos[1], main_ctx->pos[2], main_ctx->pos[3], main_ctx->pos[4],
-         main_ctx->rings[0], main_ctx->rings[1], main_ctx->rings[2], main_ctx->rings[3], main_ctx->rings[4], main_ctx->plug,main_ctx->ref1,main_ctx->notch1);
+         main_ctx->rings[0], main_ctx->rings[1], main_ctx->rings[2], main_ctx->rings[3], main_ctx->rings[4], main_ctx->plug,main_ctx->ref1[0],main_ctx->notch1[0]);
 #elif !defined(__APPLE__) && !defined(__LINUX__)
     printf("Wheels %d %d %d %d %d Start %c %c %c %c %c Rings %c %c %c %c %c Stecker \"%s\"\nReflector %s NOTch %s \n",
            main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4],
            main_ctx->pos[0], main_ctx->pos[1], main_ctx->pos[2], main_ctx->pos[3], main_ctx->pos[4],
-           main_ctx->rings[0], main_ctx->rings[1], main_ctx->rings[2], main_ctx->rings[3], main_ctx->rings[4], main_ctx->plug,main_ctx->ref1,main_ctx->notch1);
+           main_ctx->rings[0], main_ctx->rings[1], main_ctx->rings[2], main_ctx->rings[3], main_ctx->rings[4], main_ctx->plug,main_ctx->ref1[0],main_ctx->notch1[0]);
 #endif
     cypher(main_ctx);
 }
@@ -2191,18 +2191,18 @@ void sbfParams(main_ctx_t *main_ctx)
         j = 0;
         while((d = getchar()) != '\n')
         {
-            main_ctx->ref1[j] = d;
+            main_ctx->ref1[0][j] = d;
             j++;
         }
-        main_ctx->ref1[j] = '\0';
+        main_ctx->ref1[0][j] = '\0';
         printf("NOTCH: ");
         k = 0;
         while((g = getchar()) != '\n')
         {
-        main_ctx->notch1[k] = g;
+        main_ctx->notch1[0][k] = g;
         k++;
         }
-        main_ctx->notch1[k] = '\0';
+        main_ctx->notch1[0][k] = '\0';
         for(i = 0; i < 5; i++)
         {
             printf("Wheel %d: ", i + 1);
@@ -2239,10 +2239,10 @@ void sbfParams(main_ctx_t *main_ctx)
     }
 #if !defined(__WIN32__) && !defined(__WIN64__)
     printf("\x1B[33mWheels\x1B[39m \x1B[32m %d %d %d %d %d \x1B[39m \x1B[33mMessage\x1B[39m\x1B[32m %s \x1B[39m\x1B[33mDict\x1B[39m \x1B[32m %s \x1B[39m\n\x1B[33mReflector\x1B[39m \x1B[32m %s \x1B[39m \x1B[33mNOTch\x1B[39m\x1B[32m %s \x1B[39m\n",
-           main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4], main_ctx->cyph, framex,main_ctx->ref1,main_ctx->notch1);
+           main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4], main_ctx->cyph, framex,main_ctx->ref1[0],main_ctx->notch1[0]);
 #elif !defined(__APPLE__) && !defined(__LINUX__)
     printf("Wheels%d %d %d %d %d Message %s Dict %s \nReflector %s NOTch %s \n",
-           main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4], main_ctx->cyph, framex,main_ctx->ref1,main_ctx->notch1);
+           main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4], main_ctx->cyph, framex,main_ctx->ref1[0],main_ctx->notch1[0]);
 #endif
     int core = atoi(chad);
     if(core < 0 || core > 101) {
@@ -2320,18 +2320,18 @@ void bfParams(main_ctx_t *main_ctx)
         j = 0;
         while((d = getchar()) != '\n')
         {
-        main_ctx->ref1[j] = d;
+        main_ctx->ref1[0][j] = d;
         j++;
         }
-        main_ctx->ref1[j] = '\0';
+        main_ctx->ref1[0][j] = '\0';
         printf("NOTCH: ");
         k = 0;
         while((g = getchar()) != '\n')
         {
-        main_ctx->notch1[k] = g;
+        main_ctx->notch1[0][k] = g;
         k++;
         }
-        main_ctx->notch1[k] = '\0';
+        main_ctx->notch1[0][k] = '\0';
         printf("Message: ");
         i = 0;
         while((a = getchar()) != '\n')
@@ -2363,10 +2363,10 @@ void bfParams(main_ctx_t *main_ctx)
     }
 #if !defined(__WIN32__) && !defined(__WIN64__)
     printf("\x1B[33mMessage\x1B[39m\x1B[32m %s \x1B[39m\x1B[33mDict\x1B[39m \x1B[32m %s \x1B[39m\n\x1B[33mReflector\x1B[39m \x1B[32m %s \x1B[39m \x1B[33mNOTch\x1B[39m\x1B[32m %s \x1B[39m\n",
-           main_ctx->cyph, framex,main_ctx->ref1,main_ctx->notch1);
+           main_ctx->cyph, framex,main_ctx->ref1[0],main_ctx->notch1[0]);
 #elif !defined(__APPLE__) && !defined(__LINUX__)
     printf("Message %s Dict %s \nReflector %s NOTch %s \n",
-           main_ctx->cyph, framex,main_ctx->ref1,main_ctx->notch1);
+           main_ctx->cyph, framex,main_ctx->ref1[0],main_ctx->notch1[0]);
 #endif
     int core = atoi(chad);
     if(core < 0 || core > 101) {

@@ -51,6 +51,8 @@
 #include <openssl/pem.h>
 #include <openssl/ssl.h>
 #include <openssl/err.h>
+//#include "NBestList.h"
+//#include "scoreText.h"
 
 int flag;
 int tempres = BUFSIZ2;
@@ -108,8 +110,8 @@ typedef struct main_ctx
 {
         /* Rotor wirings */
         char    rotor[5][MSGC];
-        char    ref1[MSGC];
-        char    notch1[MSGG];
+        char    ref1[1][MSGC];
+        char    notch1[1][MSGG];
         int     order[MSGG];/*={ 1, 3, 5, 7, 9 };*/
         char    rings[MSGG];/*={ 'A','A','A','A','A'};*/
         char    pos[MSGG];/*={ 'A','A','A','A','A'};*/
