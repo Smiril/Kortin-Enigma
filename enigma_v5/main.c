@@ -2179,7 +2179,7 @@ void sbfParams(main_ctx_t *main_ctx)
         while((h = getchar()) != '\n')
         {
         chad[m] = h;
-        l++;
+        m++;
         }
         chad[m] = '\0';
         
@@ -2231,7 +2231,7 @@ void sbfParams(main_ctx_t *main_ctx)
         while((h = getchar()) != '\n')
         {
         chad[m] = h;
-        l++;
+        m++;
         }
         chad[m] = '\0';
         
@@ -2261,17 +2261,18 @@ void sbfParams(main_ctx_t *main_ctx)
     
     pthread_t tid = malloc(1U * sizeof(pthread_t));
     
-    for (int i = 1;i <=core;i++) {
+    for (int i = 0;i < core;i++) {
         //pthread_t tid = malloc(1 * sizeof(pthread_t));
         pthread_create(*(pthread_t**)&tid, NULL, reader, (void*)&fds[i]);
         pthread_create(*(pthread_t**)&tid, NULL, permuteOX, (void*)&fds[i]);
         printf("created: %llu\n", (unsigned long long)&tid);
-        //read(fds[0], &tid[i], sizeof(tid[i]));
-        //write(fds[1], &tid[i], sizeof(tid[i]));
+    }
+        read(fds[0], &tid, sizeof(tid));
+        write(fds[1], &tid, sizeof(tid));
         //printf("joining: %llu\n", (unsigned long long)&tid[i]);
         //pthread_join(&tid[i], (void*)&status);
         //printf("Thread: %llu Status: %d\n",(unsigned long long)&tid[i],(int)status);
-    }
+    
     //pthread_exit(0);
 }
 
@@ -2306,7 +2307,7 @@ void bfParams(main_ctx_t *main_ctx)
         while((h = getchar()) != '\n')
         {
         chad[m] = h;
-        l++;
+        m++;
         }
         chad[m] = '\0';
         
@@ -2353,7 +2354,7 @@ void bfParams(main_ctx_t *main_ctx)
         while((h = getchar()) != '\n')
         {
         chad[m] = h;
-        l++;
+        m++;
         }
         chad[m] = '\0';
 
@@ -2383,17 +2384,18 @@ void bfParams(main_ctx_t *main_ctx)
     
     pthread_t tid = malloc(1U * sizeof(pthread_t));
     
-    for (int i = 1;i <=core;i++) {
+    for (int i = 0;i < core;i++) {
         //pthread_t tid = malloc(1 * sizeof(pthread_t));
-        pthread_create(*(pthread_t**)&tid, NULL, reader, (void*)&fds[i]);
+        //pthread_create(*(pthread_t**)&tid, NULL, reader, (void*)&fds[i]);
         pthread_create(*(pthread_t**)&tid, NULL, permuteAX, (void*)&fds[i]);
         printf("created: %llu\n", (unsigned long long)&tid);
-        //read(fds[0], &tid[i], sizeof(tid[i]));
-        //write(fds[1], &tid[i], sizeof(tid[i]));
+    }
+        read(fds[0], &tid, sizeof(tid));
+        write(fds[1], &tid, sizeof(tid));
         //printf("joining: %llu\n", (unsigned long long)&tid[i]);
         //pthread_join(&tid[i], (void*)&status);
         //printf("Thread: %llu Status: %d\n",(unsigned long long)&tid[i],(int)status);
-    }
+    
     //pthread_exit(0);
 }
 
