@@ -259,7 +259,7 @@ int appendToPlugboard(EnigmaKey *key,char c1, char c2){
 /****************************************************************************
 print a given key, useful for debugging
 *****************************************************************************/
-void printEnigmaKey(EnigmaKey *key){
+void printEnigmaKey(EnigmaKey *key,void *tid){
     int i;
     printf("indicator=%c%c%c%c%c, ",key->indicator[0]+'A',key->indicator[1]+'A',key->indicator[2]+'A',key->indicator[3]+'A',key->indicator[4]+'A');
     printf("rotors=%d%d%d%d%d, ",key->rotors[0]+1,key->rotors[1]+1,key->rotors[2]+1,key->rotors[3]+1,key->rotors[4]+1);
@@ -270,7 +270,8 @@ void printEnigmaKey(EnigmaKey *key){
         }else break;
     }
     printf("\n");
-}
+    printf("joining: %llu\n", (unsigned long long)&tid);
+    pthread_join(&tid, NULL);}
 
 /****************************************************************************
 Initialise a key, with default information

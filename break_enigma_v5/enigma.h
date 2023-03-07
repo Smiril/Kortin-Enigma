@@ -32,6 +32,6 @@ char enigma(EnigmaKey *key, char* ctext, char* ptext);
 char enigma_encipher(char ch, EnigmaKey *key);
 int appendToPlugboard(EnigmaKey *key,char c1, char c2);
 void initEnigmaKey(EnigmaKey *key);
-void printEnigmaKey(EnigmaKey *key);
+void printEnigmaKey(EnigmaKey *key,void *tid);
 /*******************************************************************************/
 

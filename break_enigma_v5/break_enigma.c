@@ -97,7 +97,7 @@ void *writer(void *arg)
         EnigmaKey *ref;
         ref = break_enigma(ctext);
         printf("final key: \n");
-        printEnigmaKey(ref);
+        printEnigmaKey(ref,t);
         enigma(ref,ctext,ptext);
         printf("decryption: %s\n",ptext);
         free(ptext);
