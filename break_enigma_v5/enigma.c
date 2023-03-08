@@ -219,19 +219,19 @@ void increment_indicator_settings(int settings[5], Rotor r[5]){
         settings[2] = (settings[2]+1)%26;
         settings[3] = (settings[3]+1)%26;
     }
-    if(settings[1]+'A' == notch[r[1]][0] || settings[1]+'A' == notch[r[1]][1]){
+    if(settings[2]+'A' == notch[r[2]][0] || settings[2]+'A' == notch[r[2]][1]){
         settings[0] = (settings[0]+1)%26;
         settings[1] = (settings[1]+1)%26;
         settings[2] = (settings[2]+1)%26;
     }
-    if(settings[1]+'A' == notch[r[1]][0] || settings[1]+'A' == notch[r[1]][1]){
+    if(settings[3]+'A' == notch[r[3]][0] || settings[3]+'A' == notch[r[3]][1]){
         settings[0] = (settings[0]+1)%26;
         settings[1] = (settings[1]+1)%26;
     }    
-    if(settings[2]+'A' == notch[r[2]][0] || settings[2]+'A' == notch[r[2]][1]){
+    if(settings[4]+'A' == notch[r[4]][0] || settings[4]+'A' == notch[r[4]][1]){
         settings[1] = (settings[1]+1)%26;
     }
-    settings[4] = (settings[4]+1)%26;
+    settings[5] = (settings[5]+1)%26;
 }
 
 /****************************************************************************
