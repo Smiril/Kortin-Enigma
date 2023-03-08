@@ -30,7 +30,7 @@ static pthread_once_t once = PTHREAD_ONCE_INIT;
 static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 EnigmaKey *break_enigma(char* ctext);
 float entropy_score(char *text);
-char ctext[];
+char ctext[4096];
 char chad[4096];
 int fds[2];
 
@@ -166,17 +166,24 @@ int main(int argc, char **argv){
         exit(2);
     }
     
-    pthread_t tid = malloc(1U * sizeof(pthread_t));
+    pthread_t tid = malloc(100 * sizeof(pthread_t));
     
     for (int i = 0;i < core;i++) {
-        //pthread_t tid = malloc(1 * sizeof(pthread_t));
+        //pthread_t tid[i] = malloc(1 * sizeof(pthread_t));
         //pthread_create(*(pthread_t**)&tid, NULL, reader, (void*)&fds[i]);
+#if defined(__APPLE__)
         pthread_create(*(pthread_t**)&tid[i], NULL, writer, (void*)&fds[i]);
         printf("created: %llu\n", (unsigned long long)&tid[i]);
+#endif
+#if defined(__LINUX__) && defined(__WIN32__) && defined(__WIN64__)
+        pthread_create(*(pthread_t**)&tid, NULL, writer, (void*)&fds[i]);
+        printf("created: %llu\n", (unsigned long long)&tid);
+#endif
         
-        read(fds[0], &tid[i], sizeof(tid[i]));
-        write(fds[1], &tid[i], sizeof(tid[i]));
     }
+        read(fds[0], &tid, sizeof(tid));
+        write(fds[1], &tid, sizeof(tid));
+    
         //printf("joining: %llu\n", (unsigned long long)&tid[i]);
         //pthread_join(&tid[i], (void*)&status);
         //printf("Thread: %llu Status: %d\n",(unsigned long long)&tid[i],(int)status);
