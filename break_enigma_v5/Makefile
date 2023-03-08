@@ -102,7 +102,7 @@ install:
 	mkdir -p $(PREFIX)/share/enigma/
 	cp ./config.xml $(PREFIX)/share/enigma/config.xml
 endif
-
+	
 uninstall:
 	rm $(PREFIX)/bin/break_enigma
 	rm $(PREFIX)/share/enigma/config.xml
