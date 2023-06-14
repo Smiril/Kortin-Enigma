@@ -25,7 +25,7 @@ void configmain(main_ctx_t *main_ctx,char *docname) {
     xmlDocPtr       doc;
     xmlNodePtr      cur;
     xmlChar         *uri;
-    int count = 0;
+    //int count = 0;
     int count1 = 0;
     int count2 = 0;
     int count3 = 0;
@@ -1919,7 +1919,7 @@ int permute(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, 
     return 0;
 }
 
-void xinit()
+void xinit(void)
 {
     pthread_mutex_init(&lock, NULL);
 }
