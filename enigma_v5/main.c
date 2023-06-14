@@ -21,14 +21,17 @@
 extern float qgram[];
 
 void configmain(main_ctx_t *main_ctx,char *docname) {
-   
+    
     xmlDocPtr       doc;
     xmlNodePtr      cur;
     xmlChar         *uri;
     int count = 0;
     int count1 = 0;
-    //int count2 = 0;
+    int count2 = 0;
+    int count3 = 0;
     char *config[5][6] = { {"rotor1", "rotor2", "rotor3", "rotor4", "rotor5"} };
+    char *configx[1][6] = { {"refle1"} };
+    char *configy[1][8] = { {"xmlnotch"} };
     
     printf("Loading config file: %s\n",docname);
     FILE *fp;
@@ -36,19 +39,21 @@ void configmain(main_ctx_t *main_ctx,char *docname) {
     struct stat st;
     fstat(fileno(fp), &st);
     size_t size = st.st_size;
-  
+    
     if (522 != size) {
         printf("config file is corrupt\n");
+        fclose(fp);
         exit(1);
     }
     
-    fclose(fp);
+    //fclose(fp);
     
     doc = xmlParseFile(docname);
     cur = xmlDocGetRootElement(doc);
     
     if((xmlStrcmp(cur->name, (const xmlChar *) "um-configuration")) != 0) {
         printf("error wrong file!\n");
+        fclose(fp);
         exit(1);
     }
     
@@ -58,42 +63,46 @@ void configmain(main_ctx_t *main_ctx,char *docname) {
     xmlAttr* attr = child->properties;
     while (attr != NULL) {
         if((xmlStrcmp(attr->name, (const xmlChar *) "config")) != 0) {
-        printf("error wrong file!\n");
-        exit(1);
+            printf("error wrong file!\n");
+            fclose(fp);
+            exit(1);
+        }
+        // move to the next attribute
+        attr = attr->next;
     }
-      // move to the next attribute
-      attr = attr->next;
-    }
-
+    
     // go through the child's children
     xmlNode* gchild = child->children->next;
     while (gchild != NULL) {
-            if (xmlStrcmp(gchild->name, (const xmlChar *)config[count++])) {
-                if((uri =  xmlGetProp(gchild,(const xmlChar *)"name")) != NULL) {
-                    strcpy(main_ctx->rotor[count1++],(const char *)uri);
-                    //printf("%s\n",uri);
-                    xmlFree(uri);
-                }
+        if (xmlStrcmp(gchild->name, (const xmlChar *)config[count1++])) {
+            if((uri =  xmlGetProp(gchild,(const xmlChar *)"name")) != NULL) {
+                strcpy(main_ctx->rotor[count1],(const char *)uri);
+                //printf("%s\n",uri);
+                //printf("%s\n",main_ctx->rotor[count1]);
+                xmlFree(uri);
             }
-            else if (xmlStrcmp(gchild->name, (const xmlChar *)"refle1")) {
-                if((uri =  xmlGetProp(gchild,(const xmlChar *)"name")) != NULL) {
-                    strcpy(main_ctx->ref1[0],(const char *)uri);
-                    //printf("%s\n",uri);
-                    xmlFree(uri);
-                }
+        }
+        else if (xmlStrcmp(gchild->name, (const xmlChar *)configx[count2++])) {
+            if((uri =  xmlGetProp(gchild,(const xmlChar *)"name")) != NULL) {
+                strcpy(main_ctx->ref1[count2],(const char *)uri);
+                //printf("%s\n",uri);
+                //printf("%s\n",main_ctx->ref1[count2]);
+                xmlFree(uri);
             }
-            else if (xmlStrcmp(gchild->name, (const xmlChar *)"xmlnotch")) {
-                if((uri =  xmlGetProp(gchild,(const xmlChar *)"name")) != NULL) {
-                    strcpy(main_ctx->notch1[0],(const char *)uri);
-                    //printf("%s\n",uri);
-                    xmlFree(uri);
-                }
+        }
+        else if (xmlStrcmp(gchild->name, (const xmlChar *)configy[count3++])) {
+            if((uri =  xmlGetProp(gchild,(const xmlChar *)"name")) != NULL) {
+                strcpy(main_ctx->notch1[count3],(const char *)uri);
+                //printf("%s\n",uri);
+                //printf("%s\n",main_ctx->notch1[count3]);
+                xmlFree(uri);
             }
+        }
         gchild = gchild->next->next;
     }
     xmlFreeDoc(doc);
+    fclose(fp);
 }
-
 //---------------------------------------------------------------------
 #define NELEMS(x)  (sizeof(x) / sizeof(x[0]))
 
@@ -1636,8 +1645,8 @@ void cypher(main_ctx_t *main_ctx)
         i++;
     }
     inx[i] = '\0';
-    strcpy(o, enigma(inx, main_ctx));
-    printf("%s\n%s\n", o, inx);
+    strcpy(o[MSGLEN], enigma(inx[MSGLEN], main_ctx));
+    printf("%s\n%s\n", o[MSGLEN], inx[MSGLEN]);
     //return 0;
 }
 
