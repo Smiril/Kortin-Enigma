@@ -15,7 +15,7 @@ on:
       - v*
     paths:
       - 'enigma_v5/**.h'
-      - 'enigma_v5/**.c'
+      - 'enigma_v5/**.m'
       - '**/Makefile'
       - '.github/workflows/build.yml'
   pull_request:
@@ -23,7 +23,7 @@ on:
       - main
     paths:
       - 'enigma_v5/**.h'
-      - 'enigma_v5/**.c'
+      - 'enigma_v5/**.m'
       - '**/Makefile'
       - '.github/workflows/build.yml'
 
