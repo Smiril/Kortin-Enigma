@@ -50,14 +50,14 @@ ifeq ($(UNAME),Linux)
 
 all: enigma enigma32 enigma64 version
 
-enigma: main.c
-	$(CC_LINUX) main.c -o enigma $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -s
+enigma: main.m
+	$(CC_LINUX) main.m -o enigma $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -s
 	
-enigma32: main.c
-	$(CC_WIN32) main.c -o enigma32.exe $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -s
+enigma32: main.m
+	$(CC_WIN32) main.m -o enigma32.exe $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -s
 	
-enigma64: main.c
-	$(CC_WIN64) main.c -o enigma64.exe $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -s
+enigma64: main.m
+	$(CC_WIN64) main.m -o enigma64.exe $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -s
 	
 endif
 
@@ -66,11 +66,11 @@ ifeq ($(UNAME),Darwin)
 
 all: x86_app arm_app universal_app sign version
 
-x86_app: main.c
-	$(CC_MACOS) main.c -o x86_app $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -target x86_64-apple-macos10.12
+x86_app: main.m
+	$(CC_MACOS) main.m -o x86_app $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -target x86_64-apple-macos10.12
 
-arm_app: main.c
-	$(CC_MACOS) main.c -o arm_app $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -target arm64-apple-macos11
+arm_app: main.m
+	$(CC_MACOS) main.m -o arm_app $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -target arm64-apple-macos11
 
 universal_app: x86_app arm_app
 	lipo -create -output universal_app x86_app arm_app

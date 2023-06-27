@@ -8,23 +8,20 @@
 *  Harald Schmidl <hjschmidl@acm.org>
 *  Fauzan Mirza's <fauzan@dcs.rhbnc.ac.uk>
 *
-* Info......: See docs/credits.txt
-* License.....: MIT
 ******************************************************************************/
+#define CA_PRIVATE_IMPLEMENTATION
 
 #include "add.h"
-
-#define CA_PRIVATE_IMPLEMENTATION
 
 #include "qgr.h"
 
 extern float qgram[];
 
-void configmain(main_ctx_t *main_ctx,char *docname) {
+void configmain(Params *p,char *docname) {
     
     xmlDocPtr       doc;
     xmlNodePtr      cur;
-    xmlChar         *uri;
+    const unsigned char *uri;
     //int count = 0;
     int count1 = 0;
     int count2 = 0;
@@ -75,27 +72,27 @@ void configmain(main_ctx_t *main_ctx,char *docname) {
     xmlNode* gchild = child->children->next;
     while (gchild != NULL) {
         if (xmlStrcmp(gchild->name, (const xmlChar *)config[count1++])) {
-            if((uri =  xmlGetProp(gchild,(const xmlChar *)"name")) != NULL) {
-                strcpy(main_ctx->rotor[count1],(const char *)uri);
+            if((uri = xmlGetProp(gchild,(const xmlChar *)"name")) != NULL) {
+                strcpy((char *)p->rotor[count1],(const char *)uri);
                 //printf("%s\n",uri);
                 //printf("%s\n",main_ctx->rotor[count1]);
-                xmlFree(uri);
+                //xmlFree(uri);
             }
         }
         else if (xmlStrcmp(gchild->name, (const xmlChar *)configx[count2++])) {
-            if((uri =  xmlGetProp(gchild,(const xmlChar *)"name")) != NULL) {
-                strcpy(main_ctx->ref1[count2],(const char *)uri);
+            if((uri = xmlGetProp(gchild,(const xmlChar *)"name")) != NULL) {
+                strcpy((char *)p->ref1,(const char *)uri);
                 //printf("%s\n",uri);
                 //printf("%s\n",main_ctx->ref1[count2]);
-                xmlFree(uri);
+                //xmlFree(uri);
             }
         }
         else if (xmlStrcmp(gchild->name, (const xmlChar *)configy[count3++])) {
-            if((uri =  xmlGetProp(gchild,(const xmlChar *)"name")) != NULL) {
-                strcpy(main_ctx->notch1[count3],(const char *)uri);
+            if((uri = xmlGetProp(gchild,(const xmlChar *)"name")) != NULL) {
+                strcpy((char *)p->notch1,(const char *)uri);
                 //printf("%s\n",uri);
                 //printf("%s\n",main_ctx->notch1[count3]);
-                xmlFree(uri);
+                //xmlFree(uri);
             }
         }
         gchild = gchild->next->next;
@@ -103,6 +100,7 @@ void configmain(main_ctx_t *main_ctx,char *docname) {
     xmlFreeDoc(doc);
     fclose(fp);
 }
+
 //---------------------------------------------------------------------
 #define NELEMS(x)  (sizeof(x) / sizeof(x[0]))
 
@@ -140,6 +138,7 @@ const char *felix(size_t fex)
 
     return picked;
 }
+
 
 #if defined(__WIN32__) && defined(__WIN64__)
 int inet_pton(int af, const char *src, void *dst)
@@ -293,7 +292,7 @@ int is_valid_ip4(char *ip_str)
     return 1;
 }
 
-int create_tcp_socket(){
+int create_tcp_socket(void){
 #if defined(__WIN32__) && defined(__WIN64__)
     WSADATA wsa;
     SOCKET socket_desc;
@@ -321,7 +320,7 @@ int create_tcp_socket(){
     return socket_desc;
 }
 
-int create_udp_socket(){
+int create_udp_socket(void){
 #if defined(__WIN32__) && defined(__WIN64__)
     WSADATA wsa;
     SOCKET socket_desc;
@@ -352,7 +351,7 @@ int create_udp_socket(){
 //note, to allow root to use icmp sockets, run:
 //sysctl -w net.ipv4.ping_group_range="0 0"
 
-int create_icmp_socket(){
+int create_icmp_socket(void){
 #if defined(__WIN32__) && defined(__WIN64__)
     WSADATA wsa;
     SOCKET socket_desc;
@@ -380,7 +379,7 @@ int create_icmp_socket(){
     return socket_desc;
 }
 
-int create_igmp_socket(){
+int create_igmp_socket(void){
 #if defined(__WIN32__) && defined(__WIN64__)
     WSADATA wsa;
     SOCKET socket_desc;
@@ -408,7 +407,7 @@ int create_igmp_socket(){
     return socket_desc;
 }
 
-int create_raw_socket(){
+int create_raw_socket(void){
 #if defined(__WIN32__) && defined(__WIN64__)
     WSADATA wsa;
     SOCKET socket_desc;
@@ -650,7 +649,7 @@ char *build_getcl(char *host,char *page) {
     return query;
 }
 
-void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page){
+void *connection_handler_d(Params *main_ctx,char *host,char *port,char *page){
     if( strcmp (SERVICE,"https") == 0){
         SSL_load_error_strings();
         OpenSSL_add_ssl_algorithms();
@@ -975,7 +974,7 @@ void *connection_handler_d(main_ctx_t *main_ctx,char *host,char *port,char *page
     return 0;
 }
 
-void *connection_handler(main_ctx_t *main_ctx,char *proxy,char *proxyport,char *host,char *page){
+void *connection_handler(Params *main_ctx,char *proxy,char *proxyport,char *host,char *page){
     if( strcmp (SERVICE,"https") == 0){
         SSL_load_error_strings();
         OpenSSL_add_ssl_algorithms();
@@ -1327,13 +1326,21 @@ unsigned long long int scoreTextQgram(char *text,int len){
     return score;
 }
 
+const char* Versionx(void) {
+#ifdef VERSION
+    return VERSION;
+#else
+  return "WarGames 0.5 T.E.D. - The Enemy Dail - ENEMY-MODE";
+#endif
+}
+
 int getRank(char *cyph) {
 
     char str[40];
     int  rank = 0;
 
     FILE * dict = fopen(framex, "r");
-        if(!dict) return -1; /* cant open file */
+        if(!dict) return 0; /* cant open file */
     
     while(fgets(str,sizeof(str),dict) != NULL) {
         str[strlen(str)-1] = '\0';
@@ -1348,137 +1355,136 @@ int getRank(char *cyph) {
 /*take a char and return its encoded version according to the
   encryption params, update params, i.e. advance wheels
   this part uses Fauzan Mirza's code*/
-char scramble(char c, main_ctx_t *main_ctx)
+char scramble(char c, Params *p)
 {
     unsigned long int flag = 0;
     int j,i;
         c=toupper(c);
         if (!isalpha(c))
             return -1;
-        if(isspace(c)) {
-            c = ' ';
-        }
-
+        if (isspace(c))
+            c = '-';
+ 
     for(unsigned long int f = 0;f <= strlen(&c);f++) {
         /* Step up first rotor */
-        main_ctx->pos[0]++;
-        if (main_ctx->pos[0]>'Z')
-            main_ctx->pos[0] -= 26;
+        p->pos[0]++;
+        if (p->pos[0]>'Z')
+            p->pos[0] -= 26;
         /*  Step up second rotor if first rotor reached notch */
-        if (main_ctx->pos[0]==main_ctx->notch1[0][main_ctx->order[0]-1])
+        if (p->pos[0]==nox[p->order[0]-1])
         {
-            main_ctx->pos[1]++;
-            if (main_ctx->pos[1]>'Z')
-                main_ctx->pos[1] -= 26;
-            if (main_ctx->pos[0]==main_ctx->notch1[0][main_ctx->order[1]-1])
+            p->pos[1]++;
+            if (p->pos[1]>'Z')
+                p->pos[1] -= 26;
+            if (p->pos[0]==nox[p->order[1]-1])
             {
-                main_ctx->pos[1]++;
-                if (main_ctx->pos[1]>'Z')
-                    main_ctx->pos[1] -= 26;
-                if (main_ctx->pos[0]==main_ctx->notch1[0][main_ctx->order[2]-1])
+                p->pos[1]++;
+                if (p->pos[1]>'Z')
+                    p->pos[1] -= 26;
+                if (p->pos[0]==nox[p->order[2]-1])
                 {
-                    main_ctx->pos[1]++;
-                    if (main_ctx->pos[1]>'Z')
-                        main_ctx->pos[1] -= 26;
-                    if (main_ctx->pos[0]==main_ctx->notch1[0][main_ctx->order[3]-1])
+                    p->pos[1]++;
+                    if (p->pos[1]>'Z')
+                      p->pos[1] -= 26;
+                    if (p->pos[0]==nox[p->order[3]-1])
                     {
-                        main_ctx->pos[1]++;
-                        if (main_ctx->pos[1]>'Z')
-                            main_ctx->pos[1] -= 26;
-                        if (main_ctx->pos[0]==main_ctx->notch1[0][main_ctx->order[4]-1])
+                        p->pos[1]++;
+                        if (p->pos[1]>'Z')
+                            p->pos[1] -= 26;
+                        if (p->pos[0]==nox[p->order[4]-1])
                         {
-                            main_ctx->pos[1]++;
-                            if (main_ctx->pos[1]>'Z')
-                                main_ctx->pos[1] -= 26;
+                            p->pos[1]++;
+                            if (p->pos[1]>'Z')
+                                p->pos[1] -= 26;
                             flag=f;
             /* Set flag if second rotor reached notch */
-                            if (main_ctx->pos[1]==main_ctx->notch1[0][main_ctx->order[0]-1])
+                            if (p->pos[1]==nox[p->order[0]-1])
                             {
-                                main_ctx->pos[2]++;
-                                if (main_ctx->pos[2]>'Z')
-                                    main_ctx->pos[2] -= 26;
-                                if (main_ctx->pos[1]==main_ctx->notch1[0][main_ctx->order[1]-1])
+                                p->pos[2]++;
+                                if (p->pos[2]>'Z')
+                                    p->pos[2] -= 26;
+                                if (p->pos[1]==nox[p->order[1]-1])
                                 {
-                                    main_ctx->pos[2]++;
-                                    if (main_ctx->pos[2]>'Z')
-                                        main_ctx->pos[2] -= 26;
-                                    if (main_ctx->pos[1]==main_ctx->notch1[0][main_ctx->order[2]-1])
+                                    p->pos[2]++;
+                                    if (p->pos[2]>'Z')
+                                        p->pos[2] -= 26;
+                                    if (p->pos[1]==nox[p->order[2]-1])
                                     {
-                                        main_ctx->pos[2]++;
-                                        if (main_ctx->pos[2]>'Z')
-                                            main_ctx->pos[2] -= 26;
-                                        if (main_ctx->pos[1]==main_ctx->notch1[0][main_ctx->order[3]-1])
+                                        p->pos[2]++;
+                                        if (p->pos[2]>'Z')
+                                            p->pos[2] -= 26;
+                                        if (p->pos[1]==nox[p->order[3]-1])
                                         {
-                                            main_ctx->pos[2]++;
-                                            if (main_ctx->pos[2]>'Z')
-                                                main_ctx->pos[2] -= 26;
-                                            if (main_ctx->pos[1]==main_ctx->notch1[0][main_ctx->order[4]-1])
+                                            p->pos[2]++;
+                                            if (p->pos[2]>'Z')
+                                                p->pos[2] -= 26;
+                                            if (p->pos[1]==nox[p->order[4]-1])
                                             {
-                                                main_ctx->pos[2]++;
-                                                if (main_ctx->pos[2]>'Z')
-                                                    main_ctx->pos[2] -= 26;
+                                                p->pos[2]++;
+                                                if (p->pos[2]>'Z')
+                                                    p->pos[2] -= 26;
                                                 flag=f;
-                                                if (main_ctx->pos[2]==main_ctx->notch1[0][main_ctx->order[0]-1])
+                                                if (p->pos[2]==nox[p->order[0]-1])
                                                 {
-                                                    main_ctx->pos[3]++;
-                                                    if (main_ctx->pos[3]>'Z')
-                                                        main_ctx->pos[3] -= 26;
-                                                    if (main_ctx->pos[2]==main_ctx->notch1[0][main_ctx->order[1]-1])
+                                                    p->pos[3]++;
+                                                    if (p->pos[3]>'Z')
+                                                        p->pos[3] -= 26;
+                                                    if (p->pos[2]==nox[p->order[1]-1])
                                                     {
-                                                        main_ctx->pos[3]++;
-                                                        if (main_ctx->pos[3]>'Z')
-                                                            main_ctx->pos[3] -= 26;
-                                                        if (main_ctx->pos[2]==main_ctx->notch1[0][main_ctx->order[2]-1])
+                                                        p->pos[3]++;
+                                                        if (p->pos[3]>'Z')
+                                                            p->pos[3] -= 26;
+                                                        if (p->pos[2]==nox[p->order[2]-1])
                                                         {
-                                                            main_ctx->pos[3]++;
-                                                            if (main_ctx->pos[3]>'Z')
-                                                                main_ctx->pos[3] -= 26;
-                                                            if (main_ctx->pos[2]==main_ctx->notch1[0][main_ctx->order[3]-1])
+                                                            p->pos[3]++;
+                                                            if (p->pos[3]>'Z')
+                                                                p->pos[3] -= 26;
+                                                            if (p->pos[2]==nox[p->order[3]-1])
                                                             {
-                                                                main_ctx->pos[3]++;
-                                                                if (main_ctx->pos[3]>'Z')
-                                                                    main_ctx->pos[3] -= 26;
-                                                                if (main_ctx->pos[2]==main_ctx->notch1[0][main_ctx->order[4]-1])
+                                                                p->pos[3]++;
+                                                                if (p->pos[3]>'Z')
+                                                                    p->pos[3] -= 26;
+                                                                if (p->pos[2]==nox[p->order[4]-1])
                                                                 {
-                                                                    main_ctx->pos[3]++;
-                                                                    if (main_ctx->pos[3]>'Z')
-                                                                        main_ctx->pos[3] -= 26;
+                                                                    p->pos[3]++;
+                                                                    if (p->pos[3]>'Z')
+                                                                        p->pos[3] -= 26;
                                                                     flag=f;
-                                                                    if (main_ctx->pos[3]==main_ctx->notch1[0][main_ctx->order[0]-1])
+                                                                    if (p->pos[3]==nox[p->order[0]-1])
                                                                     {
-                                                                        main_ctx->pos[4]++;
-                                                                        if (main_ctx->pos[4]>'Z')
-                                                                            main_ctx->pos[4] -= 26;
-                                                                        if (main_ctx->pos[3]==main_ctx->notch1[0][main_ctx->order[1]-1])
+                                                                        p->pos[4]++;
+                                                                        if (p->pos[4]>'Z')
+                                                                            p->pos[4] -= 26;
+                                                                        if (p->pos[3]==nox[p->order[1]-1])
                                                                         {
-                                                                            main_ctx->pos[4]++;
-                                                                            if (main_ctx->pos[4]>'Z')
-                                                                                main_ctx->pos[4] -= 26;
-                                                                            if (main_ctx->pos[3]==main_ctx->notch1[0][main_ctx->order[2]-1])
+                                                                            p->pos[4]++;
+                                                                            if (p->pos[4]>'Z')
+                                                                                p->pos[4] -= 26;
+                                                                            if (p->pos[3]==nox[p->order[2]-1])
                                                                             {
-                                                                                main_ctx->pos[4]++;
-                                                                                if (main_ctx->pos[4]>'Z')
-                                                                                    main_ctx->pos[4] -= 26;
-                                                                                if (main_ctx->pos[3]==main_ctx->notch1[0][main_ctx->order[3]-1])
+                                                                                p->pos[4]++;
+                                                                                if (p->pos[4]>'Z')
+                                                                                    p->pos[4] -= 26;
+                                                                                if (p->pos[3]==nox[p->order[3]-1])
                                                                                 {
-                                                                                    main_ctx->pos[4]++;
-                                                                                    if (main_ctx->pos[4]>'Z')
-                                                                                        main_ctx->pos[4] -= 26;
-                                                                                    if (main_ctx->pos[3]==main_ctx->notch1[0][main_ctx->order[4]-1])
+                                                                                    p->pos[4]++;
+                                                                                    if (p->pos[4]>'Z')
+                                                                                        p->pos[4] -= 26;
+                                                                                    if (p->pos[3]==nox[p->order[4]-1])
                                                                                     {
-                                                                                        main_ctx->pos[4]++;
-                                                                                        if (main_ctx->pos[4]>'Z')
-                                                                                            main_ctx->pos[4] -= 26;
+                                                                                        p->pos[4]++;
+                                                                                        if (p->pos[4]>'Z')
+                                                                                            p->pos[4] -= 26;
                                                                                         flag=f;
-                                                                                        if (main_ctx->pos[4]==main_ctx->notch1[0][main_ctx->order[0]-1])
+                                                                                        if (p->pos[4]==nox[p->order[0]-1])
                                                                                         {
-                                                                                            if (main_ctx->pos[4]==main_ctx->notch1[0][main_ctx->order[1]-1])
+                                                                                            if (p->pos[4]==nox[p->order[1]-1])
                                                                                             {
-                                                                                                if (main_ctx->pos[4]==main_ctx->notch1[0][main_ctx->order[2]-1])
+                                                                                                if (p->pos[4]==nox[p->order[2]-1])
                                                                                                 {
-                                                                                                    if (main_ctx->pos[4]==main_ctx->notch1[0][main_ctx->order[3]-1])
+                                                                                                    if (p->pos[4]==nox[p->order[3]-1])
                                                                                                     {
-                                                                                                        if (main_ctx->pos[4]==main_ctx->notch1[0][main_ctx->order[4]-1])
+                                                                                                        if (p->pos[4]==nox[p->order[4]-1])
                                                                                                         {
                                                                                                             flag=f;
                                                                                                         }
@@ -1513,189 +1519,187 @@ char scramble(char c, main_ctx_t *main_ctx)
             if (flag < 2)
             {
                 f++;
-                main_ctx->pos[0]++;
-                if (main_ctx->pos[0]>'Z')
-                    main_ctx->pos[0] -= 26;
+            p->pos[0]++;
+                if (p->pos[0]>'Z')
+                    p->pos[0] -= 26;
             }
             if (flag > 1)
             {
                 f++;
-                main_ctx->pos[1]++;
-                if (main_ctx->pos[1]>'Z')
-                    main_ctx->pos[1] -= 26;
+            p->pos[1]++;
+                if (p->pos[1]>'Z')
+                    p->pos[1] -= 26;
             }
             if (flag > 2)
             {
                 f++;
-                main_ctx->pos[2]++;
-                if (main_ctx->pos[2]>'Z')
-                    main_ctx->pos[2] -= 26;
+            p->pos[2]++;
+                if (p->pos[2]>'Z')
+                    p->pos[2] -= 26;
             }
             if (flag > 3)
             {
                 f++;
-                main_ctx->pos[3]++;
-                if (main_ctx->pos[3]>'Z')
-                    main_ctx->pos[3] -= 26;
+            p->pos[3]++;
+                if (p->pos[3]>'Z')
+                    p->pos[3] -= 26;
             }
             if (flag > 4)
             {
                 f++;
-                main_ctx->pos[4]++;
-                if (main_ctx->pos[4]>'Z')
-                    main_ctx->pos[4] -= 26;
+            p->pos[4]++;
+                if (p->pos[4]>'Z')
+                    p->pos[4] -= 26;
                 flag=0;
             }
         }
     }
     /*  Swap pairs of letters on the plugboard */
-    for (unsigned long int k=0;main_ctx->plug[k]; k+=2)
+    for (unsigned long int k=0;p->plug[k]; k+=2)
     {
-        if (c==main_ctx->plug[k])
-            c=main_ctx->plug[k+1];
-        else if (c==main_ctx->plug[k+1])
-            c=main_ctx->plug[k];
+        if (c==p->plug[k])
+            c=p->plug[k+1];
+        else if (c==p->plug[k+1])
+            c=p->plug[k];
     }
 
         /*  Rotors (forward) */
         for (i=0; i<5; i++)
         {
-            c += main_ctx->pos[i]-'A';
+            c += p->pos[i]-'A';
             if (c>'Z')
                 c -= 26;
 
-            c -= main_ctx->rings[i]-'A';
+            c -= p->rings[i]-'A';
             if (c<'A')
                 c += 26;
 
-            c=main_ctx->rotor[main_ctx->order[i]-1][c-'A'];
+            c=p->rotor[p->order[i]-1][c-'A'];
 
-            c += main_ctx->rings[i]-'A';
+            c += p->rings[i]-'A';
             if (c>'Z')
                 c -= 26;
 
-            c -= main_ctx->pos[i]-'A';
+            c -= p->pos[i]-'A';
             if (c<'A')
                 c += 26;
         }
 
         /*  Reflecting rotor */
 
-        c=main_ctx->ref1[0][c-'A'];
+        c=ukw[c-'A'];
     
     /*  Rotors (reverse) */
         for (i=5; i; i--)
         {
-            c += main_ctx->pos[i-1]-'A';
+            c += p->pos[i-1]-'A';
             if (c>'Z')
                 c -= 26;
 
-            c -= main_ctx->rings[i-1]-'A';
+            c -= p->rings[i-1]-'A';
             if (c<'A')
                 c += 26;
 
             for (j=0; j<26; j++)
-                if (main_ctx->rotor[main_ctx->order[i-1]-1][j]==c)
+                if (p->rotor[p->order[i-1]-1][j]==c)
                     break;
             c=j+'A';
 
-            c += main_ctx->rings[i-1]-'A';
+            c += p->rings[i-1]-'A';
             if (c>'Z')
                 c -= 26;
 
-            c -= main_ctx->pos[i-1]-'A';
+            c -= p->pos[i-1]-'A';
             if (c<'A')
                 c += 26;
         }
         
     /*  Plugboard */
-        for (unsigned long int k=0;main_ctx->plug[k]; k+=2)
+        for (unsigned long int k=0;p->plug[k]; k+=2)
         {
-            if (c==main_ctx->plug[k])
-                c=main_ctx->plug[k+1];
-            else if (c==main_ctx->plug[k+1])
-                c=main_ctx->plug[k];
+            if (c==p->plug[k])
+                c=p->plug[k+1];
+            else if (c==p->plug[k+1])
+                c=p->plug[k];
         }
 
   return c;
 }
 
 /*take a string, return encoded string*/
-char *enigma(char in[MSGLEN], main_ctx_t *main_ctx)
+char *enigma(char *in, Params *p)
 {
     unsigned long int j;
     for(j = 0; j < strlen(in); j++)
-    x[j] = scramble(in[j], main_ctx);
+    x[j] = scramble(in[j], p);
     x[j] = '\0';
     return x;
 }
 
 /*read in a string, and pass it through enigma*/
-void cypher(main_ctx_t *main_ctx)
+void cypher(Params p)
 {
     char inx[MSGLEN], o[MSGLEN];
     char c;
     int i = 0;
-    while((c = getchar()) != '\n')
-    {
-        if(isspace(c)) {
-            c = '-';
-        }
-        inx[i] = toupper(c);
-        i++;
-    }
-    inx[i] = '\0';
-    strcpy(o[MSGLEN], enigma(inx[MSGLEN], main_ctx));
-    printf("%s\n%s\n", o[MSGLEN], inx[MSGLEN]);
-    //return 0;
+  while((c = getchar()) != '\n')
+  {
+      if(isspace(c)) {
+        c = '-';
+      }
+    inx[i] = toupper(c);
+    i++;
+  }
+  inx[i] = '\0';
+    strcpy(o, enigma(inx, &p));
+    printf("%s\n%s\n", o, inx);
 }
 
-int rotate(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, char *plug, int ct,void *tid)
+int rotate(int a, int b, int c, int d, int e, char *cyph, char *plug, int *ct,void *tid)
 {
     int rank = IN_RANK;
-    
-    main_ctx->order[0] = a;
-    main_ctx->order[1] = b;
-    main_ctx->order[2] = c;
-    main_ctx->order[3] = d;
-    main_ctx->order[4] = e;
+    Params p;
+  p.order[0] = a;
+  p.order[1] = b;
+  p.order[2] = c;
+  p.order[3] = d;
+  p.order[4] = e;
     const time_t proc_start = time (NULL);
   //p.rings[0] = p.rings[1] = p.rings[2] = p.rings[3] = p.rings[4] = 'A';
   //p.pos[0] = p.pos[1] = p.pos[2] = p.pos[3] = p.pos[4] = 'A';
-  strcpy(main_ctx->plug, plug);
-
-  for(main_ctx->pos[0] = 'A'; main_ctx->pos[0] <= 'Z'; main_ctx->pos[0]++)
+  strcpy(p.plug, plug);
+  for(p.pos[0] = 'A'; p.pos[0] <= 'Z'; p.pos[0]++)
   {
-    for(main_ctx->pos[1] = 'A'; main_ctx->pos[1] <= 'Z'; main_ctx->pos[1]++)
+    for(p.pos[1] = 'A'; p.pos[1] <= 'Z'; p.pos[1]++)
     {
-        for(main_ctx->pos[2] = 'A'; main_ctx->pos[2] <= 'Z'; main_ctx->pos[2]++)
+        for(p.pos[2] = 'A'; p.pos[2] <= 'Z'; p.pos[2]++)
         {
-            for(main_ctx->pos[3] = 'A'; main_ctx->pos[3] <= 'Z'; main_ctx->pos[3]++)
+            for(p.pos[3] = 'A'; p.pos[3] <= 'Z'; p.pos[3]++)
             {
-                for(main_ctx->pos[4] = 'A'; main_ctx->pos[4] <= 'Z'; main_ctx->pos[4]++)
+                for(p.pos[4] = 'A'; p.pos[4] <= 'Z'; p.pos[4]++)
                 {
-                    for(main_ctx->rings[0] = 'A'; main_ctx->rings[0] <= 'Z'; main_ctx->rings[0]++)
+                    for(p.rings[0] = 'A'; p.rings[0] <= 'Z'; p.rings[0]++)
                     {
-                        for(main_ctx->rings[1] = 'A'; main_ctx->rings[1] <= 'Z'; main_ctx->rings[1]++)
+                        for(p.rings[1] = 'A'; p.rings[1] <= 'Z'; p.rings[1]++)
                         {
-                            for(main_ctx->rings[2] = 'A'; main_ctx->rings[2] <= 'Z'; main_ctx->rings[2]++)
+                            for(p.rings[2] = 'A'; p.rings[2] <= 'Z'; p.rings[2]++)
                             {
-                                for(main_ctx->rings[3] = 'A'; main_ctx->rings[3] <= 'Z'; main_ctx->rings[3]++)
+                                for(p.rings[3] = 'A'; p.rings[3] <= 'Z'; p.rings[3]++)
                                 {
-                                    for(main_ctx->rings[4] = 'A'; main_ctx->rings[4] <= 'Z'; main_ctx->rings[4]++)
+                                    for(p.rings[4] = 'A'; p.rings[4] <= 'Z'; p.rings[4]++)
                                     {
                     
-                                        //main_ctx_t *cp = main_ctx;
+                                        Params cp = p;
                                         unsigned long int i = 0;
                                         int fail = 0;
                                         
                                         /* Calculate all cypher */
-                                        strncpy(fff, enigma(cyph, main_ctx), strlen(fff));
+                                        strlcpy(fff, enigma(cyph, &cp), sizeof(fff));
                                         rank = getRank(fff);
 
                                         while(strlen(fff) > i)
                                         {
-                                            if(cyph[i] != scramble(fff[i], main_ctx)) fail++;
+                                            if(cyph[i] != scramble(fff[i], &cp)) fail++;
                                             
                                             /* if we are bruteforcing plug dont allow fails */
                                             if ( ( fail > 666 ) || (i == 0 && fail > 0 ) || (i == 1 && fail > 0) ) { fail = 666; break; }
@@ -1709,41 +1713,29 @@ int rotate(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, c
                                             if ( fail <= 666 ) {
                                                 /* XXX: Show result if is different to the last one */
                                                 if( rank > oldrank ) {
-#if !defined(__WIN32__) && !defined(__WIN64__)
                                                     printf("\x1B[33mWheels\x1B[39m \x1B[32m%d %d %d %d %d\x1B[39m \x1B[33mStart\x1B[39m \x1B[32m%c %c %c %c %c\x1B[39m \x1B[33mRings\x1B[39m \x1B[32m%c %c %c %c %c\x1B[39m \x1B[33mStecker\x1B[39m \"\x1B[32m%s\x1B[39m\" TEXT: %s Rank: %d\n",
-                                                           main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4],
-                                                           main_ctx->pos[0], main_ctx->pos[1], main_ctx->pos[2], main_ctx->pos[3], main_ctx->pos[4],
-                                                           main_ctx->rings[0], main_ctx->rings[1], main_ctx->rings[2], main_ctx->rings[3], main_ctx->rings[4], main_ctx->plug, fff, rank);
-#elif !defined(__APPLE__) && !defined(__LINUX__)
-                                                    printf("Wheels %d %d %d %d %d Start %c %c %c %c %c Ring %c %c %c %c %c Stecker \"%s\" TEXT: %s Rank: %d\n",
-                                                           main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4],
-                                                           main_ctx->pos[0], main_ctx->pos[1], main_ctx->pos[2], main_ctx->pos[3], main_ctx->pos[4],
-                                                           main_ctx->rings[0], main_ctx->rings[1], main_ctx->rings[2], main_ctx->rings[3], main_ctx->rings[4], main_ctx->plug, fff, rank);
-#endif
+                                                           cp.order[0], cp.order[1], cp.order[2], cp.order[3], cp.order[4],
+                                                           cp.pos[0], cp.pos[1], cp.pos[2], cp.pos[3], cp.pos[4],
+                                                           cp.rings[0], cp.rings[1], cp.rings[2], cp.rings[3], cp.rings[4], cp.plug, fff, rank);
+                                                    
                                                     oldrank = rank;
                                                 }
                                                 
                                             } else continue;
                                             
-                                        if(strcmp(cyph, enigma(fff, main_ctx)) == 0)
+                                        if(strcmp(cyph, enigma(fff, &cp)) == 0)
                                         {
-#if !defined(__WIN32__) && !defined(__WIN64__)
-                                            printf("\x1B[33mWheels\x1B[39m \x1B[32m%d %d %d %d %d\x1B[39m \x1B[33mStart\x1B[39m \x1B[32m%c %c %c %c %c\x1B[39m \x1B[33mRings\x1B[39m \x1B[32m%c %c %c %c %c\x1B[39m \x1B[33mStecker\x1B[39m \"\x1B[32m%s\x1B[39m\"\n",
-                                                   main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4],
-                                                   main_ctx->pos[0], main_ctx->pos[1], main_ctx->pos[2], main_ctx->pos[3], main_ctx->pos[4],
-                                                   main_ctx->rings[0], main_ctx->rings[1], main_ctx->rings[2], main_ctx->rings[3], main_ctx->rings[4], main_ctx->plug);
-#elif !defined(__APPLE__) && !defined(__LINUX__)
-                                            printf("Wheels %d %d %d %d %d Start %c %c %c %c %c Rings %c %c %c %c %c Stecker \"%s\"\n",
-                                                   main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4],
-                                                   main_ctx->pos[0], main_ctx->pos[1], main_ctx->pos[2], main_ctx->pos[3], main_ctx->pos[4],
-                                                   main_ctx->rings[0], main_ctx->rings[1], main_ctx->rings[2], main_ctx->rings[3], main_ctx->rings[4], main_ctx->plug);
-#endif
-                                            printf("%s decoded -> %s\n",cyph,enigma(cyph, main_ctx));
+                                            printf("\x1B[33mWheels\x1B[39m \x1B[32m%d %d %d %d %d\x1B[39m \x1B[33mStart\x1B[39m \x1B[32m%c %c %c %c %c\x1B[39m \x1B[33mRings\x1B[39m \x1B[32m%c %c %c %c %c\x1B[39m \x1B[33mStecker\x1B[39m \"\x1B[32m%s\x1B[39m\"\nReflector: %s\nNOTCH: %s\n",
+                                                   cp.order[0], cp.order[1], cp.order[2], cp.order[3], cp.order[4],
+                                                   cp.pos[0], cp.pos[1], cp.pos[2], cp.pos[3], cp.pos[4],
+                                                   cp.rings[0], cp.rings[1], cp.rings[2], cp.rings[3], cp.rings[4], cp.plug,ukw,nox);
+                                            
+                                            printf("%s decoded -> %s\n",cyph,enigma(cyph, &cp));
                                             const time_t proc_stop = time (NULL);
                                             printf("Time elapsed : begin %ld - end %ld \n",proc_start,proc_stop);
                                             pthread_join(tid, NULL);
+                                            return 1;
                                         } else continue;
-                                        printf("\n... Found %d solutions.\n",ct);
                                     }
                                 }
                             }
@@ -1758,12 +1750,12 @@ int rotate(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, c
   return 0;
 }
 
-int test(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, int ct,void *tid) {
+void test(int a, int b, int c, int d, int e, char *cyph, int *ct,void *tid) {
    
     printf("... calculating\n");
     const time_t proc_start = time (NULL);
     char A, B, C, D, E, F, G, H, I, J;
-    int i = 0,cs;
+    int cs;
     
     strcpy(s, "");
     printf("... Checking wheels %d %d %d %d %d\n",  a, b, c, d, e);
@@ -1775,10 +1767,11 @@ int test(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, int
         {
           for(B = A + 1; B <= TO; B++)
           {
-              i++;
-              s[0] = A;
+              int i = 0;
+              s[i] = A;
               s[1] = B;
               s[2] = '\0';
+              i++;
               if(cs > 1)
               {
                   for(C = A + 1; C <= TO; C++)
@@ -1856,30 +1849,30 @@ int test(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, int
                                                               s[9] = J;
                                                               s[10] = '\0';
                                     
-                                                              rotate(main_ctx,a, b, c, d, e, cyph, s, ct,tid);
+                                                              rotate(a, b, c, d, e, cyph, s, ct,tid);
                                                           }
                                                       }
                                                   }
                                                   else{
-                                                      rotate(main_ctx,a, b, c, d, e, cyph, s, ct,tid);
+                                                      rotate(a, b, c, d, e, cyph, s, ct,tid);
                                                   }
                                               }
                                           }
                                       }
                                       else{
-                                          rotate(main_ctx,a, b, c, d, e, cyph, s, ct,tid);
+                                          rotate(a, b, c, d, e, cyph, s, ct,tid);
                                       }
                                   }
                               }
                           }
                           else{
-                              rotate(main_ctx,a, b, c, d, e, cyph, s,  ct,tid);
+                              rotate(a, b, c, d, e, cyph, s,  ct,tid);
                           }
                       }
                   }
               }
               else{
-                  rotate(main_ctx,a, b, c, d, e, cyph, s, ct,tid);
+                  rotate(a, b, c, d, e, cyph, s, ct,tid);
                     }
                 }
             }
@@ -1887,37 +1880,36 @@ int test(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, int
     }
     const time_t proc_stop = time (NULL);
     printf("Time elapsed Test: begin %ld - end %ld \n",proc_start,proc_stop);
-    return 0;
 }
 
 /*run on all permutations of wheels a, b, c, d, e*/
-int permute(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph, int ct,void *tid)
+void permute(int a, int b, int c, int d, int e, char *cyph, int *ct,void *tid)
 {
     printf("... testing\n");
-    test(main_ctx,a, b, c, d, e, cyph, ct,tid);
-    test(main_ctx,b, a, c, d, e, cyph, ct,tid);
-    test(main_ctx,b, c, a, d, e, cyph, ct,tid);
-    test(main_ctx,b, c, d, a, e, cyph, ct,tid);
-    test(main_ctx,b, c, d, e, a, cyph, ct,tid);
-    test(main_ctx,b, c, d, e, a, cyph, ct,tid);
-    test(main_ctx,c, b, d, e, a, cyph, ct,tid);
-    test(main_ctx,c, d, b, e, a, cyph, ct,tid);
-    test(main_ctx,c, d, e, b, a, cyph, ct,tid);
-    test(main_ctx,c, d, e, a, b, cyph, ct,tid);
-    test(main_ctx,c, d, e, a, b, cyph, ct,tid);
-    test(main_ctx,d, c, e, a, b, cyph, ct,tid);
-    test(main_ctx,d, e, c, a, b, cyph, ct,tid);
-    test(main_ctx,d, e, a, c, b, cyph, ct,tid);
-    test(main_ctx,d, e, a, b, c, cyph, ct,tid);
-    test(main_ctx,e, d, a, b, c, cyph, ct,tid);
-    test(main_ctx,e, a, d, b, c, cyph, ct,tid);
-    test(main_ctx,e, a, b, d, c, cyph, ct,tid);
-    test(main_ctx,e, a, b, c, d, cyph, ct,tid);
-    test(main_ctx,a, e, b, c, d, cyph, ct,tid);
-    test(main_ctx,a, b, e, c, d, cyph, ct,tid);
-    test(main_ctx,a, b, c, e, d, cyph, ct,tid);
-    return 0;
+    test(a, b, c, d, e, cyph, ct,tid);
+    test(b, a, c, d, e, cyph, ct,tid);
+    test(b, c, a, d, e, cyph, ct,tid);
+    test(b, c, d, a, e, cyph, ct,tid);
+    test(b, c, d, e, a, cyph, ct,tid);
+    test(b, c, d, e, a, cyph, ct,tid);
+    test(c, b, d, e, a, cyph, ct,tid);
+    test(c, d, b, e, a, cyph, ct,tid);
+    test(c, d, e, b, a, cyph, ct,tid);
+    test(c, d, e, a, b, cyph, ct,tid);
+    test(c, d, e, a, b, cyph, ct,tid);
+    test(d, c, e, a, b, cyph, ct,tid);
+    test(d, e, c, a, b, cyph, ct,tid);
+    test(d, e, a, c, b, cyph, ct,tid);
+    test(d, e, a, b, c, cyph, ct,tid);
+    test(e, d, a, b, c, cyph, ct,tid);
+    test(e, a, d, b, c, cyph, ct,tid);
+    test(e, a, b, d, c, cyph, ct,tid);
+    test(e, a, b, c, d, cyph, ct,tid);
+    test(a, e, b, c, d, cyph, ct,tid);
+    test(a, b, e, c, d, cyph, ct,tid);
+    test(a, b, c, e, d, cyph, ct,tid);
 }
+
 
 void xinit(void)
 {
@@ -1955,7 +1947,7 @@ void *reader(void *arg) {
 }
 
 /*all combinations of five possible wheels*/
-int permuteAll(main_ctx_t *main_ctx,char *cyph,void *tid)
+int permuteAll(char *cyph,void *tid)
 {
     int ct = 0;
     for(int d = 1;d<=9;d++){
@@ -1963,19 +1955,19 @@ int permuteAll(main_ctx_t *main_ctx,char *cyph,void *tid)
             for(int f = 1;f<=9;f++){
                 for(int g = 1;g<=9;g++){
                     for(int h = 1;h<=9;h++){
-                        permute(main_ctx,d,e,f,g,h, cyph, ct,tid);
+                        permute(d,e,f,g,h, cyph, &ct,tid);
                     }
                 }
             }
         }
     }
-    //printf("\n... Found %d solutions.\n", ct);
+    printf("\n... Found %d solutions.\n", ct);
     return 0;
 }
 
 void *permuteAX(void *arg)
 {
-    main_ctx_t main_ctx;
+    Params p;
     pthread_once(&once, xinit);
     pthread_mutex_lock(&lock);              // lock
     int *fds = (int *)arg;
@@ -1997,7 +1989,7 @@ void *permuteAX(void *arg)
             exit(3);
         }
 
-        if(!permuteAll(&main_ctx,main_ctx.cyph,t)){
+        if(!permuteAll(p.cyph,t)){
             perror("main");
             exit(3);
         }
@@ -2008,17 +2000,20 @@ void *permuteAX(void *arg)
     pthread_mutex_destroy(&lock);
     pthread_exit(NULL);                     //exit from child thread
 }
+
+
 /*once combination of five possible wheels*/
-int permuteOnce(main_ctx_t *main_ctx,int a, int b, int c, int d, int e, char *cyph,void *tid)
+int permuteOnce(int a, int b, int c, int d, int e, char *cyph,void *tid)
 {
     int ct = 0;
-    permute(main_ctx,a, b, c, d, e, cyph, ct,tid);
-    //printf("\n... Found %d solutions.\n", ct);
+    permute(a, b, c, d, e, cyph, &ct,tid);
+    printf("\n... Found %d solutions.\n", ct);
     return 0;
 }
+
 void *permuteOX(void *arg)
 {
-    main_ctx_t main_ctx;
+    Params p;
     pthread_once(&once, xinit);
     pthread_mutex_lock(&lock);
     int *fds = (int *)arg;
@@ -2040,7 +2035,7 @@ void *permuteOX(void *arg)
             exit(3);
         }
         
-        if(!permuteOnce(&main_ctx,main_ctx.order[0], main_ctx.order[1],main_ctx.order[2], main_ctx.order[3], main_ctx.order[4],main_ctx.cyph,t)) {
+        if(!permuteOnce(p.order[0], p.order[1],p.order[2], p.order[3], p.order[4],p.cyph,t)) {
             perror("main");
             exit(3);
         }
@@ -2051,6 +2046,7 @@ void *permuteOX(void *arg)
     pthread_mutex_destroy(&lock);
     pthread_exit(NULL);                     //exit from child thread
 }
+
 /*helper to read a character*/
 char readCh(void)
 {
@@ -2060,7 +2056,7 @@ char readCh(void)
   return ret;
 }
 /*init the starting position*/
-void initParams(main_ctx_t *main_ctx)
+void initParams(Params *p)
 {
     int i,k,j;
     char c,d,g;
@@ -2068,29 +2064,35 @@ void initParams(main_ctx_t *main_ctx)
     c = readCh();
     if(c != 'u')
     {
-        for(i = 0; i < 5; i++)
+        if(strcmp(nerd, "--option-1") == 0)
         {
-          printf("Wheel %d: ", i + 1);
-          main_ctx->order[i] = (readCh() - 48);
+            strlcpy(ukw,(const char *)p->ref1,MSGC);
+            strlcpy(nox,(const char *)p->notch1,MSGG);
         }
         for(i = 0; i < 5; i++)
         {
-          printf("Start %d: ", i + 1);
-          main_ctx->pos[i] = readCh();
+            printf("Wheel %d: ", i + 1);
+            p->order[i] = (readCh() - 48);
         }
         for(i = 0; i < 5; i++)
         {
-          printf("Ring  %d: ", i + 1);
-          main_ctx->rings[i] = readCh();
+            printf("Start %d: ", i + 1);
+            p->pos[i] = readCh();
+        }
+        for(i = 0; i < 5; i++)
+        {
+            printf("Ring  %d: ", i + 1);
+            p->rings[i] = readCh();
         }
         printf("Stecker: ");
         i = 0;
         while((d = getchar()) != '\n')
         {
-          main_ctx->plug[i] = d;
-          i++;
+            p->plug[i] = d;
+            i++;
         }
-        main_ctx->plug[i] = '\0';
+        p->plug[i] = '\0';
+        
     }
     else
     {
@@ -2098,60 +2100,52 @@ void initParams(main_ctx_t *main_ctx)
         k = 0;
         while((d = getchar()) != '\n')
         {
-        main_ctx->ref1[0][k] = d;
-        k++;
+            ukw[k] = d;
+            k++;
         }
-        main_ctx->ref1[0][k] = '\0';
+        ukw[k] = '\0';
         
         printf("NOTCH: ");
         j = 0;
         while((g = getchar()) != '\n')
         {
-        main_ctx->notch1[0][j] = g;
-        j++;
+            nox[j] = g;
+            j++;
         }
-        main_ctx->notch1[0][j] = '\0';
+        nox[j] = '\0';
         
         for(i = 0; i < 5; i++)
         {
-          printf("Wheel %d: ", i + 1);
-          main_ctx->order[i] = (readCh() - 48);
+            printf("Wheel %d: ", i + 1);
+            p->order[i] = (readCh() - 48);
         }
         for(i = 0; i < 5; i++)
         {
-          printf("Start %d: ", i + 1);
-          main_ctx->pos[i] = readCh();
+            printf("Start %d: ", i + 1);
+            p->pos[i] = readCh();
         }
         for(i = 0; i < 5; i++)
         {
-          printf("Ring  %d: ", i + 1);
-          main_ctx->rings[i] = readCh();
+            printf("Ring  %d: ", i + 1);
+            p->rings[i] = readCh();
         }
         printf("Stecker: ");
         i = 0;
         while((c = getchar()) != '\n')
         {
-          main_ctx->plug[i] = c;
-          i++;
+            p->plug[i] = c;
+            i++;
         }
-        main_ctx->plug[i] = '\0';
-          
+        p->plug[i] = '\0';
+        
     }
-#if !defined(__WIN32__) && !defined(__WIN64__)
-  printf("\x1B[33mWheels\x1B[39m \x1B[32m %d %d %d %d %d \x1B[39m \x1B[33mStart\x1B[39m \x1B[32m %c %c %c %c %c \x1B[39m \x1B[33mRings\x1B[39m \x1B[32m %c %c %c %c %c \x1B[39m Stecker \"\x1B[32m%s\x1B[39m\"\n\x1B[33mReflector\x1B[39m \x1B[32m %s \x1B[39m \x1B[33mNOTch\x1B[39m\x1B[32m %s \x1B[39m\n",
-         main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4],
-         main_ctx->pos[0], main_ctx->pos[1], main_ctx->pos[2], main_ctx->pos[3], main_ctx->pos[4],
-         main_ctx->rings[0], main_ctx->rings[1], main_ctx->rings[2], main_ctx->rings[3], main_ctx->rings[4], main_ctx->plug,main_ctx->ref1[0],main_ctx->notch1[0]);
-#elif !defined(__APPLE__) && !defined(__LINUX__)
-    printf("Wheels %d %d %d %d %d Start %c %c %c %c %c Rings %c %c %c %c %c Stecker \"%s\"\nReflector %s NOTch %s \n",
-           main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4],
-           main_ctx->pos[0], main_ctx->pos[1], main_ctx->pos[2], main_ctx->pos[3], main_ctx->pos[4],
-           main_ctx->rings[0], main_ctx->rings[1], main_ctx->rings[2], main_ctx->rings[3], main_ctx->rings[4], main_ctx->plug,main_ctx->ref1[0],main_ctx->notch1[0]);
-#endif
-    cypher(main_ctx);
+    printf("\x1B[33mWheels\x1B[39m \x1B[32m %d %d %d %d %d \x1B[39m \x1B[33mStart\x1B[39m \x1B[32m %c %c %c %c %c \x1B[39m \x1B[33mRings\x1B[39m \x1B[32m %c %c %c %c %c \x1B[39m Stecker \"\x1B[32m%s\x1B[39m\"\n",
+           p->order[0], p->order[1], p->order[2], p->order[3], p->order[4],
+           p->pos[0], p->pos[1], p->pos[2], p->pos[3], p->pos[4],
+           p->rings[0], p->rings[1], p->rings[2], p->rings[3], p->rings[4], p->plug);
 }
 
-void sbfParams(main_ctx_t *main_ctx)
+void sbfParams(Params *p)
 {
     int i,j,k,l,m;
     char f,a,b,d,g,h;
@@ -2159,27 +2153,32 @@ void sbfParams(main_ctx_t *main_ctx)
     f = readCh();
     if(f != 'u')
     {
+        if(strcmp(nerd, "--option-1b") == 0)
+        {
+            strlcpy(ukw,(const char *)p->ref1,MSGC);
+            strlcpy(nox,(const char *)p->notch1,MSGG);
+        }
         for(i = 0; i < 5; i++)
         {
             printf("Wheel %d: ", i + 1);
-            main_ctx->order[i] = (readCh() - 48);
+            p->order[i] = (readCh() - 48);
         }
         
         printf("Message: ");
         i = 0;
         while((a = getchar()) != '\n')
         {
-            main_ctx->cyph[i] = a;
+            p->cyph[i] = a;
             i++;
         }
-        main_ctx->cyph[i] = '\0';
+        p->cyph[i] = '\0';
         
         printf("Dict: ");
         l = 0;
         while((b = getchar()) != '\n')
         {
-        framex[l] = b;
-        l++;
+            framex[l] = b;
+            l++;
         }
         framex[l] = '\0';
         
@@ -2187,12 +2186,11 @@ void sbfParams(main_ctx_t *main_ctx)
         m = 0;
         while((h = getchar()) != '\n')
         {
-        chad[m] = h;
-        m++;
+            chad[m] = h;
+            m++;
         }
         chad[m] = '\0';
         
-        //strcpy(framex,"/usr/local/share/enigma/german.txt");
     }
     else
     {
@@ -2200,38 +2198,37 @@ void sbfParams(main_ctx_t *main_ctx)
         j = 0;
         while((d = getchar()) != '\n')
         {
-            main_ctx->ref1[0][j] = d;
+            ukw[j] = d;
             j++;
         }
-        main_ctx->ref1[0][j] = '\0';
+        ukw[j] = '\0';
         printf("NOTCH: ");
         k = 0;
         while((g = getchar()) != '\n')
         {
-        main_ctx->notch1[0][k] = g;
-        k++;
+            nox[k] = g;
+            k++;
         }
-        main_ctx->notch1[0][k] = '\0';
+        nox[k] = '\0';
         for(i = 0; i < 5; i++)
         {
             printf("Wheel %d: ", i + 1);
-            main_ctx->order[i] = (readCh() - 48);
+            p->order[i] = (readCh() - 48);
         }
         printf("Message: ");
         i = 0;
         while((a = getchar()) != '\n')
         {
-            main_ctx->cyph[i] = a;
+            p->cyph[i] = a;
             i++;
         }
-        main_ctx->cyph[i] = '\0';
-        
+        p->cyph[i] = '\0';
         printf("Dict: ");
         l = 0;
         while((b = getchar()) != '\n')
         {
-        framex[l] = b;
-        l++;
+            framex[l] = b;
+            l++;
         }
         framex[l] = '\0';
         
@@ -2239,60 +2236,57 @@ void sbfParams(main_ctx_t *main_ctx)
         m = 0;
         while((h = getchar()) != '\n')
         {
-        chad[m] = h;
-        m++;
+            chad[m] = h;
+            m++;
         }
         chad[m] = '\0';
+    }
+        //dict(p->crib);
+        printf("\x1B[33mWheels\x1B[39m \x1B[32m %d %d %d %d %d \x1B[39m \x1B[33mMessage\x1B[39m\x1B[32m %s \x1B[39m\x1B[33mDict\x1B[39m \x1B[32m %s \x1B[39m\n",
+               p->order[0], p->order[1], p->order[2], p->order[3], p->order[4],p->cyph,framex);
+        int core = atoi(chad);
+        if(core < 1 || core > 101) {
+            perror(chad);
+            exit(2);
+        }
+    
+        srand(time(0));
+        int result;
+        //int status;
         
-        //strcpy(framex,"/usr/local/share/enigma/german.txt");
-    }
-#if !defined(__WIN32__) && !defined(__WIN64__)
-    printf("\x1B[33mWheels\x1B[39m \x1B[32m %d %d %d %d %d \x1B[39m \x1B[33mMessage\x1B[39m\x1B[32m %s \x1B[39m\x1B[33mDict\x1B[39m \x1B[32m %s \x1B[39m\n\x1B[33mReflector\x1B[39m \x1B[32m %s \x1B[39m \x1B[33mNOTch\x1B[39m\x1B[32m %s \x1B[39m\n",
-           main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4], main_ctx->cyph, framex,main_ctx->ref1[0],main_ctx->notch1[0]);
-#elif !defined(__APPLE__) && !defined(__LINUX__)
-    printf("Wheels%d %d %d %d %d Message %s Dict %s \nReflector %s NOTch %s \n",
-           main_ctx->order[0], main_ctx->order[1], main_ctx->order[2], main_ctx->order[3], main_ctx->order[4], main_ctx->cyph, framex,main_ctx->ref1[0],main_ctx->notch1[0]);
-#endif
-    int core = atoi(chad);
-    if(core < 0 || core > 101) {
-        perror(chad);
-        exit(2);
-    }
-    srand(time(0));
-    int result;
-    //int status;
-
-    result = pipe (fds);
-    if (result == -1){
-        perror("pipe");
-        exit(2);
-    }
-    
-    pthread_t tid = malloc(100U * sizeof(pthread_t));
-    
-    for (int i = 0;i < core;i++) {
-        //pthread_t tid = malloc(1 * sizeof(pthread_t));
-        //pthread_create(*(pthread_t**)&tid, NULL, reader, (void*)&fds[i]);
+        result = pipe (fds);
+        if (result == -1){
+            perror("pipe");
+            exit(2);
+        }
+        
+        pthread_t tid = malloc(100U * sizeof(pthread_t));
+        
+        for (int i = 0;i <= core;i++) {
+            //pthread_t tid = malloc(1 * sizeof(pthread_t));
+            //pthread_create(*(pthread_t**)&tid, NULL, reader, (void*)&fds[i]);
 #if defined(__APPLE__)
-        pthread_create(*(pthread_t**)&tid[i], NULL, permuteOX, (void*)&fds[i]);
-        printf("created: %llu\n", (unsigned long long)&tid[i]);
+            if(!pthread_create(*(pthread_t**)&tid[i], NULL, permuteOX, (void*)&fds[i])) {
+                perror("CREATE THREAD");
+            }
+            printf("created: %llu\n", (unsigned long long)&tid[i]);
 #endif
 #if defined(__LINUX__) && defined(__WIN32__) && defined(__WIN64__)
-        pthread_create(*(pthread_t**)&tid, NULL, permuteOX, (void*)&fds[i]);
-        printf("created: %llu\n", (unsigned long long)&tid);
+            pthread_create(*(pthread_t**)&tid, NULL, permuteOX, (void*)&fds[i]);
+            printf("created: %llu\n", (unsigned long long)&tid);
 #endif
-    }
+        }
         read(fds[0], &tid, sizeof(tid));
         //write(fds[1], &tid[i], sizeof(tid[i]));
-    
+        
         //printf("joining: %llu\n", (unsigned long long)&tid[i]);
         //pthread_join(&tid[i], (void*)&status);
         //printf("Thread: %llu Status: %d\n",(unsigned long long)&tid[i],(int)status);
-    
-    //pthread_exit(0);
+        
+        //pthread_exit(0);
 }
 
-void bfParams(main_ctx_t *main_ctx)
+void bfParams(Params *p)
 {
     int i,j,k,l,m;
     char c,a,b,d,g,h;
@@ -2300,21 +2294,26 @@ void bfParams(main_ctx_t *main_ctx)
     c = readCh();
     if(c != 'u')
     {
+        if(strcmp(nerd, "--option-1a") == 0)
+        {
+            strlcpy(ukw,(const char *)p->ref1,MSGC);
+            strlcpy(nox,(const char *)p->notch1,MSGG);
+        }
         printf("Message: ");
         i = 0;
         while((a = getchar()) != '\n')
         {
-        main_ctx->cyph[i] = a;
-        i++;
+            p->cyph[i] = a;
+            i++;
         }
-        main_ctx->cyph[i] = '\0';
+        p->cyph[i] = '\0';
         
         printf("Dict: ");
         l = 0;
         while((b = getchar()) != '\n')
         {
-        framex[l] = b;
-        l++;
+            framex[l] = b;
+            l++;
         }
         framex[l] = '\0';
         
@@ -2322,12 +2321,11 @@ void bfParams(main_ctx_t *main_ctx)
         m = 0;
         while((h = getchar()) != '\n')
         {
-        chad[m] = h;
-        m++;
+            chad[m] = h;
+            m++;
         }
         chad[m] = '\0';
         
-        //strcpy(framex,"/usr/local/share/enigma/german.txt");
     }
     else
     {
@@ -2335,33 +2333,32 @@ void bfParams(main_ctx_t *main_ctx)
         j = 0;
         while((d = getchar()) != '\n')
         {
-        main_ctx->ref1[0][j] = d;
-        j++;
+            ukw[j] = d;
+            j++;
         }
-        main_ctx->ref1[0][j] = '\0';
+        ukw[j] = '\0';
         printf("NOTCH: ");
         k = 0;
         while((g = getchar()) != '\n')
         {
-        main_ctx->notch1[0][k] = g;
-        k++;
+            nox[k] = g;
+            k++;
         }
-        main_ctx->notch1[0][k] = '\0';
+        nox[k] = '\0';
         printf("Message: ");
         i = 0;
         while((a = getchar()) != '\n')
         {
-        main_ctx->cyph[i] = a;
-        i++;
+            p->cyph[i] = a;
+            i++;
         }
-        main_ctx->cyph[i] = '\0';
-        
+        p->cyph[i] = '\0';
         printf("Dict: ");
         l = 0;
         while((b = getchar()) != '\n')
         {
-        framex[l] = b;
-        l++;
+            framex[l] = b;
+            l++;
         }
         framex[l] = '\0';
         
@@ -2369,145 +2366,125 @@ void bfParams(main_ctx_t *main_ctx)
         m = 0;
         while((h = getchar()) != '\n')
         {
-        chad[m] = h;
-        m++;
+            chad[m] = h;
+            m++;
         }
         chad[m] = '\0';
-
-        //strcpy(framex,"/usr/local/share/enigma/german.txt");
     }
-#if !defined(__WIN32__) && !defined(__WIN64__)
-    printf("\x1B[33mMessage\x1B[39m\x1B[32m %s \x1B[39m\x1B[33mDict\x1B[39m \x1B[32m %s \x1B[39m\n\x1B[33mReflector\x1B[39m \x1B[32m %s \x1B[39m \x1B[33mNOTch\x1B[39m\x1B[32m %s \x1B[39m\n",
-           main_ctx->cyph, framex,main_ctx->ref1[0],main_ctx->notch1[0]);
-#elif !defined(__APPLE__) && !defined(__LINUX__)
-    printf("Message %s Dict %s \nReflector %s NOTch %s \n",
-           main_ctx->cyph, framex,main_ctx->ref1[0],main_ctx->notch1[0]);
-#endif
-    int core = atoi(chad);
-    if(core < 0 || core > 101) {
-        perror(chad);
-        exit(2);
-    }
-    srand(time(0));
-    int result;
-    //int status;
-
-    result = pipe (fds);
-    if (result == -1){
-        perror("pipe");
-        exit(2);
-    }
-    
-    pthread_t tid = malloc(100U * sizeof(pthread_t));
-    
-    for (int i = 0;i < core;i++) {
-        //pthread_t tid = malloc(1 * sizeof(pthread_t));
-        //pthread_create(*(pthread_t**)&tid, NULL, reader, (void*)&fds[i]);
+        //dict(p->crib);
+        printf("\x1B[33mMessage\x1B[39m\x1B[32m %s \x1B[39m\x1B[33mDict\x1B[39m \x1B[32m %s \x1B[39m\n",
+               p->cyph, framex);
+        int core = atoi(chad);
+        if(core < 1 || core > 101) {
+            perror(chad);
+            exit(2);
+        }
+        srand(time(0));
+        int result;
+        //int status;
+        
+        result = pipe (fds);
+        if (result == -1){
+            perror("pipe");
+            exit(2);
+        }
+        
+        pthread_t tid = malloc(100U * sizeof(pthread_t));
+        
+        for (int i = 0;i <= core;i++) {
+            //pthread_t tid = malloc(1 * sizeof(pthread_t));
+            //pthread_create(*(pthread_t**)&tid, NULL, reader, (void*)&fds[i]);
 #if defined(__APPLE__)
-        pthread_create(*(pthread_t**)&tid[i], NULL, permuteAX, (void*)&fds[i]);
-        printf("created: %llu\n", (unsigned long long)&tid[i]);
+            if(!pthread_create(*(pthread_t**)&tid[i], NULL, permuteAX, (void*)&fds[i])) {
+                perror("CREATE THREAD");
+            }
+            printf("created: %llu\n", (unsigned long long)&tid[i]);
 #endif
 #if defined(__LINUX__) && defined(__WIN32__) && defined(__WIN64__)
-        pthread_create(*(pthread_t**)&tid, NULL, permuteAX, (void*)&fds[i]);
-        printf("created: %llu\n", (unsigned long long)&tid);
+            pthread_create(*(pthread_t**)&tid, NULL, permuteAX, (void*)&fds[i]);
+            printf("created: %llu\n", (unsigned long long)&tid);
 #endif
-    }
+        }
         read(fds[0], &tid, sizeof(tid));
         //printf("joining: %llu\n", (unsigned long long)&tid[i]);
         //pthread_join(&tid[i], (void*)&status);
         //printf("Thread: %llu Status: %d\n",(unsigned long long)&tid[i],(int)status);
-    
-    //pthread_exit(0);
+        
+        //pthread_exit(0);
 }
 
 /********************************************MAIN*********************************************/
-int main(int argc, char **argv) {
-    main_ctx_t main_ctx;
+int main(int argc, char* argv[]) {
+    Params p;
     
     if(argc < 2 || argc > 2){ /*main case*/
-#if !defined(__WIN32__) && !defined(__WIN64__)
           printf("\x1b[32m");
-#endif
-          printf("\nOption usage: %s --help\n",argv[0]);
-#if !defined(__WIN32__) && !defined(__WIN64__)
+          printf("\nOption usage: %s --help\n\n",argv[0]);
           printf("\x1b[0m");
-#endif
-          exit(0);
-        }
-    
+          return 1;
+      }
+
         if(strcmp(argv[1], "--version") == 0)
         {
-#if !defined(__WIN32__) && !defined(__WIN64__)
-            printf("Version\n\n\t\x1B[35m%s\x1B[39m -  \x1B[32mT.E.D.\x1B[39m - \x1B[33mThe Enemy Dail\x1B[39m - Koenig Martin\n",PROGNAME);
-#elif !defined(__APPLE__) && !defined(__LINUX__)
-            printf("Version\n\n\t%s -  T.E.D. - The Enemy Dail - Koenig Martin\n",PROGNAME);
-#endif
-            return 0;
+            printf("Version\n\n\t%s\n\n",Versionx());
+            exit(0);
         }
         if(strcmp(argv[1], "--help") == 0)
         {
-#if !defined(__WIN32__) && !defined(__WIN64__)
-            printf("Help\n\n\t\x1B[33m--option-1a\x1B[39m = Enigma Crack Algo\n\t\x1B[33m--option-1b\x1B[39m = Enigma Crack Once Algo\n\t\x1B[33m--option-1\x1B[39m = Enigma 5 Rotor Calculator\n\t\x1B[33m--version\x1B[39m = Version\n\n");
-#elif !defined(__APPLE__) && !defined(__LINUX__)
-            printf("Help\n\n\t--option-1a = Enigma Crack Algo\n\t--option-1b = Enigma Crack Once Algo\n\t--option-1 = Enigma 5 Rotor Calculator\n\t--version = Version\n\n");
-#endif
-            return 0;
+            printf("Help\n\n\t\x1B[33m--option-1a\x1B[39m = Enigma Crack Algo\n\t\x1B[33m--option-1b\x1B[39m = Enigma Crack Once Algo\n\t\x1B[33m--option-1\x1B[39m = Enigma 5 Rotor Calculator\n\x1B[33m\n\t\x1B[33m--version\x1B[39m = Version\n\n");
+            exit(0);
         }
-    
-#if !defined(__WIN32__) && !defined(__WIN64__)
-        setuid(0);
-#endif
-        char a1,b2,c3,d4,e5,y,p;
+        char a1,b2,c3,d4,e5,y,x;
         int a,b,c,d,e;
         printf("s)aved or r)emote: ");
         y = readCh();
         if(y != 'r')
         {
-            flag = 0;
-            printf("Config File: ");
-            a = 0;
-            while((a1 = getchar()) != '\n')
-            {
-                flames[a] = a1;
-                a++;
-            }
-            flames[a] = '\0';
-            
-            configmain(&main_ctx,flames);
+        flag = 0;
+        printf("Config File: ");
+        a = 0;
+        while((a1 = getchar()) != '\n')
+        {
+            flames[a] = a1;
+            a++;
+        }
+        flames[a] = '\0';
+        
+        configmain(&p,flames);
         }
         else
         {
             printf("p)roxy or d)irect Connection: ");
-            p = readCh();
-            if(p != 'p')
+            x = readCh();
+            if(x != 'p')
             {
-                flag = 1;
-                c = 0;
-                printf("Config Host (domain): ");
-                while((c3 = getchar()) != '\n')
-                {
-                host[c] = c3;
-                c++;
-                }
-                host[c] = '\0';
-                d = 0;
-                printf("Config Host Port (443): ");
-                while((d4 = getchar()) != '\n')
-                {
-                port[d] = d4;
-                d++;
-                }
-                port[d] = '\0';
-                e = 0;
-                printf("Config Page (/gordon.php): ");
-                while((e5 = getchar()) != '\n')
-                {
-                page[e] = e5;
-                e++;
-                }
-                page[e] = '\0';
-                
-                connection_handler_d(&main_ctx,host,port,page);
+            flag = 1;
+            c = 0;
+            printf("Config Host (domain): ");
+            while((c3 = getchar()) != '\n')
+            {
+            host[c] = c3;
+            c++;
+            }
+            host[c] = '\0';
+            d = 0;
+            printf("Config Host Port (443): ");
+            while((d4 = getchar()) != '\n')
+            {
+            port[d] = d4;
+            d++;
+            }
+            port[d] = '\0';
+            e = 0;
+            printf("Config Page (/gordon.php): ");
+            while((e5 = getchar()) != '\n')
+            {
+            page[e] = e5;
+            e++;
+            }
+            page[e] = '\0';
+            
+            connection_handler_d(&p,host,port,page);
             }
             else {
             flag = 1;
@@ -2535,15 +2512,15 @@ int main(int argc, char **argv) {
                 c++;
             }
             host[c] = '\0';
-            /*d = 0;
-            printf("Config Host Port (443): ");
-            while((d4 = getchar()) != '\n')
-            {
-                port[d] = d4;
-                d++;
-            }
-            port[d] = '\0';
-            */
+        /*d = 0;
+        printf("Config Host Port (443): ");
+        while((d4 = getchar()) != '\n')
+        {
+            port[d] = d4;
+            d++;
+        }
+        port[d] = '\0';
+        */
             e = 0;
             printf("Config Page (/gordon.php): ");
             while((e5 = getchar()) != '\n')
@@ -2552,29 +2529,31 @@ int main(int argc, char **argv) {
                 e++;
             }
             page[e] = '\0';
-            
-            connection_handler(&main_ctx,proxy,proxyport,host,page);
+        
+            connection_handler(&p,proxy,proxyport,host,page);
             }
         }
-    
-        if(strcmp(argv[1], "--option-1a") == 0)
-        {
-            strcpy(nerd,argv[1]);
-            printf("Option A\n");
-            bfParams(&main_ctx);
-        }
-        if(strcmp(argv[1], "--option-1b") == 0)
-        {
-            strcpy(nerd,argv[1]);
-            printf("Option B\n");
-            sbfParams(&main_ctx);
-        }
-        if(strcmp(argv[1], "--option-1") == 0)
-        {
+
+            if(strcmp(argv[1], "--option-1a") == 0)
+            {
+                strcpy(nerd,argv[1]);
+                printf("Option 1\n");
+                bfParams(&p);
+                //permuteAll(p.cyph);
+            }
+            if(strcmp(argv[1], "--option-1b") == 0)
+            {
+                strcpy(nerd,argv[1]);
+                printf("Option 1\n");
+                sbfParams(&p);
+                //permuteOnce(p.order[0], p.order[1], p.order[2], p.order[3], p.order[4],p.cyph);
+            }
+            if(strcmp(argv[1], "--option-1") == 0)
+            {
             strcpy(nerd,argv[1]);
             printf("Enigma\n");
-            initParams(&main_ctx);
-        }
-    
+            initParams(&p);
+            cypher(p);
+            }
     return 0;
 }

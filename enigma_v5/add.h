@@ -2,20 +2,18 @@
 //  add.h
 //  enigma
 //
-//  Created by Smiril on 29.01.23.
+//  Created by Smiril on 20.07.22.
 //  Copyright © 2022 Smiril. All rights reserved.
 //
 
 #ifndef add_h
 #define add_h
-
-#include "addx.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
-#include <stdbool.h>
-#include <stdarg.h>
-#include <errno.h>
+#include <unistd.h>
+#include <string.h>
+#include <ctype.h>
+#include <memory.h>
 #if defined(__WIN32__) && defined(__WIN64__)
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -51,8 +49,45 @@
 #include <openssl/pem.h>
 #include <openssl/ssl.h>
 #include <openssl/err.h>
-//#include "NBestList.h"
-//#include "scoreText.h"
+
+
+#define CHK_NULL(x) if ((x)==NULL) exit (1)
+#define CHK_ERR(err,s) if ((err)==-1) {perror(s);exit (1);}
+#define CHK_SSL(err) if ((err)==-1) { ERR_print_errors_fp(stderr); exit (2); }
+
+#define SERVICE "https" // possible http https
+#define PROTO "tcp" // possible tcp udp icmp igmp raw
+
+#define USERAGENT "Enigma/0.0.5 (iPad;CPU OS 13_1_2 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Version/13.0 Mobile/14B100 SafaRI/602."
+
+#define DELIM1 "."
+#define DELIM2 ":"
+#define BUFSIZE 1400
+#define BUFSIZ2 4096
+#if !defined(__WIN32__) && !defined(__WIN64__)
+#define HOME "/usr/local/share/enigma/"
+#endif
+#if !defined(__APPLE__) && !defined(__LINUX__)
+#define HOME "C:\\usr\\local\\share\\enigma\\"
+#endif
+#define CERTF HOME "valid-root-ca.pem"
+#define KEYF HOME "valid-root-cakey.pem"
+
+#define PROGNAME "Enigma"
+
+#define PTHREAD_THREADS_MAX 100
+
+#define IN_RANK 0
+#define MAXLINEX 1000000
+#define MSGY 1320
+#define MSGLEN 4096
+#define MSGX 13
+#define MSGC 26
+#define MSGP 11
+#define MSGG 5
+#define TO 'Z'
+
+
 
 int flag;
 int tempres = BUFSIZ2;
@@ -92,32 +127,92 @@ char proxyport[MSGG];
 
 static pthread_once_t once = PTHREAD_ONCE_INIT;
 static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
-
-char *x = "A";
-char *s = "A";
-char *fff = "A";
-char nerd[MSGX];
 char chad[MSGX];
+char x[MSGLEN] = "A";
+char s[MSGP] = "A";
+char fff[MSGLEN] = "A";
+char nerd[MSGX];
 char framex[MSGY];
 char flames[MSGY];
-char *ukw;
-char *nox;
+char ukw[MSGC];
+char nox[MSGG];
 int oldrank = IN_RANK;
+
 int fds[2];
 
+/* NORWAY ENIGMA (after to WWII)
+ *
+ * Wheel               ABCDEFGHIJKLMNOPQRSTUVWXYZ    Notch    Turnover      #
+ * --------------------------------------------------------------------------------------------
+ * ETW                 ABCDEFGHIJKLMNOPQRSTUVWXYZ
+ * I                   WTOKASUYVRBXJHQCPZEFMDINLG    Y        Q            1
+ * II                  GJLPUBSWEMCTQVHXAOFZDRKYNI    M        E            1
+ * III                 JWFMHNBPUSDYTIXVZGRQLAOEKC    D        V            1
+ * IV                  ESOVPZJAYQUIRHXLNFTGKDCMWB    R        J            1
+ * V                   HEJXQOTZBVFDASCILWPGYNMURK    H        Z            1
+ * UKW                 MOWJYPUXNDSRAIBFVLKZGQCHET
+ * --------------------------------------------------------------------------------------------
+ * Rotor #             ABCDEFGHIJKLMNOPQRSTUVWXYZ    Date    Introduced    Model Name & Number
+ * --------------------------------------------------------------------------------------------
+ * IC                  DMTWSILRUYQNKFEJCAZBPGXOHV    1924    Commercial    Enigma A, B
+ * IIC                 HQZGPJTMOBLNCIFDYAWVEUSRKX    1924    Commercial    Enigma A, B
+ * IIIC                UQNTLSZFMREHDPXKIBVYGJCWOA    1924    Commercial    Enigma A, B
+ * --------------------------------------------------------------------------------------------
+ * Rotor #             ABCDEFGHIJKLMNOPQRSTUVWXYZ    Date    Introduced    Model Name & Number
+ * --------------------------------------------------------------------------------------------
+ * I                   JGDQOXUSCAMIFRVTPNEWKBLZYH    7 February 1941       German Railway (Rocket)
+ * II                  NTZPSFBOKMWRCJDIVLAEYUXHGQ    7 February 1941       German Railway (Rocket)
+ * III                 JVIUBHTCDYAKEQZPOSGXNRMWFL    7 February 1941       German Railway (Rocket)
+ * UKW                 QYHOGNECVPUZTFDJAXWMKISRBL    7 February 1941       German Railway (Rocket)
+ * ETW                 QWERTZUIOASDFGHJKPYXCVBNML    7 February 1941       German Railway (Rocket)
+ * --------------------------------------------------------------------------------------------
+ * Rotor #             ABCDEFGHIJKLMNOPQRSTUVWXYZ    Date Introduced       Model Name & Number
+ * --------------------------------------------------------------------------------------------
+ * I-K                 PEZUOHXSCVFMTBGLRINQJWAYDK    February 1939         Swiss K
+ * II-K                ZOUESYDKFWPCIQXHMVBLGNJRAT    February 1939         Swiss K
+ * III-K               EHRVXGAOBQUSIMZFLYNWKTPDJC    February 1939         Swiss K
+ * UKW-K               IMETCGFRAYSQBZXWLHKDVUPOJN    February 1939         Swiss K
+ * ETW-K               QWERTZUIOASDFGHJKPYXCVBNML    February 1939         Swiss K
+ * --------------------------------------------------------------------------------------------
+ * Rotor #             ABCDEFGHIJKLMNOPQRSTUVWXYZ    Date Introduced       Model Name & Number
+ * --------------------------------------------------------------------------------------------
+ * I                   EKMFLGDQVZNTOWYHXUSPAIBRCJ    1930                  Enigma I
+ * II                  AJDKSIRUXBLHWTMCQGZNPYFVOE    1930                  Enigma I
+ * III                 BDFHJLCPRTXVZNYEIWGAKMUSQO    1930                  Enigma I
+ * IV                  ESOVPZJAYQUIRHXLNFTGKDCMWB    December 1938         M3 Army
+ * V                   VZBRGITYUPSDNHLXAWMJQOFECK    December 1938         M3 Army
+ * VI                  JPGVOUMFYQBENHZRDKASXLICTW    1939                  M3 & M4 Naval (FEB 1942)
+ * VII                 NZJHGRCXMYSWBOUFAIVLPEKQDT    1939                  M3 & M4 Naval (FEB 1942)
+ * VIII                FKQHTLXOCBJSPDZRAMEWNIUYGV    1939                  M3 & M4 Naval (FEB 1942)
+ * --------------------------------------------------------------------------------------------
+ * Rotor #             ABCDEFGHIJKLMNOPQRSTUVWXYZ    Date Introduced       Model Name & Number
+ * --------------------------------------------------------------------------------------------
+ * Beta                LEYJVCNIXWPBQMDRTAKZGFUHOS    Spring 1941           M4 R2
+ * Gamma               FSOKANUERHMBTIYCWLQPZXVGJD    Spring 1942           M4 R2
+ * Reflector A         EJMZALYXVBWFCRQUONTSPIKHGD
+ * Reflector B         YRUHQSLDPXNGOKMIEBFZCWVJAT
+ * Reflector C         FVPJIAOYEDRZXWGCTKUQSBNMHL
+ * Reflector B Thin    ENKQAUYWJICOPBLMDXZVFTHRGS    1940                  M4 R1 (M3 + Thin)
+ * Reflector C Thin    RDOBJNTKVEHMLFCWZAXGYIPSUQ    1940                  M4 R1 (M3 + Thin)
+ * --------------------------------------------------------------------------------------------
+ * ETW                 ABCDEFGHIJKLMNOPQRSTUVWXYZ                          Enigma I
+ * --------------------------------------------------------------------------------------------
+ *
+ */
+
+/* Rotor wirings */
 /* Encryption parameters follow */
-typedef struct main_ctx
+typedef struct P
 {
-        /* Rotor wirings */
-        char    rotor[5][MSGC];
-        char    ref1[1][MSGC];
-        char    notch1[1][MSGG];
-        int     order[MSGG];/*={ 1, 3, 5, 7, 9 };*/
-        char    rings[MSGG];/*={ 'A','A','A','A','A'};*/
-        char    pos[MSGG];/*={ 'A','A','A','A','A'};*/
-        char    cyph[MSGLEN];
-        char    crib[MSGLEN];
-        char    plug[MSGP];/*=\"ASKINGLOPE\";*/
-} main_ctx_t;
+    const unsigned char rotor[5][26];
+    const unsigned char ref1[26];
+    const unsigned char notch1[5];
+    char order[MSGG];/*={ 1, 2, 3, 4, 5 };*/
+    char rings[MSGG];/*={ 'A','A','A','A','A'};*/
+    char pos[MSGG];/*={ 'A','A','A','A','A'};*/
+    char cyph[MSGLEN];
+    char crib[MSGLEN];
+    char plug[MSGP];/*=\"ASKINGLOPE\";*/
+} Params;
 
 #endif /* add_h */
