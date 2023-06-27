@@ -5,7 +5,7 @@ env:
     docs/
     share/
     images/
-    enigma_v4/
+    enigma_v5/
     tools/
 on:
   push:
@@ -14,16 +14,16 @@ on:
     tags:
       - v*
     paths:
-      - 'enigma_v4/**.h'
-      - 'enigma_v4/**.c'
+      - 'enigma_v5/**.h'
+      - 'enigma_v5/**.m'
       - '**/Makefile'
       - '.github/workflows/build.yml'
   pull_request:
     branches:
       - main
     paths:
-      - 'enigma_v4/**.h'
-      - 'enigma_v4/**.c'
+      - 'enigma_v5/**.h'
+      - 'enigma_v5/**.m'
       - '**/Makefile'
       - '.github/workflows/build.yml'
 
