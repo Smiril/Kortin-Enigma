@@ -1699,8 +1699,6 @@ int rotate(int a, int b, int c, int d, int e, char *cyph, char *plug, int *ct,vo
 #elif defined(__LINUX__) || defined(__WIN32__) || defined(__WIN64__)
                                         strcpy(fff, enigma(cyph, &cp));
 #endif
-
-                                        strcpy(fff, enigma(cyph, &cp));
                                         rank = getRank(fff);
 
                                         while(strlen(fff) > i)
