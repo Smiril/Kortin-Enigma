@@ -1694,6 +1694,12 @@ int rotate(int a, int b, int c, int d, int e, char *cyph, char *plug, int *ct,vo
                                         int fail = 0;
                                         
                                         /* Calculate all cypher */
+#if defined(__APPLE__)
+                                        strlcpy(fff, enigma(cyph, &cp),sizeof(fff));
+#elif defined(__LINUX__) || defined(__WIN32__) || defined(__WIN64__)
+                                        strcpy(fff, enigma(cyph, &cp));
+#endif
+
                                         strcpy(fff, enigma(cyph, &cp));
                                         rank = getRank(fff);
 
@@ -2066,8 +2072,13 @@ void initParams(Params *p)
     {
         if(strcmp(nerd, "--option-1") == 0)
         {
+#if defined(__APPLE__)
+            strlcpy(ukw,(const char *)p->ref1,MSGC);
+            strlcpy(nox,(const char *)p->notch1,MSGG);
+#elif defined(__LINUX__) || defined(__WIN32__) || defined(__WIN64__) 
             strcpy(ukw,(const char *)p->ref1);
             strcpy(nox,(const char *)p->notch1);
+#endif
         }
         for(i = 0; i < 5; i++)
         {
@@ -2155,8 +2166,13 @@ void sbfParams(Params *p)
     {
         if(strcmp(nerd, "--option-1b") == 0)
         {
+#if defined(__APPLE__)
+            strlcpy(ukw,(const char *)p->ref1,MSGC);
+            strlcpy(nox,(const char *)p->notch1,MSGG);
+#elif defined(__LINUX__) || defined(__WIN32__) || defined(__WIN64__)
             strcpy(ukw,(const char *)p->ref1);
             strcpy(nox,(const char *)p->notch1);
+#endif
         }
         for(i = 0; i < 5; i++)
         {
@@ -2296,8 +2312,13 @@ void bfParams(Params *p)
     {
         if(strcmp(nerd, "--option-1a") == 0)
         {
+#if defined(__APPLE__)
+            strlcpy(ukw,(const char *)p->ref1,MSGC);
+            strlcpy(nox,(const char *)p->notch1,MSGG);
+#elif defined(__LINUX__) || defined(__WIN32__) || defined(__WIN64__)
             strcpy(ukw,(const char *)p->ref1);
             strcpy(nox,(const char *)p->notch1);
+#endif
         }
         printf("Message: ");
         i = 0;
