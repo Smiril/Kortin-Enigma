@@ -78,7 +78,7 @@ $xmlString = '<?xml version="1.0" encoding="utf-8"?>'
 '       <rotor3 name="'. rotor($outerArrxx); .'"></rotor3>'
 '       <rotor4 name="'. rotor($outerArrxx); .'"></rotor4>'
 '       <rotor5 name="'. rotor($outerArrxx); .'"></rotor5>'
-'       <xmlref name="'. ref($outerArrxx); .'"></xmlref>'
+'       <refle1 name="'. ref($outerArrxx); .'"></refle1>'
 '       <xmlnotch name="'. notch($outerArrxx); .'"></xmlnotch>'
 '   </config>'
 '</um-configuration>';
