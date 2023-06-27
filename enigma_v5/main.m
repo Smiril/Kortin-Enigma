@@ -1694,7 +1694,7 @@ int rotate(int a, int b, int c, int d, int e, char *cyph, char *plug, int *ct,vo
                                         int fail = 0;
                                         
                                         /* Calculate all cypher */
-                                        strlcpy(fff, enigma(cyph, &cp), sizeof(fff));
+                                        strcpy(fff, enigma(cyph, &cp));
                                         rank = getRank(fff);
 
                                         while(strlen(fff) > i)
@@ -1974,7 +1974,7 @@ void *permuteAX(void *arg)
     int result;
     pthread_t t = pthread_self();
     //printf("created: %d\n", fds[1]);
-    
+
     while(1) {
         
         result = write (fds[1], &t,sizeof(t));
@@ -2066,8 +2066,8 @@ void initParams(Params *p)
     {
         if(strcmp(nerd, "--option-1") == 0)
         {
-            strlcpy(ukw,(const char *)p->ref1,MSGC);
-            strlcpy(nox,(const char *)p->notch1,MSGG);
+            strcpy(ukw,(const char *)p->ref1);
+            strcpy(nox,(const char *)p->notch1);
         }
         for(i = 0; i < 5; i++)
         {
@@ -2155,8 +2155,8 @@ void sbfParams(Params *p)
     {
         if(strcmp(nerd, "--option-1b") == 0)
         {
-            strlcpy(ukw,(const char *)p->ref1,MSGC);
-            strlcpy(nox,(const char *)p->notch1,MSGG);
+            strcpy(ukw,(const char *)p->ref1);
+            strcpy(nox,(const char *)p->notch1);
         }
         for(i = 0; i < 5; i++)
         {
@@ -2296,8 +2296,8 @@ void bfParams(Params *p)
     {
         if(strcmp(nerd, "--option-1a") == 0)
         {
-            strlcpy(ukw,(const char *)p->ref1,MSGC);
-            strlcpy(nox,(const char *)p->notch1,MSGG);
+            strcpy(ukw,(const char *)p->ref1);
+            strcpy(nox,(const char *)p->notch1);
         }
         printf("Message: ");
         i = 0;
