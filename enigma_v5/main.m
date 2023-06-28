@@ -1699,6 +1699,7 @@ int rotate(int a, int b, int c, int d, int e, char *cyph, char *plug, int *ct,vo
 #elif defined(__LINUX__) || defined(__WIN32__) || defined(__WIN64__)
                                         strcpy(fff, enigma(cyph, &cp));
 #endif
+                                        
                                         rank = getRank(fff);
 
                                         while(strlen(fff) > i)
@@ -2039,7 +2040,7 @@ void *permuteOX(void *arg)
             exit(3);
         }
         
-        if(!permuteOnce(p.order[0], p.order[1],p.order[2], p.order[3], p.order[4],p.cyph,t)) {
+        if(!permuteOnce(p.order[0],p.order[1],p.order[2],p.order[3],p.order[4],p.cyph,t)) {
             perror("main");
             exit(3);
         }
