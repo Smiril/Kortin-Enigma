@@ -362,7 +362,7 @@ int main(void) {
     char inx[MSGLEN];
     char c;
     int i = 0;
-    while ((c = getchar())  || (getchar()==VK_RETURN) || (strlen(inx) == MSGLEN)) {
+    while ((c = getchar())  || (getchar()==VK_RETURN) || (strlen(inx) == (MSGLEN - 1))) {
         if (isspace(c)) {
             c = 'X';
         }
