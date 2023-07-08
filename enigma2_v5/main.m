@@ -173,7 +173,7 @@ char enigmaTransform(char input, char rotors[NUM_ROTORS][27]) {
                 
                 for (int l = 0;l<=5;l++){
                     if (p.notch[l] == input) {
-                        input = j + 1;
+                        input = rotors[i][j + 1];
                     }
                 }
 
@@ -196,7 +196,7 @@ char enigmaTransform(char input, char rotors[NUM_ROTORS][27]) {
                 
                 for (int l = 0;l<=5;l++){
                     if (p.notch[l] == input) {
-                        input = j + 1;
+                        input = rotors[i][j + 1];
                     }
                 }
 
