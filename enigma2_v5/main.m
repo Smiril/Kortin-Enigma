@@ -235,7 +235,7 @@ char *decipher(Params *p, char *message) {
 char readCh(void)
 {
     char c, ret = '\0';
-    while((c = getchar()) != '\n')
+    while((c = getchar())  || (getchar()==VK_RETURN))
         ret = c;
     return ret;
 }
@@ -292,7 +292,7 @@ int initParams(Params *p)
         }
         printf("Stecker: ");
         i = 0;
-        while((d = getchar()) != '\n')
+        while((d = getchar())  || (getchar()==VK_RETURN))
         {
             p->plug[i] = d;
             i++;
@@ -320,7 +320,7 @@ int initParams(Params *p)
         }
         printf("Stecker: ");
         i = 0;
-        while((d = getchar()) != '\n')
+        while((d = getchar())  || (getchar()==VK_RETURN))
         {
             p->plug[i] = d;
             i++;
@@ -344,25 +344,25 @@ int main(void) {
     Params p;
     char *flames = NULL;
     char a1;
-    int a = 0;
+    int a;
     printf("Config File: ");
     a = 0;
-    while((a1 = getchar()) != '\n')
+    while((a1 = getchar()) || (getchar()==VK_RETURN))
     {
         flames[a] = a1;
         a++;
     }
     flames[a] = '\0';
-    
-    configmain(&p,flames);
 
     initParams(&p);
+    
+    configmain(&p,flames);
 
     // Encrypted message to decrypt
     char inx[MSGLEN];
     char c;
     int i = 0;
-    while ((c = getchar()) != '\n') {
+    while ((c = getchar())  || (getchar()==VK_RETURN)) {
         if (isspace(c)) {
             c = 'X';
         }
