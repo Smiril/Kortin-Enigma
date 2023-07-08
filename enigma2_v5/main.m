@@ -170,14 +170,16 @@ char enigmaTransform(char input, char rotors[NUM_ROTORS][27]) {
                     else if (input == p.plug[k + 1])
                         input = p.plug[k];
                 }
-                if (rotors[i][j] == input) {
-                    input = j + p.reflec[j];
-                    break;
-                }
+                
                 for (int l = 0;l<=5;l++){
                     if (p.notch[l] == input) {
                         input = j + 1;
                     }
+                }
+
+                if (rotors[i][j] == input) {
+                    input = j + p.reflec[j];
+                    break;
                 }
             }
         }
@@ -191,14 +193,16 @@ char enigmaTransform(char input, char rotors[NUM_ROTORS][27]) {
                     else if (input == p.plug[k + 1])
                         input = p.plug[k];
                 }
-                if (rotors[i][j] == input) {
-                    input = j + p.reflec[j];
-                    break;
-                }
+                
                 for (int l = 0;l<=5;l++){
                     if (p.notch[l] == input) {
                         input = j + 1;
                     }
+                }
+
+                if (rotors[i][j] == input) {
+                    input = j + p.reflec[j];
+                    break;
                 }
             }
         }
