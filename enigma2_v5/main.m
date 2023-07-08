@@ -145,7 +145,7 @@ void rotateRotor(char *rotor) {
 }
 
 // Function to perform the Enigma encryption or decryption
-char enigmaTransform(char input, char rotors[NUM_ROTORS][27]) {
+char enigmaTransform(Params *p,char input, char rotors[NUM_ROTORS][27]) {
     // Pass the input character through the rotors
     if (strcmp(FINC, "d") == 0) {
         for (int i = NUM_ROTORS -1; i >= 0; i--) {
@@ -164,22 +164,22 @@ char enigmaTransform(char input, char rotors[NUM_ROTORS][27]) {
     if (strcmp(FINC, "d") == 0) {
         for (int i = NUM_ROTORS - 1; i >= 0; i--) {
             for (int j = 26; j >= 0; j--) {
-                for (int k = 0; p.plug[k]; k += 2) {
-                    if (input == p.plug[k])
-                        input = p.plug[k + 1];
-                    else if (input == p.plug[k + 1])
-                        input = p.plug[k];
+                for (int k = 0; p->plug[k]; k += 2) {
+                    if (input == p->plug[k])
+                        input = p->plug[k + 1];
+                    else if (input == p->plug[k + 1])
+                        input = p->plug[k];
                 }
                 
                 for (int l = 0;l<=5;l++){
-                    if (p.notch[l] == rotors[i][j]) {
+                    if (p->notch[l] == rotors[i][j]) {
                         j = j + 1;
                         break;
                     }
                 }
 
                 if (rotors[i][j] == input) {
-                    input = p.reflec[j];
+                    input = p->reflec[j];
                     break;
                 }
             }
@@ -188,22 +188,22 @@ char enigmaTransform(char input, char rotors[NUM_ROTORS][27]) {
     if (strcmp(FINC, "e") == 0) {
         for (int i = 0 ; i < NUM_ROTORS; i++) {
             for (int j = 0; j < 26; j++) {
-                for (int k = 0; p.plug[k]; k += 2) {
-                    if (input == p.plug[k])
-                        input = p.plug[k + 1];
-                    else if (input == p.plug[k + 1])
-                        input = p.plug[k];
+                for (int k = 0; p->plug[k]; k += 2) {
+                    if (input == p->plug[k])
+                        input = p->plug[k + 1];
+                    else if (input == p->plug[k + 1])
+                        input = p->plug[k];
                 }
                 
                 for (int l = 0;l<=5;l++){
-                    if (p.notch[l] == rotors[i][j]) {
+                    if (p->notch[l] == rotors[i][j]) {
                         j = j + 1;
                         break;
                     }
                 }
 
                 if (rotors[i][j] == input) {
-                    input = p.reflec[j];
+                    input = p->reflec[j];
                     break;
                 }
             }
@@ -219,7 +219,7 @@ char *decipher(Params *p, char *message) {
         char input = message[i];
         if (isalpha(input)) {
             // Decrypt the input character
-            message[i] = enigmaTransform(input, p->rotor);
+            message[i] = enigmaTransform(p, input, p->rotor);
 
             if (strcmp(FINC, "d") == 0) {
                 // Rotate the rotors after each transformation
@@ -237,7 +237,6 @@ char *decipher(Params *p, char *message) {
     }
     return message;
 }
-
 
 /*helper to read a character*/
 char readCh(void)
