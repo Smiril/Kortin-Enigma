@@ -1,10 +1,10 @@
 NAME := \x1B[35mBreak-Enigma\x1B[39m
 MAJOR := 0
 MINOR := 0.5
-CODENAME := T.E.D. - The Enemy Dail
-CODENAME1 := \x1B[32mT.E.D.\x1B[39m - \x1B[33mThe Enemy Dail\x1B[39m
+CODENAME := T.E.D. - The Enemy Dial
+CODENAME1 := \x1B[32mT.E.D.\x1B[39m - \x1B[33mThe Enemy Dial\x1B[39m
 LIBNAME := $(NAME)
-LIBNAME1 := T.E.D. - The Enemy Dail
+LIBNAME1 := T.E.D. - The Enemy Dial
 LIBNAME2 := Enigma
 VERSION := $(LIBNAME) $(MAJOR).$(MINOR) $(CODENAME1)
 ##
