@@ -25,6 +25,7 @@
 
 #define NUM_ROTORS 5
 #define MSGLEN 160
+#define VK_RETURN 80
 
 char *FINC;
 
