@@ -371,10 +371,10 @@ int main(void) {
     }
     inx[i] = '\0';
 
-    // Decrypt the message
+    // modify the message
     char *Message = decipher(&p, inx);
 
-    // Output the decrypted message
+    // Output the message
     printf("Message: %s\n", Message);
     printf("Version: %s\n", Versionx());
     return 0;
