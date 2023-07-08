@@ -60,10 +60,10 @@ void configmain(char *docname) {
     
     if (1547 != size) {
         printf("config file is corrupt\n");
+        fclose(fp);
         exit(1);
     }
     
-    fclose(fp);
     
     doc = xmlParseFile(docname);
     cur = xmlDocGetRootElement(doc);
@@ -113,6 +113,7 @@ void configmain(char *docname) {
         gchild = gchild->next->next;
     }
     xmlFreeDoc(doc);
+    fclose(fp);
 }
 
 /*********************************************************

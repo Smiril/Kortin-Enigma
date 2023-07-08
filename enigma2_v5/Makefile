@@ -1,6 +1,6 @@
 NAME := \x1B[35mEnigma\x1B[39m
-MAJOR := 0
-MINOR := 0.5
+MAJOR := 2
+MINOR := 2.5
 CODENAME := T.E.D. - The Enemy Dial
 CODENAME1 := \x1B[32mT.E.D.\x1B[39m - \x1B[33mThe Enemy Dial\x1B[39m
 LIBNAME := $(NAME)
@@ -34,7 +34,7 @@ CC_WIN32 := i686-w64-mingw32-gcc
 PREFIX := /usr/local
 CFLAGSY := -Wall -Wextra -pedantic \
         -Wno-variadic-macros \
-        -DVERSION="\"$(VERSION) - KOENIG MARTIN\""
+        -DVERSION="\"$(VERSION) - LARAS CRAFT\""
 ifeq ($(UNAME),Linux)
 LIBS0 := -L/usr/lib -L/usr/lib/iconv_hook
 INCLUDES0 := -I/usr/include/libxml2 -I/usr/lib/iconv_hook
@@ -42,8 +42,8 @@ BER := -ldl -lxml2 -liconv_hook -lssl -lcrypto -lpthread
 endif
 ifeq ($(UNAME),Darwin)
 LIBS0 := -L/usr/lib
-INCLUDES0 := 
-BER := -lc++ -ldl -lxml2 -liconv -lssl -lcrypto -lpthread
+INCLUDES0 :=
+BER := -lc++ -ldl -lxml2
 endif
 ifeq ($(UNAME),Linux)
 .PHONY: all install uninstall clean version
@@ -80,6 +80,7 @@ version:
 	@echo " +****************************************************************************+"
 	@echo " + $(LIBNAME2) $(MAJOR).$(MINOR) $(LIBNAME1)       by:    Art-ifact-Crew           +"
 	@echo " +****************************************************************************+"
+	
 ifeq ($(UNAME),Darwin)
 sign:
 	export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/../bin/codesign_allocate
@@ -93,7 +94,6 @@ install:
 	mkdir -p /usr/local/share/
 	mkdir -p /usr/local/share/enigma
 	cp ../share/norway*.xml /usr/local/share/enigma/
-	cp ../share/*.txt /usr/local/share/enigma/
 endif
 ifeq ($(UNAME),Darwin)
 install:
@@ -102,13 +102,11 @@ install:
 	mkdir -p /usr/local/share/
 	mkdir -p /usr/local/share/enigma
 	cp ../share/norway*.xml /usr/local/share/enigma/
-	cp ../share/*.txt /usr/local/share/enigma/
 endif
 
 uninstall:
 	rm $(PREFIX)/bin/enigma
 	rm $(PREFIX)/share/enigma/norway*.xml
-	rm $(PREFIX)/share/enigma/*.txt
 	
 ifeq ($(UNAME),Linux)
 clean:
