@@ -103,19 +103,16 @@ void configmain(Params *p,char *docname) {
         if (xmlStrcmp(gchild->name, (const xmlChar *)config[count1++])) {
             if((uri = xmlGetProp(gchild,(const xmlChar *)"name")) != NULL) {
                 strcpy((char *)p->rotor[count1],(const char *)uri);
-                xmlFree(uri);
             }
         }
         else if (xmlStrcmp(gchild->name, (const xmlChar *)configx[count2++])) {
             if((uri = xmlGetProp(gchild,(const xmlChar *)"name")) != NULL) {
                 strcpy((char *)p->reflec,(const char *)uri);
-                xmlFree(uri);
             }
         }
         else if (xmlStrcmp(gchild->name, (const xmlChar *)configy[count3++])) {
             if((uri = xmlGetProp(gchild,(const xmlChar *)"name")) != NULL) {
                 strcpy((char *)p->notch,(const char *)uri);
-                xmlFree(uri);
             }
         }
         gchild = gchild->next->next;
