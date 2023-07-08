@@ -345,9 +345,8 @@ int main(void) {
     Params p;
     char *flames = NULL;
     char a1;
-    int a;
+    int a = 0;
     printf("Config File: ");
-    a = 0;
     while((a1 = getchar()) || (getchar()==VK_RETURN))
     {
         flames[a] = a1;
