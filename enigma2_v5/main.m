@@ -132,7 +132,7 @@ void configmain(Params *p,char *docname) {
 void rotateRotor(char *rotor) {
     char temp = rotor[0];
     if (strcmp(FINC, "d") == 0) {
-        for (int i = 27; i >= 0; i--) {
+        for (int i = 25; i >= 0; i--) {
             rotor[i] = rotor[i - 1];
         }
     }
