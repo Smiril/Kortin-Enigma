@@ -166,20 +166,20 @@ char enigmaTransform(char input, char rotors[NUM_ROTORS][27]) {
             for (int j = 26; j >= 0; j--) {
                 for (int k = 0; p.plug[k]; k += 2) {
                     if (input == p.plug[k])
-                            input = p.plug[k + 1];
+                        input = p.plug[k + 1];
                     else if (input == p.plug[k + 1])
-                            input = p.plug[k];
-                    }
-                    if (rotors[i][j] == input) {
-                        input = j + p.reflec[j];
-                        break;
-                    }
+                        input = p.plug[k];
+                }
+                if (rotors[i][j] == input) {
+                    input = j + p.reflec[j];
+                    break;
                 }
                 if (p.notch[i] == input) {
-                    input += 1;
+                    input = j + 1;
                 }
             }
         }
+    }
     if (strcmp(FINC, "e") == 0) {
         for (int i = 0 ; i < NUM_ROTORS; i++) {
             for (int j = 0; j < 26; j++) {
@@ -188,17 +188,17 @@ char enigmaTransform(char input, char rotors[NUM_ROTORS][27]) {
                         input = p.plug[k + 1];
                     else if (input == p.plug[k + 1])
                         input = p.plug[k];
-                    }
-                    if (rotors[i][j] == input) {
-                        input = j + p.reflec[j];
-                        break;
-                    }
+                }
+                if (rotors[i][j] == input) {
+                    input = j + p.reflec[j];
+                    break;
                 }
                 if (p.notch[i] == input) {
-                    input += 1;
+                    input = j + 1;
                 }
             }
         }
+    }
     return input;
 }
 
