@@ -137,7 +137,7 @@ void rotateRotor(char *rotor) {
         }
     }
     if (strcmp(FINC, "e") == 0) {
-        for (int i = 0; i <= 25; i++) {
+        for (int i = -1; i <= 25; i++) {
             rotor[i] = rotor[i + 1];
         }
     }
