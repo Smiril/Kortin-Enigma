@@ -179,7 +179,7 @@ char enigmaTransform(char input, char rotors[NUM_ROTORS][27]) {
                 }
 
                 if (rotors[i][j] == input) {
-                    input = j + p.reflec[j];
+                    input = p.reflec[j];
                     break;
                 }
             }
@@ -203,7 +203,7 @@ char enigmaTransform(char input, char rotors[NUM_ROTORS][27]) {
                 }
 
                 if (rotors[i][j] == input) {
-                    input = j + p.reflec[j];
+                    input = p.reflec[j];
                     break;
                 }
             }
