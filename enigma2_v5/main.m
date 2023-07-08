@@ -27,8 +27,6 @@
 #define MSGLEN 160
 
 char *FINC;
-char *notch1;
-char *flames;
 
 // Structure to hold the Enigma machine parameters
 typedef struct P{
@@ -347,7 +345,7 @@ int initParams(Params *p)
 int main(void) {
     // Create a Params structure with default values
     Params p;
-    
+    char *flames = NULL;
     char a1;
     int a = 0;
     printf("Config File: ");
