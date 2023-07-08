@@ -41,8 +41,6 @@ typedef struct P{
     char plug[27];
 } Params;
 
-Params p;
-
 const char* Versionx(void) {
 #ifdef VERSION
     return VERSION;
@@ -348,6 +346,8 @@ int initParams(Params *p)
 
 int main(void) {
     // Create a Params structure with default values
+    Params p;
+    
     char a1;
     int a = 0;
     printf("Config File: ");
