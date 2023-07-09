@@ -26,6 +26,8 @@ this code is from http://www.practicalcryptography.com/cryptanalysis/breaking-ma
 #include "NBestList.h"
 #include "scoreText.h"
 
+#define VK_RETURN 80
+
 static pthread_once_t once = PTHREAD_ONCE_INIT;
 static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 EnigmaKey *break_enigma(char* ctext);
@@ -136,7 +138,7 @@ int main(int argc, char **argv){
     int a,m;
     printf("Crypted Message: ");
     a = 0;
-    while((a1 = getchar()) != '\n')
+    while((a1 = getchar()) || (getchar()==VK_RETURN))
     {
         ctext[a] = a1;
         a++;
@@ -144,7 +146,7 @@ int main(int argc, char **argv){
     ctext[a] = '\0';
     printf("Threads (1-100): ");
     m = 0;
-    while((h = getchar()) != '\n')
+    while((h = getchar()) || (getchar()==VK_RETURN))
     {
     chad[m] = h;
     m++;

@@ -10,6 +10,7 @@
 *
 ******************************************************************************/
 #define CA_PRIVATE_IMPLEMENTATION
+#define VK_RETURN 80
 
 #include "add.h"
 
@@ -2056,7 +2057,7 @@ void *permuteOX(void *arg)
 char readCh(void)
 {
     char c, ret = '\0';
-  while((c = getchar()) != '\n')
+  while((c = getchar()) || (getchar()==VK_RETURN))
   ret = c;
   return ret;
 }
@@ -2096,7 +2097,7 @@ void initParams(Params *p)
         }
         printf("Stecker: ");
         i = 0;
-        while((d = getchar()) != '\n')
+        while((d = getchar()) || (getchar()==VK_RETURN))
         {
             p->plug[i] = d;
             i++;
@@ -2108,7 +2109,7 @@ void initParams(Params *p)
     {
         printf("Reflector: ");
         k = 0;
-        while((d = getchar()) != '\n')
+        while((d = getchar()) || (getchar()==VK_RETURN) || (strlen(ukw) == (26)))
         {
             ukw[k] = d;
             k++;
@@ -2117,7 +2118,7 @@ void initParams(Params *p)
         
         printf("NOTCH: ");
         j = 0;
-        while((g = getchar()) != '\n')
+        while((g = getchar()) || (getchar()==VK_RETURN) || (strlen(nox) == (5)))
         {
             nox[j] = g;
             j++;
@@ -2141,7 +2142,7 @@ void initParams(Params *p)
         }
         printf("Stecker: ");
         i = 0;
-        while((c = getchar()) != '\n')
+        while((c = getchar()) || (getchar()==VK_RETURN))
         {
             p->plug[i] = c;
             i++;
@@ -2199,7 +2200,7 @@ void sbfParams(Params *p)
         
         printf("Threads (1-100): ");
         m = 0;
-        while((h = getchar()) != '\n')
+        while((h = getchar()) || (getchar()==VK_RETURN))
         {
             chad[m] = h;
             m++;
@@ -2211,7 +2212,7 @@ void sbfParams(Params *p)
     {
         printf("Reflector: ");
         j = 0;
-        while((d = getchar()) != '\n')
+        while((d = getchar()) || (getchar()==VK_RETURN) || (strlen(ukw) == (26)))
         {
             ukw[j] = d;
             j++;
@@ -2219,7 +2220,7 @@ void sbfParams(Params *p)
         ukw[j] = '\0';
         printf("NOTCH: ");
         k = 0;
-        while((g = getchar()) != '\n')
+        while((g = getchar()) || (getchar()==VK_RETURN) || (strlen(nox) == (5)))
         {
             nox[k] = g;
             k++;
@@ -2232,7 +2233,7 @@ void sbfParams(Params *p)
         }
         printf("Message: ");
         i = 0;
-        while((a = getchar()) != '\n')
+        while((a = getchar())  || (getchar()==VK_RETURN) || (strlen(p->cyph) == (MSGLEN - 1)))
         {
             p->cyph[i] = a;
             i++;
@@ -2240,7 +2241,7 @@ void sbfParams(Params *p)
         p->cyph[i] = '\0';
         printf("Dict: ");
         l = 0;
-        while((b = getchar()) != '\n')
+        while((b = getchar())  || (getchar()==VK_RETURN))
         {
             framex[l] = b;
             l++;
@@ -2249,7 +2250,7 @@ void sbfParams(Params *p)
         
         printf("Threads (1-100): ");
         m = 0;
-        while((h = getchar()) != '\n')
+        while((h = getchar())  || (getchar()==VK_RETURN))
         {
             chad[m] = h;
             m++;
@@ -2321,7 +2322,7 @@ void bfParams(Params *p)
         }
         printf("Message: ");
         i = 0;
-        while((a = getchar()) != '\n')
+        while((a = getchar())  || (getchar()==VK_RETURN) || (strlen(p->cyph) == (MSGLEN - 1)))
         {
             p->cyph[i] = a;
             i++;
@@ -2330,7 +2331,7 @@ void bfParams(Params *p)
         
         printf("Dict: ");
         l = 0;
-        while((b = getchar()) != '\n')
+        while((b = getchar()) || (getchar()==VK_RETURN))
         {
             framex[l] = b;
             l++;
@@ -2339,7 +2340,7 @@ void bfParams(Params *p)
         
         printf("Threads (1-100): ");
         m = 0;
-        while((h = getchar()) != '\n')
+        while((h = getchar()) || (getchar()==VK_RETURN))
         {
             chad[m] = h;
             m++;
@@ -2351,7 +2352,7 @@ void bfParams(Params *p)
     {
         printf("Reflector: ");
         j = 0;
-        while((d = getchar()) != '\n')
+        while((d = getchar()) || (getchar()==VK_RETURN) || (strlen(ukw) == (26)))
         {
             ukw[j] = d;
             j++;
@@ -2359,7 +2360,7 @@ void bfParams(Params *p)
         ukw[j] = '\0';
         printf("NOTCH: ");
         k = 0;
-        while((g = getchar()) != '\n')
+        while((g = getchar()) || (getchar()==VK_RETURN) || (strlen(nox) == (5)))
         {
             nox[k] = g;
             k++;
@@ -2367,7 +2368,7 @@ void bfParams(Params *p)
         nox[k] = '\0';
         printf("Message: ");
         i = 0;
-        while((a = getchar()) != '\n')
+        while((a = getchar()) || (getchar()==VK_RETURN) || (strlen(p->cyph) == (MSGLEN - 1)))
         {
             p->cyph[i] = a;
             i++;
@@ -2375,7 +2376,7 @@ void bfParams(Params *p)
         p->cyph[i] = '\0';
         printf("Dict: ");
         l = 0;
-        while((b = getchar()) != '\n')
+        while((b = getchar()) || (getchar()==VK_RETURN))
         {
             framex[l] = b;
             l++;
@@ -2384,7 +2385,7 @@ void bfParams(Params *p)
         
         printf("Threads (1-100): ");
         m = 0;
-        while((h = getchar()) != '\n')
+        while((h = getchar()) || (getchar()==VK_RETURN))
         {
             chad[m] = h;
             m++;
@@ -2463,7 +2464,7 @@ int main(int argc, char* argv[]) {
         flag = 0;
         printf("Config File: ");
         a = 0;
-        while((a1 = getchar()) != '\n')
+        while((a1 = getchar()) || (getchar()==VK_RETURN))
         {
             flames[a] = a1;
             a++;
@@ -2481,7 +2482,7 @@ int main(int argc, char* argv[]) {
             flag = 1;
             c = 0;
             printf("Config Host (domain): ");
-            while((c3 = getchar()) != '\n')
+            while((c3 = getchar()) || (getchar()==VK_RETURN))
             {
             host[c] = c3;
             c++;
@@ -2489,7 +2490,7 @@ int main(int argc, char* argv[]) {
             host[c] = '\0';
             d = 0;
             printf("Config Host Port (443): ");
-            while((d4 = getchar()) != '\n')
+            while((d4 = getchar()) || (getchar()==VK_RETURN))
             {
             port[d] = d4;
             d++;
@@ -2497,7 +2498,7 @@ int main(int argc, char* argv[]) {
             port[d] = '\0';
             e = 0;
             printf("Config Page (/gordon.php): ");
-            while((e5 = getchar()) != '\n')
+            while((e5 = getchar()) || (getchar()==VK_RETURN))
             {
             page[e] = e5;
             e++;
@@ -2510,7 +2511,7 @@ int main(int argc, char* argv[]) {
             flag = 1;
             printf("Config Proxy (ip): ");
             a = 0;
-            while((a1 = getchar()) != '\n')
+            while((a1 = getchar()) || (getchar()==VK_RETURN))
             {
                 proxy[a] = a1;
                 a++;
@@ -2518,7 +2519,7 @@ int main(int argc, char* argv[]) {
             proxy[a] = '\0';
             printf("Config Proxy Port (8080): ");
             b = 0;
-            while((b2 = getchar()) != '\n')
+            while((b2 = getchar()) || (getchar()==VK_RETURN))
             {
                 proxyport[b] = b2;
                 b++;
@@ -2526,7 +2527,7 @@ int main(int argc, char* argv[]) {
             proxyport[b] = '\0';
             c = 0;
             printf("Config Host (domain): ");
-            while((c3 = getchar()) != '\n')
+            while((c3 = getchar()) || (getchar()==VK_RETURN))
             {
                 host[c] = c3;
                 c++;
@@ -2543,7 +2544,7 @@ int main(int argc, char* argv[]) {
         */
             e = 0;
             printf("Config Page (/gordon.php): ");
-            while((e5 = getchar()) != '\n')
+            while((e5 = getchar()) || (getchar()==VK_RETURN))
             {
                 page[e] = e5;
                 e++;
