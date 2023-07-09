@@ -37,7 +37,7 @@ CFLAGSY := -Wall -Wextra -pedantic \
         -DVERSION="\"$(VERSION) - KOENIG MARTIN\""
 ifeq ($(UNAME),Linux)
 LIBS0 := -L/usr/lib -L/usr/lib/iconv_hook
-INCLUDES0 := -I/usr/include/libxml2 -I/usr/lib/iconv_hook
+INCLUDES0 := -I/usr/include/libxml2 -I/usr/include/iconv_hook/
 BER := -ldl -lxml2 -liconv_hook -lssl -lcrypto -lpthread
 endif
 ifeq ($(UNAME),Darwin)
