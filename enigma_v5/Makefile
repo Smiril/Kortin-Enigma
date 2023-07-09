@@ -38,12 +38,12 @@ CFLAGSY := -Wall -Wextra -pedantic \
 ifeq ($(UNAME),Linux)
 LIBS0 := -L/usr/lib -L/usr/lib/iconv_hook
 INCLUDES0 := -I/usr/include/libxml2 -I/usr/include/iconv_hook/
-BER := -ldl -lxml2 -liconv_hook -lssl -lcrypto -lpthread
+BER := -ldl -lxml2 -liconv_hook -lssl -lcrypto -lpthread -std=c17
 endif
 ifeq ($(UNAME),Darwin)
 LIBS0 := -L/usr/lib
 INCLUDES0 := 
-BER := -lc++ -ldl -lxml2 -liconv -lssl -lcrypto -lpthread
+BER := -lc++ -ldl -lxml2 -liconv -lssl -lcrypto -lpthread -std=c2x
 endif
 ifeq ($(UNAME),Linux)
 .PHONY: all install uninstall clean version

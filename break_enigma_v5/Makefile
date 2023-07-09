@@ -38,12 +38,12 @@ CFLAGSY := -Wall -Wextra -pedantic \
 ifeq ($(UNAME),Linux)
 LIBS0 := -L/usr/lib
 INCLUDES0 := -I/usr/include  -I/usr/include/libxml2
-BER := -lm -lxml2 -lpthread
+BER := -lm -lxml2 -lpthread -std=c17
 endif
 ifeq ($(UNAME),Darwin)
 LIBS0 := -L/usr/lib
 INCLUDES0 := -I/usr/include -I/usr/include/libxml2
-BER := -lm -lxml2 -lpthread
+BER := -lm -lxml2 -lpthread -std=c2x
 endif
 ifeq ($(UNAME),Linux)
 .PHONY: all install uninstall clean version
