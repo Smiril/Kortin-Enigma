@@ -62,9 +62,9 @@ enigma64: main.m
 endif
 
 ifeq ($(UNAME),Darwin)
-.PHONY: all sign install uninstall clean version
+.PHONY: all sign0 sign1 sign2 install uninstall clean version
 
-all: x86_app arm_app sign universal_app sign2 version
+all: x86_app sign0 arm_app sign1 universal_app sign2 version
 
 x86_app: main.m
 	$(CC_MACOS) main.m -o x86_app $(CFLAGSY) $(BER) $(INCLUDES0) $(LIBS0) -target x86_64-apple-macos10.12
@@ -80,10 +80,15 @@ version:
 	@echo " +****************************************************************************+"
 	@echo " + $(LIBNAME2) $(MAJOR).$(MINOR) $(LIBNAME1)       by:    Art-ifact-Crew           +"
 	@echo " +****************************************************************************+"
+	
 ifeq ($(UNAME),Darwin)
-sign:
+sign0:
 	export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/../bin/codesign_allocate
-	xcrun codesign -f -s $(SIGNING_IDENTITY) --preserve-metadata=identifier,entitlements --timestamp=none x86_app arm_app
+	xcrun codesign -f -s $(SIGNING_IDENTITY) --preserve-metadata=identifier,entitlements --timestamp=none x86_app
+	
+sign1:
+	export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/../bin/codesign_allocate
+	xcrun codesign -f -s $(SIGNING_IDENTITY) --preserve-metadata=identifier,entitlements --timestamp=none arm_app
 	
 sign2:
 	export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/../bin/codesign_allocate
