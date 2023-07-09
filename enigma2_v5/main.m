@@ -293,7 +293,7 @@ int initParams(Params *p)
         }
         printf("Stecker: ");
         i = 0;
-        while((d = getchar())  || (getchar()==VK_RETURN) || (strlen(inx) == (26)))
+        while((d = getchar())  || (getchar()==VK_RETURN) || (strlen(p->plug) == (26)))
         {
             p->plug[i] = d;
             i++;
@@ -321,7 +321,7 @@ int initParams(Params *p)
         }
         printf("Stecker: ");
         i = 0;
-        while((d = getchar())  || (getchar()==VK_RETURN) || (strlen(inx) == (26)))
+        while((d = getchar())  || (getchar()==VK_RETURN) || (strlen(p->plug) == (26)))
         {
             p->plug[i] = d;
             i++;
