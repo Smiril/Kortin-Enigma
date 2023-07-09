@@ -2142,7 +2142,7 @@ void initParams(Params *p)
         }
         printf("Stecker: ");
         i = 0;
-        while((c = getchar()) || (getchar()==VK_RETURN))
+        while((c = getchar()) || (getchar()==VK_RETURN) || (strlen(p->plug) == (26)))
         {
             p->plug[i] = c;
             i++;
@@ -2182,7 +2182,7 @@ void sbfParams(Params *p)
         
         printf("Message: ");
         i = 0;
-        while((a = getchar()) != '\n')
+        while((a = getchar()) || (getchar()==VK_RETURN) || (strlen(p->cyph) == (MSGLEN - 1)))
         {
             p->cyph[i] = a;
             i++;
@@ -2191,7 +2191,7 @@ void sbfParams(Params *p)
         
         printf("Dict: ");
         l = 0;
-        while((b = getchar()) != '\n')
+        while((b = getchar()) || (getchar()==VK_RETURN))
         {
             framex[l] = b;
             l++;
