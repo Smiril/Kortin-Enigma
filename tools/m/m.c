@@ -32,7 +32,7 @@ static void m(void *array, size_t n, size_t size) {
     printf("]\n"); \
     } while (0)
 
-int main() {
+int main(void) {
     srand(time(NULL));
     char arr[26] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     
