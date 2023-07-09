@@ -83,7 +83,7 @@
 #define MSGLEN 4096
 #define MSGX 13
 #define MSGC 26
-#define MSGP 11
+#define MSGP 27
 #define MSGG 5
 #define TO 'Z'
 
@@ -207,12 +207,12 @@ typedef struct P
     const unsigned char rotor[5][26];
     const unsigned char ref1[26];
     const unsigned char notch1[5];
-    char order[MSGG];/*={ 1, 2, 3, 4, 5 };*/
-    char rings[MSGG];/*={ 'A','A','A','A','A'};*/
-    char pos[MSGG];/*={ 'A','A','A','A','A'};*/
+    char order[6];/*={ 1, 2, 3, 4, 5 };*/
+    char rings[6];/*={ 'A','A','A','A','A'};*/
+    char pos[6];/*={ 'A','A','A','A','A'};*/
     char cyph[MSGLEN];
     char crib[MSGLEN];
-    char plug[MSGP];/*=\"ASKINGLOPE\";*/
+    char plug[27];/*=\"ASKINGLOPE\";*/
 } Params;
 
 #endif /* add_h */
