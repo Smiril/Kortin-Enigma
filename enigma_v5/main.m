@@ -2558,14 +2558,14 @@ int main(int argc, char* argv[]) {
             if(strcmp(argv[1], "--option-1a") == 0)
             {
                 strcpy(nerd,argv[1]);
-                printf("Option 1\n");
+                printf("Option 1a\n");
                 bfParams(&p);
                 //permuteAll(p.cyph);
             }
             if(strcmp(argv[1], "--option-1b") == 0)
             {
                 strcpy(nerd,argv[1]);
-                printf("Option 1\n");
+                printf("Option 1b\n");
                 sbfParams(&p);
                 //permuteOnce(p.order[0], p.order[1], p.order[2], p.order[3], p.order[4],p.cyph);
             }
