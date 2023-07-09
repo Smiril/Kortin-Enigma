@@ -1655,7 +1655,7 @@ void cypher(Params p)
     printf("%s\n%s\n", o, inx);
 }
 
-int rotate(int a, int b, int c, int d, int e, char *cyph, char *plug, int *ct,unsigned long tid)
+int rotate(int a, int b, int c, int d, int e, char *cyph, char *plug, int *ct,struct _opaque_pthread_t *tid)
 {
     int rank = IN_RANK;
     Params p;
@@ -1755,7 +1755,7 @@ int rotate(int a, int b, int c, int d, int e, char *cyph, char *plug, int *ct,un
   return 0;
 }
 
-void test(int a, int b, int c, int d, int e, char *cyph, int *ct,unsigned long tid) {
+void test(int a, int b, int c, int d, int e, char *cyph, int *ct,struct _opaque_pthread_t *tid) {
    
     printf("... calculating\n");
     const time_t proc_start = time (NULL);
@@ -1888,7 +1888,7 @@ void test(int a, int b, int c, int d, int e, char *cyph, int *ct,unsigned long t
 }
 
 /*run on all permutations of wheels a, b, c, d, e*/
-void permute(int a, int b, int c, int d, int e, char *cyph, int *ct,unsigned long tid)
+void permute(int a, int b, int c, int d, int e, char *cyph, int *ct,struct _opaque_pthread_t *tid)
 {
     printf("... testing\n");
     test(a, b, c, d, e, cyph, ct,tid);
@@ -1952,7 +1952,7 @@ void *reader(void *arg) {
 }
 
 /*all combinations of five possible wheels*/
-int permuteAll(char *cyph,unsigned long tid)
+int permuteAll(char *cyph,struct _opaque_pthread_t *tid)
 {
     int ct = 0;
     for(int d = 1;d<=9;d++){
@@ -2008,7 +2008,7 @@ void *permuteAX(void *arg)
 
 
 /*once combination of five possible wheels*/
-int permuteOnce(int a, int b, int c, int d, int e, char *cyph,unsigned long tid)
+int permuteOnce(int a, int b, int c, int d, int e, char *cyph,struct _opaque_pthread_t *tid)
 {
     int ct = 0;
     permute(a, b, c, d, e, cyph, &ct,tid);
