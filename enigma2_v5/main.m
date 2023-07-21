@@ -25,7 +25,7 @@
 
 #define NUM_ROTORS 5
 #define MSGLEN 160
-#define VK_RETURN 80
+#define VK_RETURN '\n'
 
 char *FINC;
 
@@ -236,7 +236,7 @@ char *decipher(Params *p, char *message) {
 char readCh(void)
 {
     char c, ret = '\0';
-    while((c = getchar())  || (getchar()==VK_RETURN))
+    while((c = getchar()) != VK_RETURN)
         ret = c;
     return ret;
 }
@@ -293,7 +293,7 @@ int initParams(Params *p)
         }
         printf("Stecker: ");
         i = 0;
-        while((d = getchar())  || (getchar()==VK_RETURN) || (strlen(p->plug) == (26)))
+        while((d = getchar()) != VK_RETURN && (strlen(p->plug) != (26)))
         {
             p->plug[i] = d;
             i++;
@@ -321,7 +321,7 @@ int initParams(Params *p)
         }
         printf("Stecker: ");
         i = 0;
-        while((d = getchar())  || (getchar()==VK_RETURN) || (strlen(p->plug) == (26)))
+        while((d = getchar()) != VK_RETURN && (strlen(p->plug) != (26)))
         {
             p->plug[i] = d;
             i++;
@@ -347,7 +347,7 @@ int main(void) {
     char a1;
     int a = 0;
     printf("Config File: ");
-    while((a1 = getchar()) || (getchar()==VK_RETURN))
+    while((a1 = getchar()) != VK_RETURN)
     {
         flames[a] = a1;
         a++;
@@ -362,7 +362,7 @@ int main(void) {
     char inx[MSGLEN];
     char c;
     int i = 0;
-    while ((c = getchar())  || (getchar()==VK_RETURN) || (strlen(inx) == (MSGLEN - 1))) {
+    while ((c = getchar()) != VK_RETURN && (strlen(inx) != (MSGLEN - 1))) {
         if (isspace(c)) {
             c = 'X';
         }
