@@ -48,9 +48,9 @@ void configmain(char *docname) {
     int count2 = 0;
     int count3 = 0;
     //int count2 = 0;
-    char *config1[16][6] = { {"rotor1", "rotor2", "rotor3", "rotor4", "rotor5", "rotor6", "rotor7", "rotor8","rotora", "rotorb", "rotorc", "rotord", "rotore", "rotorf", "rotorg", "rotorh"} };
-    char *config2[3][6] = { {"refle1", "refle2", "refle3"} };
-    char *config3[8][6] = { {"notch1", "notch2", "notch3", "notch4", "notch5", "notch6", "notch7", "notch8"} };
+    char *config1[16][6] ={{"rotor1","rotor2","rotor3","rotor4","rotor5","rotor6","rotor7","rotor8","rotora","rotorb","rotorc","rotord","rotore","rotorf","rotorg","rotorh"}};
+    char *config2[3][6] = {{"refle1","refle2","refle3"}};
+    char *config3[8][6] ={{"notch1","notch2","notch3","notch4","notch5","notch6","notch7","notch8"}};
     printf("Loading config file: %s\n",docname);
     FILE *fp;
     fp = fopen(docname,"r");
