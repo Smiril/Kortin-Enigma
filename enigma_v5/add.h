@@ -207,12 +207,12 @@ typedef struct P
     const unsigned char rotor[5][26];
     const unsigned char ref1[26];
     const unsigned char notch1[5];
-    char order[6];/*={ 1, 2, 3, 4, 5 };*/
-    char rings[6];/*={ 'A','A','A','A','A'};*/
-    char pos[6];/*={ 'A','A','A','A','A'};*/
+    char order[5];/*={ 1, 2, 3, 4, 5 };*/
+    char rings[5];/*={ 'A','A','A','A','A'};*/
+    char pos[5];/*={ 'A','A','A','A','A'};*/
     char cyph[MSGLEN];
     char crib[MSGLEN];
-    char plug[27];/*=\"ASKINGLOPE\";*/
+    char plug[10];/*=\"ASKINGLOPE\";*/
 } Params;
 
 #endif /* add_h */
