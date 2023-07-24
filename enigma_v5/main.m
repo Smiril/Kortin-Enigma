@@ -2142,7 +2142,7 @@ void initParams(Params *p)
         }
         printf("Stecker: ");
         i = 0;
-        while((c = getchar()) != VK_RETURN && (strlen(p->plug) != (26)))
+        while((c = getchar()) != VK_RETURN && (strlen(p->plug) != (10)))
         {
             p->plug[i] = c;
             i++;
