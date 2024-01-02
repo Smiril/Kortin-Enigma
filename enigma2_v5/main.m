@@ -19,9 +19,10 @@
 #include <math.h>
 #include <unistd.h>
 #include <libxml/xmlreader.h>
-#include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
+#include <libxml/parserInternals.h>
 #include <libxml/tree.h>
+#include <libxml/threads.h>
 
 #define NUM_ROTORS 5
 #define MSGLEN 160
