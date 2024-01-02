@@ -26,7 +26,9 @@ Modifications author: Smiril
 #include <libxml/xmlreader.h>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
+#include <libxml/parserInternals.h>
 #include <libxml/tree.h>
+#include <libxml/threads.h>
 #include "enigma.h"
 // Rotors
 char key[16][26];
