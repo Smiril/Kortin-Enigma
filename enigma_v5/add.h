@@ -36,6 +36,7 @@
 #include <ctype.h>
 #include <memory.h>
 #include <libxml/xmlreader.h>
+#include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/tree.h>
