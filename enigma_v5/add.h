@@ -35,11 +35,11 @@
 #include <string.h>
 #include <ctype.h>
 #include <memory.h>
-#include <iconv.h>
 #include <libxml/xmlreader.h>
-#include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
+#include <libxml/parserInternals.h>
 #include <libxml/tree.h>
+#include <libxml/threads.h>
 #include <signal.h>
 // on troubles openssl see: https://stackoverflow.com/questions/69002453/how-to-build-openssl-for-m1-and-for-intel
 #include <openssl/rsa.h>
