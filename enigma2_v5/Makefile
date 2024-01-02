@@ -36,8 +36,8 @@ CFLAGSY := -Wall -Wextra -pedantic \
         -Wno-variadic-macros \
         -DVERSION="\"$(VERSION) - LARAS CRAFT\""
 ifeq ($(UNAME),Linux)
-LIBS0 := -L/usr/lib -L/usr/lib/iconv_hook
-INCLUDES0 := -I/usr/include/libxml2 -I/usr/lib/iconv_hook
+LIBS0 := -L/usr/lib 
+INCLUDES0 := -I/usr/include/libxml2 
 BER := -ldl -lxml2 -std=c17
 endif
 ifeq ($(UNAME),Darwin)
