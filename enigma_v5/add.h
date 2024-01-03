@@ -35,6 +35,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <memory.h>
+#include <iconv.h>
 #include <libxml/xmlreader.h>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
@@ -75,6 +76,25 @@
 #define KEYF HOME "valid-root-cakey.pem"
 
 #define PROGNAME "Enigma"
+
+char default_ABC[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+char* ABC = (char*) &default_ABC;
+int ABCLEN;
+
+#define PWD_LEN 100
+
+char password[PWD_LEN+1] = {'\0','\0'}; //this contains the actual password
+char password_good[PWD_LEN+1] = {'\0', '\0'};  //this changed only once, when we found the good passord
+unsigned int curr_len = 1; //current password length
+long counter = 0;	//this couning probed passwords
+xmlMutexPtr pwdMutex;	//mutex for password char array
+char filename[255];	//the archive file name
+char statname[259];	//status xml file name filename + ".xml"
+xmlDocPtr status;
+int finished = 0;
+xmlMutexPtr finishedMutex;
+char finalcmd[300] = {'\0', '\0'}; 
 
 #define PTHREAD_THREADS_MAX 100
 
