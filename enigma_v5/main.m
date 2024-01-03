@@ -106,7 +106,7 @@ int loadstatus() {
                     finished = 1;
                     xmlMutexUnlock(finishedMutex);
                     strcpy((char*) &password_good, (char*) &password);
-                    printf("GOOD: This archive was succesfully cracked\n");
+                    printf("GOOD: This Message was succesfully cracked\n");
                     printf("      The good password is: '%s'\n", password);
                     xmlFree(tmp);
                     ret = 1;
@@ -116,7 +116,7 @@ int loadstatus() {
 
         xmlFreeParserCtxt(parserctxt);
     } else {
-        root = xmlNewNode(NULL, (const xmlChar*)"rarcrack");
+        root = xmlNewNode(NULL, (const xmlChar*)"enigma --option-1a");
         xmlDocSetRootElement(status, root);
         node = xmlNewTextChild(root, NULL, (const xmlChar*)"abc", (const xmlChar*)ABC);
         node = xmlNewTextChild(root, NULL, (const xmlChar*)"current", (const xmlChar*)getfirstpassword());
