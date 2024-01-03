@@ -116,7 +116,7 @@ int loadstatus() {
 
         xmlFreeParserCtxt(parserctxt);
     } else {
-        root = xmlNewNode(NULL, (const xmlChar*)"enigma --option-1a");
+        root = xmlNewNode(NULL, (const xmlChar*)"enigma_v5");
         xmlDocSetRootElement(status, root);
         node = xmlNewTextChild(root, NULL, (const xmlChar*)"abc", (const xmlChar*)ABC);
         node = xmlNewTextChild(root, NULL, (const xmlChar*)"current", (const xmlChar*)getfirstpassword());
