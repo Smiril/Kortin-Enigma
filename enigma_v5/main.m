@@ -55,7 +55,7 @@ void savestatus() {
             }
             xmlMutexUnlock(finishedMutex);
         }
-        xmlSaveFormatFileEnc(statname, status, "UTF-8", 1);
+        xmlSaveFormatFileEnc("enigma_v5", status, "UTF-8", 1);
     }
 }
 
@@ -66,7 +66,7 @@ int loadstatus() {
     int ret = 0;
     char* tmp;
     FILE* totest;
-    totest = fopen(statname, "r");
+    totest = fopen("enigma_v5", "r");
     if (totest) {
         fclose(totest);
         status = xmlParseFile(statname);
