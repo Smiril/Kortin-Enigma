@@ -18,6 +18,122 @@
 
 extern float qgram[];
 
+char *getfirstpassword();
+
+void savestatus() {
+    xmlNodePtr root = NULL;
+    xmlNodePtr node = NULL;
+    xmlChar* tmp = NULL;
+    if ((strlen(statname) > 0) && status) {
+        root = xmlDocGetRootElement(status);
+        if (root) {
+            xmlMutexLock(finishedMutex);
+            for (node = root->children; node; node = node->next) {
+                if (xmlStrcmp(node->name, (const xmlChar*)"current") == 0) {
+                    xmlMutexLock(pwdMutex);
+                    tmp = xmlEncodeEntitiesReentrant(status, (const xmlChar*) &password);
+                    xmlMutexUnlock(pwdMutex);
+
+                    if (node->children) {
+                        if (password[0] == '\0') {
+                            xmlNodeSetContent(node->children, (const xmlChar*)getfirstpassword());
+                        } else {
+                            xmlNodeSetContent(node->children, tmp);
+                        }
+                    }
+
+                    xmlFree(tmp);
+                } else if ((finished == 1) && (xmlStrcmp(node->name, (const xmlChar*)"good_password") == 0)) {
+                    tmp =  xmlEncodeEntitiesReentrant(status, (const xmlChar*) &password_good);
+
+                    if (node->children) {
+                        xmlNodeSetContent(node->children, tmp);
+                    }
+
+                    xmlFree(tmp);
+                }
+            }
+            xmlMutexUnlock(finishedMutex);
+        }
+        xmlSaveFormatFileEnc(statname, status, "UTF-8", 1);
+    }
+}
+
+int loadstatus() {
+    xmlNodePtr root = NULL;
+    xmlNodePtr node = NULL;
+    xmlParserCtxtPtr parserctxt;
+    int ret = 0;
+    char* tmp;
+    FILE* totest;
+    totest = fopen(statname, "r");
+    if (totest) {
+        fclose(totest);
+        status = xmlParseFile(statname);
+    }
+
+    if (status) {
+        root = xmlDocGetRootElement(status);
+    } else {
+        status = xmlNewDoc(NULL);
+    }
+
+    if (root) {
+        parserctxt = xmlNewParserCtxt();
+        for (node = root->children; node; node = node->next) {
+            if (xmlStrcmp(node->name, (const xmlChar*)"abc") == 0) {
+                if (node->children && (strlen((const char*)node->children->content) > 0)) {
+                    ABC = (char *)xmlStringDecodeEntities(parserctxt, (const xmlChar*)node->children->content, XML_SUBSTITUTE_BOTH, 0, 0, 0);
+                } else {
+                    ret = 1;
+                }
+            } else if (xmlStrcmp(node->name, (const xmlChar*)"current") == 0) {
+                if (node->children && (strlen((const char*)node->children->content) > 0)) {
+                    tmp = (char *)xmlStringDecodeEntities(parserctxt, (const xmlChar*)node->children->content, XML_SUBSTITUTE_BOTH, 0, 0, 0);
+                    strcpy(password,tmp);
+                    curr_len = strlen(password);
+                    printf("INFO: Resuming cracking from Message: '%s'\n",password);
+                    xmlFree(tmp);
+                } else {
+                    ret = 1;
+                }
+            } else if (xmlStrcmp(node->name, (const xmlChar*)"good_password") == 0) {
+                if (node->children && (strlen((const char*)node->children->content) > 0)) {
+                    tmp = (char *)xmlStringDecodeEntities(parserctxt, node->children->content, XML_SUBSTITUTE_BOTH,0,0,0);
+                    strcpy(password,tmp);
+                    curr_len = strlen(password);
+                    xmlMutexLock(finishedMutex);
+                    finished = 1;
+                    xmlMutexUnlock(finishedMutex);
+                    strcpy((char*) &password_good, (char*) &password);
+                    printf("GOOD: This archive was succesfully cracked\n");
+                    printf("      The good password is: '%s'\n", password);
+                    xmlFree(tmp);
+                    ret = 1;
+                }
+            }
+        }
+
+        xmlFreeParserCtxt(parserctxt);
+    } else {
+        root = xmlNewNode(NULL, (const xmlChar*)"rarcrack");
+        xmlDocSetRootElement(status, root);
+        node = xmlNewTextChild(root, NULL, (const xmlChar*)"abc", (const xmlChar*)ABC);
+        node = xmlNewTextChild(root, NULL, (const xmlChar*)"current", (const xmlChar*)getfirstpassword());
+        node = xmlNewTextChild(root, NULL, (const xmlChar*)"good_password", (const xmlChar*)"");
+        savestatus();
+    }
+
+    return ret;
+}
+
+char *getfirstpassword() {
+    static char ret[2];
+    ret[0] = ABC[0];
+    ret[1] = '\0';
+    return (char*) &ret;
+}
+
 void configmain(Params *p,char *docname) {
     
     xmlDocPtr       doc;
@@ -1916,41 +2032,33 @@ void permute(int a, int b, int c, int d, int e, char *cyph, int *ct,struct _opaq
     test(a, b, c, e, d, cyph, ct,tid);
 }
 
-
 void xinit(void)
 {
     pthread_mutex_init(&lock, NULL);
 }
 
-void *reader(void *arg) {
-    pthread_once(&once, xinit);
-    pthread_mutex_lock(&lock);
-    pthread_t t = pthread_self();
-    int *fds = (int *)arg;
-    //printf("created: %d\n", fds[0]);
-    sleep (15);
-  //Delay in starting the reading from the pipe
-    int result;
-    
+void *status_thread() {
+    int pwds;
+    const short status_sleep = 3;
     while(1) {
-        
-        result = read (fds[0],&t,sizeof(t));
-        if (result == -1) {
-            perror("read");
-            exit(3);
+        sleep(status_sleep);
+        xmlMutexLock(finishedMutex);
+        pwds = counter / status_sleep;
+        counter = 0;
+
+        if (finished != 0) {
+            break;
         }
-        
-        result = write (fds[1],&t,sizeof(t));
-        if (result == -1) {
-            perror("write");
-            exit(3);
-        }
+
+        xmlMutexUnlock(finishedMutex);
+        xmlMutexLock(pwdMutex);
+        printf("Probing: '%s' [%d pwds/sec]\n", password, pwds);
+        xmlMutexUnlock(pwdMutex);
+        savestatus();	//FIXME: this is wrong, when probing current password(s) is(are) not finished yet, and the program is exiting
     }
-    
-    pthread_mutex_unlock(&lock);            //release lock
-    pthread_mutex_destroy(&lock);
-    pthread_exit(NULL);                     //exit from child thread
-}
+ }
+
+
 
 /*all combinations of five possible wheels*/
 int permuteAll(char *cyph,struct _opaque_pthread_t *tid)
@@ -1970,41 +2078,55 @@ int permuteAll(char *cyph,struct _opaque_pthread_t *tid)
     printf("\n... Found %d solutions.\n", ct);
     return 0;
 }
+void *crack_thread2(void *arg) {
+	 Params p;
+    char *current;
+    int i = 1;
+    char ret[200];
+    char cmd[400];
+    FILE *Pipe;
+    while (1) {
+        current = enigma(p.cyph,&p);
+            if (strcasestr(ret, permuteAll(p.cyph,arg)) != NULL) {
+                strcpy(password_good, current);
+                xmlMutexLock(finishedMutex);
+                finished = 1;
+                printf("GOOD: Message cracked: '%s'\n", current);
+                xmlMutexUnlock(finishedMutex);
+                savestatus();
+                break;
+            }
+
+        pclose(Pipe);
+        xmlMutexLock(finishedMutex);
+        counter++;
+
+        if (finished != 0) {
+            xmlMutexUnlock(finishedMutex);
+            break;
+        }
+
+        xmlMutexUnlock(finishedMutex);
+        free(current);
+    }
+}
 
 void *permuteAX(void *arg)
 {
-    Params p;
-    pthread_once(&once, xinit);
-    pthread_mutex_lock(&lock);              // lock
-    int *fds = (int *)arg;
-    int result;
-    pthread_t t = pthread_self();
-    //printf("created: %d\n", fds[1]);
+    pthread_t th[13];
+    unsigned int i;
 
-    while(1) {
-        
-        result = write (fds[1], &t,sizeof(t));
-        if (result == -1){
-            perror ("write");
-            exit (3);
-        }
-        
-        result = read (fds[0],&t,sizeof(t));
-        if (result == -1) {
-            perror("read");
-            exit(3);
-        }
-
-        if(!permuteAll(p.cyph,t)){
-            perror("main");
-            exit(3);
-        }
+    for (i = 0; i < (unsigned int)arg; i++) {
+        (void) pthread_create(&th[i], NULL, crack_thread2, arg);
     }
-    
-    pthread_mutex_unlock(&lock);            //release lock
-    pthread_detach(pthread_self());
-    pthread_mutex_destroy(&lock);
-    pthread_exit(NULL);                     //exit from child thread
+
+    (void) pthread_create(&th[12], NULL, status_thread, NULL);
+
+    for (i = 0; i < (unsigned int)arg; i++) {
+        (void) pthread_join(th[i], NULL);
+    }
+
+    (void) pthread_join(th[12], NULL);
 }
 
 
@@ -2017,40 +2139,54 @@ int permuteOnce(int a, int b, int c, int d, int e, char *cyph,struct _opaque_pth
     return 0;
 }
 
+void *crack_thread1(void *arg) {
+	 Params p;
+    char *current;
+    int i = 1;
+    char ret[200];
+    char cmd[400];
+    FILE *Pipe;
+    while (1) {
+        current = enigma(p.cyph,&p);
+            if (strcasestr(ret, permuteOnce(p.order[0],p.order[1],p.order[2],p.order[3],p.order[4],p.cyph,arg)) != NULL) {
+                strcpy(password_good, current);
+                xmlMutexLock(finishedMutex);
+                finished = 1;
+                printf("GOOD: Message cracked: '%s'\n", current);
+                xmlMutexUnlock(finishedMutex);
+                savestatus();
+                break;
+            }
+
+        xmlMutexLock(finishedMutex);
+        counter++;
+
+        if (finished != 0) {
+            xmlMutexUnlock(finishedMutex);
+            break;
+        }
+
+        xmlMutexUnlock(finishedMutex);
+        free(current);
+    }
+}
+
 void *permuteOX(void *arg)
 {
-    Params p;
-    pthread_once(&once, xinit);
-    pthread_mutex_lock(&lock);
-    int *fds = (int *)arg;
-    int result;
-    pthread_t t = pthread_self();
-    //printf("created: %d\n", fds[1]);
-    
-    while(1) {
-        
-        result = write (fds[1], &t,sizeof(t));
-        if (result == -1){
-            perror ("write");
-            exit (3);
-        }
-        
-        result = read (fds[0],&t,sizeof(t));
-        if (result == -1) {
-            perror("read");
-            exit(3);
-        }
-        
-        if(!permuteOnce(p.order[0],p.order[1],p.order[2],p.order[3],p.order[4],p.cyph,t)) {
-            perror("main");
-            exit(3);
-        }
+    pthread_t th[13];
+    unsigned int i;
+
+    for (i = 0; i < (unsigned int)arg; i++) {
+        (void) pthread_create(&th[i], NULL, crack_thread1, arg);
     }
-    
-    pthread_mutex_unlock(&lock);            //release lock
-    pthread_detach(pthread_self());
-    pthread_mutex_destroy(&lock);
-    pthread_exit(NULL);                     //exit from child thread
+
+    (void) pthread_create(&th[12], NULL, status_thread, NULL);
+
+    for (i = 0; i < (unsigned int)arg; i++) {
+        (void) pthread_join(th[i], NULL);
+    }
+
+    (void) pthread_join(th[12], NULL); 
 }
 
 /*helper to read a character*/
@@ -2198,7 +2334,7 @@ void sbfParams(Params *p)
         }
         framex[l] = '\0';
         
-        printf("Threads (1-100): ");
+        printf("Threads (1-12): ");
         m = 0;
         while((h = getchar()) != VK_RETURN)
         {
@@ -2248,7 +2384,7 @@ void sbfParams(Params *p)
         }
         framex[l] = '\0';
         
-        printf("Threads (1-100): ");
+        printf("Threads (1-12): ");
         m = 0;
         while((h = getchar()) != VK_RETURN)
         {
@@ -2261,7 +2397,7 @@ void sbfParams(Params *p)
         printf("\x1B[33mWheels\x1B[39m \x1B[32m %d %d %d %d %d \x1B[39m \x1B[33mMessage\x1B[39m\x1B[32m %s \x1B[39m\x1B[33mDict\x1B[39m \x1B[32m %s \x1B[39m\n",
                p->order[0], p->order[1], p->order[2], p->order[3], p->order[4],p->cyph,framex);
         int core = atoi(chad);
-        if(core < 1 || core > 101) {
+        if(core < 1 || core > 13) {
             perror(chad);
             exit(2);
         }
@@ -2275,31 +2411,7 @@ void sbfParams(Params *p)
             perror("pipe");
             exit(2);
         }
-        
-        pthread_t tid = malloc(100U * sizeof(pthread_t));
-        
-        for (int i = 0;i <= core;i++) {
-            //pthread_t tid = malloc(1 * sizeof(pthread_t));
-            //pthread_create(*(pthread_t**)&tid, NULL, reader, (void*)&fds[i]);
-#if defined(__APPLE__)
-            if(!pthread_create(*(pthread_t**)&tid[i], NULL, permuteOX, (void*)&fds[i])) {
-                perror("CREATE THREAD");
-            }
-            printf("created: %llu\n", (unsigned long long)&tid[i]);
-#endif
-#if defined(__LINUX__) && defined(__WIN32__) && defined(__WIN64__)
-            pthread_create(*(pthread_t**)&tid, NULL, permuteOX, (void*)&fds[i]);
-            printf("created: %llu\n", (unsigned long long)&tid);
-#endif
-        }
-        read(fds[0], &tid, sizeof(tid));
-        //write(fds[1], &tid[i], sizeof(tid[i]));
-        
-        //printf("joining: %llu\n", (unsigned long long)&tid[i]);
-        //pthread_join(&tid[i], (void*)&status);
-        //printf("Thread: %llu Status: %d\n",(unsigned long long)&tid[i],(int)status);
-        
-        //pthread_exit(0);
+        permuteOX((void*)core);
 }
 
 void bfParams(Params *p)
@@ -2338,7 +2450,7 @@ void bfParams(Params *p)
         }
         framex[l] = '\0';
         
-        printf("Threads (1-100): ");
+        printf("Threads (1-12): ");
         m = 0;
         while((h = getchar()) != VK_RETURN)
         {
@@ -2383,7 +2495,7 @@ void bfParams(Params *p)
         }
         framex[l] = '\0';
         
-        printf("Threads (1-100): ");
+        printf("Threads (1-12): ");
         m = 0;
         while((h = getchar()) != VK_RETURN)
         {
@@ -2396,7 +2508,7 @@ void bfParams(Params *p)
         printf("\x1B[33mMessage\x1B[39m\x1B[32m %s \x1B[39m\x1B[33mDict\x1B[39m \x1B[32m %s \x1B[39m\n",
                p->cyph, framex);
         int core = atoi(chad);
-        if(core < 1 || core > 101) {
+        if(core < 1 || core > 13) {
             perror(chad);
             exit(2);
         }
@@ -2409,34 +2521,15 @@ void bfParams(Params *p)
             perror("pipe");
             exit(2);
         }
-        
-        pthread_t tid = malloc(100U * sizeof(pthread_t));
-        
-        for (int i = 0;i <= core;i++) {
-            //pthread_t tid = malloc(1 * sizeof(pthread_t));
-            //pthread_create(*(pthread_t**)&tid, NULL, reader, (void*)&fds[i]);
-#if defined(__APPLE__)
-            if(!pthread_create(*(pthread_t**)&tid[i], NULL, permuteAX, (void*)&fds[i])) {
-                perror("CREATE THREAD");
-            }
-            printf("created: %llu\n", (unsigned long long)&tid[i]);
-#endif
-#if defined(__LINUX__) && defined(__WIN32__) && defined(__WIN64__)
-            pthread_create(*(pthread_t**)&tid, NULL, permuteAX, (void*)&fds[i]);
-            printf("created: %llu\n", (unsigned long long)&tid);
-#endif
-        }
-        read(fds[0], &tid, sizeof(tid));
-        //printf("joining: %llu\n", (unsigned long long)&tid[i]);
-        //pthread_join(&tid[i], (void*)&status);
-        //printf("Thread: %llu Status: %d\n",(unsigned long long)&tid[i],(int)status);
-        
-        //pthread_exit(0);
+        permuteAX((void*)core);
 }
 
 /********************************************MAIN*********************************************/
 int main(int argc, char* argv[]) {
     Params p;
+    xmlInitThreads();
+    pwdMutex = xmlNewMutex();
+    finishedMutex = xmlNewMutex();
     
     if(argc < 2 || argc > 2){ /*main case*/
           printf("\x1b[32m");
@@ -2554,7 +2647,6 @@ int main(int argc, char* argv[]) {
             connection_handler(&p,proxy,proxyport,host,page);
             }
         }
-
             if(strcmp(argv[1], "--option-1a") == 0)
             {
                 strcpy(nerd,argv[1]);
@@ -2576,5 +2668,6 @@ int main(int argc, char* argv[]) {
             initParams(&p);
             cypher(p);
             }
+        
     return 0;
 }
