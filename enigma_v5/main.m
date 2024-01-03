@@ -2083,8 +2083,8 @@ void *crack_thread2(void *arg) {
     char *current;
     char ret[1000];
     while (1) {
-        current = enigma(p.cyph,&p);
-            if (strcasestr(ret, permuteAll(p.cyph,arg)) != NULL) {
+        current = permuteAll(p.cyph,arg);
+            if (strcasestr(p.cyph, enigma(p.cyph,&p)) != NULL) {
                 strcpy(password_good, current);
                 xmlMutexLock(finishedMutex);
                 finished = 1;
@@ -2094,7 +2094,6 @@ void *crack_thread2(void *arg) {
                 break;
             }
 
-        pclose(Pipe);
         xmlMutexLock(finishedMutex);
         counter++;
 
@@ -2141,8 +2140,8 @@ void *crack_thread1(void *arg) {
     char *current;
     char ret[1000];
     while (1) {
-        current = enigma(p.cyph,&p);
-            if (strcasestr(ret, permuteOnce(p.order[0],p.order[1],p.order[2],p.order[3],p.order[4],p.cyph,arg)) != NULL) {
+        current = permuteOnce(p.order[0],p.order[1],p.order[2],p.order[3],p.order[4],p.cyph,arg);
+            if (strcasestr(p.cyph, enigma(p.cyph,&p)) != NULL) {
                 strcpy(password_good, current);
                 xmlMutexLock(finishedMutex);
                 finished = 1;
