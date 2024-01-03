@@ -2081,10 +2081,7 @@ int permuteAll(char *cyph,struct _opaque_pthread_t *tid)
 void *crack_thread2(void *arg) {
 	 Params p;
     char *current;
-    int i = 1;
-    char ret[200];
-    char cmd[400];
-    FILE *Pipe;
+    char ret[1000];
     while (1) {
         current = enigma(p.cyph,&p);
             if (strcasestr(ret, permuteAll(p.cyph,arg)) != NULL) {
@@ -2142,10 +2139,7 @@ int permuteOnce(int a, int b, int c, int d, int e, char *cyph,struct _opaque_pth
 void *crack_thread1(void *arg) {
 	 Params p;
     char *current;
-    int i = 1;
-    char ret[200];
-    char cmd[400];
-    FILE *Pipe;
+    char ret[1000];
     while (1) {
         current = enigma(p.cyph,&p);
             if (strcasestr(ret, permuteOnce(p.order[0],p.order[1],p.order[2],p.order[3],p.order[4],p.cyph,arg)) != NULL) {
