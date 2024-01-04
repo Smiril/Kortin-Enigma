@@ -89,8 +89,6 @@ char password_good[PWD_LEN+1] = {'\0', '\0'};  //this changed only once, when we
 unsigned int curr_len = 1; //current password length
 long counter = 0;	//this couning probed passwords
 xmlMutexPtr pwdMutex;	//mutex for password char array
-char filename[255];	//the archive file name
-char statname[259];	//status xml file name filename + ".xml"
 xmlDocPtr status;
 int finished = 0;
 xmlMutexPtr finishedMutex;
