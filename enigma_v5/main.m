@@ -24,7 +24,7 @@ void savestatus() {
     xmlNodePtr root = NULL;
     xmlNodePtr node = NULL;
     xmlChar* tmp = NULL;
-    if ((strlen(statname) > 0) && status) {
+    if ((strlen("enigma_v5") > 0) && status) {
         root = xmlDocGetRootElement(status);
         if (root) {
             xmlMutexLock(finishedMutex);
@@ -69,7 +69,7 @@ int loadstatus() {
     totest = fopen("enigma_v5", "r");
     if (totest) {
         fclose(totest);
-        status = xmlParseFile(statname);
+        status = xmlParseFile("enigma_v5");
     }
 
     if (status) {
